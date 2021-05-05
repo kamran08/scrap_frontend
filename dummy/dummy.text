@@ -1,0 +1,609 @@
+<template>
+  <div>
+    <Nuxt />
+  </div>
+</template>
+
+<style>
+
+</style>
+
+
+<template>
+  <div class="container">
+    <div>
+        <h1>user is : {{$store.state.authUser}}</h1>
+        <Button type="info" @click="login">Login</Button>
+        <Button type="info" @click="getUser">Get user</Button>
+
+      <!-- <Logo></Logo> -->
+
+    </div>
+  </div>
+</template>
+
+<script>
+import Logo from '~/components/Logo.vue'
+export default {
+  methods : {
+     async login(){
+
+        const res = await this.callApi('get', 'login')
+        if(res.status==200){
+           console.log(res.data)
+        }
+
+     },
+     async getUser(){
+        const res = await this.callApi('post', 'post', {})
+        console.log(res.data)
+     }
+  },
+
+  // async created(){
+  //     const res = await this.callApi('get', 'myuser')
+  //     console.log(res)
+  // },
+  components: {
+    Logo
+  }
+}
+</script>
+
+<style>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  font-family:
+    'Quicksand',
+    'Source Sans Pro',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 15px;
+}
+
+.links {
+  padding-top: 15px;
+}
+</style>
+
+
+
+<template>
+    <div>
+        <!-- CONTENT -->
+        <div class="_content">
+            <div class="_signUp_page">
+                <div class="container">
+                    <div class="container">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-12 col-lg-4 col-md-5">
+                                <div class="_signUp_card">
+                                    <div class="_signUp_card_top">
+                                        <h4>Registation</h4>
+                                    </div>
+
+                                    <div class="_signUp_card_main">
+                                        <div class="_signUp_inpt">
+                                            <input type="text" v-model="formData.firstName" placeholder="First Name">
+                                            <!-- <v-text-field type="text" v-model="formData.firstName" placeholder="First Name"></v-text-field> -->
+                                        </div>
+                                        <div class="_signUp_inpt">
+                                            <input type="text" v-model="formData.lastName" placeholder="Last Name">
+                                        </div>
+                                    
+                                        <div class="_signUp_inpt ">
+                                            <input type="text" v-model="formData.email" placeholder="Email">
+                                        </div>
+
+                                        <div class="_signUp_inpt">
+                                            <input type="password" v-model="formData.password" placeholder="Password">
+                                            <span><i class="fas fa-eye"></i></span>
+                                        </div>
+                                    
+                                        <div class="_signUp_inpt">
+                                            <input type="password" v-model="password_confirmation" placeholder="Confrim Password">
+                                            <span><i class="fas fa-eye"></i></span>
+                                        </div>
+                                    
+                                        <div class="_signUp_card_btn">
+                                            
+                                          <button class="_bg_clr1" @click="signUp()" v-if="!loading">
+                                            Sign Up
+                                            <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
+                                          </button>
+                                          <button class="_bg_clr1" disabled v-if="loading">
+                                            Please wait . . .
+                                          </button>
+                                        
+                                        </div>
+
+                                        <div class="_signUp_card_agre _dis_flex_cntr1 _dis_flex">
+                                            <input type="checkbox">
+                                            <p>I Agree with Terms & Condition</p>
+                                        </div>
+                                            
+                                        <div class="_signUp_card_btm">
+                                            <p class="_signUp_btm_txt">Or Sign Up With</p>
+                                            <ul>
+                                                <li>
+                                                    <a href="">
+                                                        <span><i class="fab fa-facebook-f"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="">
+                                                        <span><i class="fab fa-twitter"></i></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="_signUp_card_acnt _dis_flex _dis_flex_cntr1">
+                                                <p>Have an account?</p>
+                                                <a href="">Sign In</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                           <div class="col-12 col-lg-4 col-md-5"> 
+                                <div class="_signUp_card">
+                                    <div class="_signUp_card_top">
+                                        <h4>Sign In</h4>
+                                    </div>
+
+                                    <div class="_signUp_card_main">
+                                        <div class="_signUp_inpt ">
+                                            <input type="text" v-model="loginForm.email" placeholder="Email Address">
+                                        </div>
+
+                                        <div class="_signUp_inpt">
+                                            <input type="password" v-model="loginForm.password" placeholder="Password">
+                                            <span><i class="fas fa-eye"></i></span>
+                                        </div>
+
+                                        <div class="_signUp_card_btn">
+                                            <button class="_bg_clr1" @click="signIn()">
+                                            Sign In
+                                            <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
+                                        </button>
+                                        </div>
+
+                                        <div class="_signUp_card_btm">
+                                            <p class="_signUp_btm_txt">Or Sign In With</p>
+                                            <ul>
+                                                <li>
+                                                    <a href="">
+                                                        <span><i class="fab fa-facebook-f"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="">
+                                                        <span><i class="fab fa-twitter"></i></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="_signUp_card_acnt _dis_flex _dis_flex_cntr1">
+                                                <p>Have an account?</p>
+                                                <a href="">Sign Up</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>	
+            </div>
+        </div>
+        <!-- CONTENT -->
+    </div>
+</template>
+
+
+
+<script>
+  export default {
+    data: () => ({
+    //   valid: true,
+      formData:{
+        firstName: '',
+        lastName: '',
+        email: '',
+        password:''
+      },
+      loginForm:{
+        email: '',
+        password:''
+      },
+      password_confirmation:'',
+      loading: false,
+      isLogin: false,
+    }),
+    methods: {
+      async signUp () {
+          
+          if(this.formData.firstName == '' || this.formData.lastName == '' || this.formData.email == '' || this.formData.password == '' ){
+                this.i("All fields are required .");
+                return;
+            }
+          if(this.formData.password != this.password_confirmation){
+                this.i("The password does not match.");
+                return;
+            }
+        	this.loading = true
+        	const res = await this.callApi('post',`/auth/register`, this.formData)
+          if(res.status==204){
+            this.s('Registration successfully!')
+            // this.$store.commit('loginUser',(res.data));
+            this.formData={}
+            this.password_confirmation=''
+            // this.$router.push('/login')
+          }
+         else if(res.status===401){
+            for (let i of res.data) {
+                this.w(i.message);
+              }   
+          }
+          else{
+            alert('error')
+          }
+          this.loading = false
+      },
+      
+      async signIn () {
+      	this.isLogin = true
+      	const res = await this.callApi('post',`auth/login`,this.loginForm)
+            if(res.status==200){
+            this.s('Login successful!')
+            this.loginForm={}
+            this.$store.commit('loginUser',(res.data));
+            // this.$router.push('/')
+            }
+            else if(res.status===401){
+            for (let i of res.data) {
+                this.w(i.message);
+                }   
+            }
+            else{
+            this.swr();
+            }
+            this.isLogin = false
+      }
+    },
+  }
+</script>
+
+
+ <style scoped>
+.dropdownn {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+/* .dropdown-input {
+    background: #fff;
+    cursor: pointer;
+    border: 1px solid #e7ecf5;
+    border-radius: 3px;
+    color: #333;
+    display: block;
+    font-size: 15px;
+    padding: 6px;
+    min-width: 100%;
+} */
+.dropdown-content {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    max-height: 248px;
+    border: 1px solid #e7ecf5;
+    box-shadow: 0px -8px 34px 0px rgba(0,0,0,0.05);
+    overflow: auto;
+    z-index: 11;
+    top: 56px;
+}
+.dropdown-itemm {
+    color: black;
+    font-size: 10px;
+    line-height: 1em;
+    padding: 10px 8px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    font-size: 15px;
+    border-bottom: 1px solid #f7f2f2;
+    text-transform: capitalize;
+}
+.dropdownn:hover .dropdown-content {
+    display: block;
+}
+</style>
+
+
+
+ <!-- card -->
+                                    <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30">
+                                        <div class="_indx_post_card_inner">
+                                            <div class="_indx_post_card_top _dis_flex">
+                                                <div class="_indx_post_card_top_lft">
+                                                    <div class="_card1_top_img _mar_r10">
+                                                        <img src="/img/man.jpg" alt="image">
+                                                    </div>
+                                                    <div class="_indx_post_card_top_titl">
+                                                        <nuxtLink to="/profile"><h4>Jacqueline J. Hill</h4></nuxtLink>
+                                                        <p>22 March 2021</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="_indx_post_card_txt">
+                                                <nuxtLink to="/singlePost"><h4 class="_clr_blck">Donate money for shelter less child education</h4></nuxtLink>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+
+                                                <div class="_indx_post_red_mre _mar_t15 _dis_flex">
+                                                    <a href="" class="_clr1">Read More</a>
+                                                    <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="_indx_post_card_btm _dis_flex">
+                                            <div class="_indx_post_btm_lft">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="far fa-heart"></i></span>11 Bill Followers
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="far fa-comment"></i></span>21 Comments
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="_indx_post_btm_r8">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fas fa-share"></i></span>Reply
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fas fa-share-alt"></i></span>Share
+                                                    </li>
+                                                    <li class="_clr_blck">
+                                                        <span @click="isDropdown = !isDropdown"><i class="fas fa-ellipsis-h"></i></span>
+
+                                                        <!-- DROPDOWN -->
+                                                        <div v-if="isDropdown" class="_indx_post_drpwn1 _box_shdw2">
+                                                            <ul>
+                                                                <li>
+                                                                    Iteam 1
+                                                                </li>
+                                                                <li>
+                                                                    Iteam 2
+                                                                </li>
+                                                                <li>
+                                                                    Iteam 3
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- DROPDOWN -->
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- card -->
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                                                        <!-- card -->
+                                    <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30">
+                                        <div class="_indx_post_card_inner">
+                                            <div class="_indx_post_card_top _dis_flex">
+                                                <div class="_indx_post_card_top_lft">
+                                                    <div class="_card1_top_img _mar_r10">
+                                                        <img src="/img/man.jpg" alt="image">
+                                                    </div>
+                                                    <div class="_indx_post_card_top_titl">
+                                                        <nuxtLink to="/profile"><h4>Jacqueline J. Hill</h4></nuxtLink>
+                                                        <p>22 March 2021</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="_indx_post_card_top_r8">
+                                                    <ul>
+                                                        <li>Due Date: 01 April, 2021</li>
+                                                        <li>Child Education</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="_indx_post_card_txt">
+                                                <nuxtLink to="/singlePost"><h4 class="_clr1">Donate money for shelter less child education</h4></nuxtLink>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+
+                                                <div class="_indx_post_pgrs _mar_t15">
+                                                    <div class="_indx_post_pgrs_top _dis_flex">
+                                                        <div class="_indx_post_pgrs_qnty">
+                                                        <p>Processing:$123</p>
+                                                        </div>
+                                                        <div class="_indx_post_pgrs_qnty">
+                                                            <p>Scap Goal:$400</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;height: 14px;">
+                                                    <span class="sr-only">70% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="_indx_post_card_btm _dis_flex">
+                                            <div class="_indx_post_btm_lft">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="far fa-heart"></i></span>11 Bill Followers
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="far fa-comment"></i></span>21 Comments
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="_indx_post_btm_r8">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fas fa-share"></i></span>Reply
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fas fa-share-alt"></i></span>Share
+                                                    </li>
+                                                    <li class="_clr_blck">
+                                                        <span @click="isDropdown = !isDropdown"><i class="fas fa-ellipsis-h"></i></span>
+
+                                                        <!-- DROPDOWN -->
+                                                        <div v-if="isDropdown" class="_indx_post_drpwn1 _box_shdw2">
+                                                            <ul>
+                                                                <li>
+                                                                    Iteam 1
+                                                                </li>
+                                                                <li>
+                                                                    Iteam 2
+                                                                </li>
+                                                                <li>
+                                                                    Iteam 3
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- DROPDOWN -->
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Comment section -->
+                                        <div class="_1card_comment_box _1card_comment_box_top">
+                                            <div class="_1card_comment_box_pic _load_div"><img src="/img/man.jpg" alt="" title="" class="_1card_comment_box_img"></div>
+                                            <div class="_1card_comment_box_input_icon">
+                                                <div class="_1card_comment_box_input"><input type="text" placeholder="Write a comment..."></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="_comment_main"><a href="" class="_comment_pic"><img alt="" title="" src="/static/img/man.jpg" class="_comment_img"></a>
+                                            <div class="_comment_details">
+                                                <div class="_comment_details_top">
+                                                    <div class="_comment_name"><a href="" class="_comment_name_text">
+                                                                        Hussain shipu
+                                                                    </a></div>
+                                                    <div class="_comment_more">
+                                                        <div class="ivu-dropdown">
+                                                            <div class="ivu-dropdown-rel"><a href="javascript:void(0)" class="_more"><i class="fas fa-angle-down"></i></a> </div>
+                                                            <div class="ivu-select-dropdown" style="display: none;">
+                                                                <ul class="ivu-dropdown-menu">
+                                                                    <li class="ivu-dropdown-item">
+                                                                        <p class="_drop_text">Edit</p>
+                                                                    </li>
+                                                                    <li class="ivu-dropdown-item">
+                                                                        <p class="_drop_text">Delete</p>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="_comment_status">
+                                                    <p class="_comment_status_text">
+                                                        new comment
+                                                    </p>
+                                                </div>
+                                                <div class="_comment_reply">
+                                                    <div class="_comment_reply_num">
+                                                        <ul class="_comment_reply_list">
+                                                            <li>
+                                                                Like
+                                                            </li>
+                                                            <li>
+                                                                Comment
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="_comment_reply_time">
+                                                        <p class="_comment_reply_time_text">
+                                                            2 days ago
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div keys="rep0" class="_reply">
+                                                    <div class="_reply_main"><a href="" class="_comment_pic"><img alt="" title="" src="/static/img/man.jpg" class="_comment_img"></a>
+                                                        <div class="_comment_details">
+                                                            <div class="_comment_details_top">
+                                                                <div class="_comment_name">
+                                                                    <a href="" class="_comment_name_text">Hussain shipu</a>
+                                                                </div>
+                                                                <div class="_comment_more">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="_comment_status">
+                                                                <p class="_comment_status_text">
+                                                                    sdfsdf
+                                                                </p>
+                                                            </div>
+                                                            <div class="_comment_reply">
+                                                                <div class="_comment_reply_num">
+                                                                    <ul class="_comment_reply_list">
+                                                                        <li>
+
+                                                                            <span class="_comment_reply_like">Like</span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="_comment_reply_time">
+                                                                    <p class="_comment_reply_time_text">
+                                                                        a few seconds ago
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="_1card_comment_box">
+                                                        <div class="_1card_comment_box_pic _load_div"><img alt="" title="" src="/static/img/man.jpg" class="_1card_comment_box_img"></div>
+                                                        <div class="_1card_comment_box_input_icon">
+                                                            <div class="_1card_comment_box_input"><input type="text" placeholder="Write a reply..."></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Comment section -->
+                                        
+                                    </div>
+                                    <!-- card -->

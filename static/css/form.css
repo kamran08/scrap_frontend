@@ -1,0 +1,34 @@
+._advertise_step_button button{
+    border: none;
+    background: #da1f26;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 150px;
+}
+._advertise_step_button button:hover{
+  background: #c3171c;
+  color: #fff;
+}
+
+._inpt1_eror_p {
+  color: #ff6c6c!important;
+  font-size: 12px;
+  margin: 0 !important;
+}
+
+._inpt1_eror input {
+  background: #fff8f8;
+}
+._inpt1_eror input::placeholder {
+  color: #f54545;
+}
+._inpt1_eror input:-ms-input-placeholder {
+  color: #f54545;
+}
+._inpt1_eror input::-ms-input-placeholder {
+  color: #f54545;
+}
