@@ -85,6 +85,7 @@
 import settingLeft from '~/components/settingLeft.vue'
 
 export default {
+middleware:"auth",
   components: {
       settingLeft
   },

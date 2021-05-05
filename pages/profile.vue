@@ -338,3 +338,10 @@
         <!-- CONTENT -->
     </div>
 </template>
+
+<script>
+export default {
+    middleware:"auth",
+    
+}
+</script>

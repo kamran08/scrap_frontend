@@ -2,7 +2,10 @@
   <div keys="rep0" class="_reply">
     
     <div class="_reply_main"  v-for="(reply, i) in comment.replies" :key="i" >
-      <a href="" class="_comment_pic"
+      <a href="" class="_comment_pic" v-if="reply.user.profilePic"
+        ><img alt="" title="" :src="reply.user.profilePic" class="_comment_img"
+      /></a>
+      <a href="" class="_comment_pic" v-else
         ><img alt="" title="" src="/img/man.jpg" class="_comment_img"
       /></a>
       <div class="_comment_details">
@@ -28,7 +31,7 @@
         </div>
         <div class="_comment_reply">
           <div class="_comment_reply_num">
-            <ul class="_comment_reply_list">
+            <ul class="_comment_reply_list"  v-if="reply.user.id == authUser.id">
               <li @click="onClickEditReply(reply)">
                 <span class="_comment_reply_like">Edit</span>
               </li>
@@ -55,7 +58,15 @@
       </div>
     </div>
     <div class="_1card_comment_box">
-      <div class="_1card_comment_box_pic _load_div">
+      <div class="_1card_comment_box_pic _load_div" v-if="authUser.profilePic">
+        <img
+          alt=""
+          title=""
+          :src="authUser.profilePic"
+          class="_1card_comment_box_img"
+        />
+      </div>
+      <div class="_1card_comment_box_pic _load_div" v-else>
         <img
           alt=""
           title=""

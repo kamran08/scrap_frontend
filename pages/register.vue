@@ -111,6 +111,7 @@
 
 <script>
 export default {
+  middleware:"guest",
   data(){
     return{
         isLoading:false,

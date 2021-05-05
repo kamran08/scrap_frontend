@@ -22,11 +22,18 @@
 
         <template v-if="isloaded">
             <div :class="isStatusboxOpen ? '_statusBox_open _statusBox _mar_b20' : '_statusBox'" class="_card1 _box_shdw2 _mar_b30">
-                <div class="_card1_top _dis_flex _dis_flex_cntr1">
+                <div class="_card1_top _dis_flex _dis_flex_cntr1" v-if="authUser.profilePic">
+                    <router-link to="/profile" class="_card1_top_img _mar_r10">
+                        <img :src="authUser.profilePic" alt="image">
+                    </router-link>
+                    <router-link to="/profile" class="_titl1">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </div>
+                
+                <div class="_card1_top _dis_flex _dis_flex_cntr1" v-else>
                     <router-link to="/profile" class="_card1_top_img _mar_r10">
                         <img src="/img/man.jpg" alt="image">
                     </router-link>
-                    <router-link to="/profile" class="_titl1">Jacqueline J. Hill</router-link>
+                    <router-link to="/profile" class="_titl1">{{authUser.firstName}} {{authUser.lastName}}</router-link>
                 </div>
 
                 <div class="_card1_inpt">
@@ -249,7 +256,7 @@ export default {
         	const res = await this.callApi('post',`feed/createFeed`, obj)
             if(res.status==201){
                
-                this.closeStatusbox()
+                this.closeStatusbox() 
                 let singleReturnedFeed =res.data
                 singleReturnedFeed.user = this.$store.state.authUser
                 

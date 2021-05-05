@@ -59,29 +59,40 @@
 
 
                                     
-                                    <!-- Image card -->
+                                    <!-- Image card --> 
                                     <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30" v-for="(feed, index) in getFeed" :key="index">
                                         <div class="_indx_post_card_inner">
                                             <div class="_indx_post_card_top _dis_flex">
                                                 <div class="_indx_post_card_top_lft">
-                                                    <div class="_card1_top_img _mar_r10">
+                                                    <div class="_card1_top_img _mar_r10" v-if="feed.user.profilePic">
+                                                        <img :src="feed.user.profilePic" alt="image">
+                                                    </div>
+                                                    <div class="_card1_top_img _mar_r10" v-else>
                                                         <img src="/img/man.jpg" alt="image">
                                                     </div>
                                                     <div class="_indx_post_card_top_titl">
-                                                        <nuxtLink to="/profile"><h4>{{authUser.firstName}} {{authUser.lastName}}</h4></nuxtLink>
+                                                        <nuxtLink to="/profile"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
                                                         <p>22 March 2021</p>
                                                     </div>
                                                     
                                                 </div>
-                                                <p class="text-right">
-                                                    <span style="cursor:pointer;">Edit</span>
-                                                    <span style="cursor:pointer;">Delete</span>
+                                                <p class="text-right" v-if="feed.user.id == authUser.id">
+                                                    <span style="cursor:pointer;" @click="onClickEditFeed(feed, index)">Edit</span>
+                                                    <span style="cursor:pointer;" @click="deleteFeed(feed, index)">Delete</span>
                                                 </p>
                                             </div>
                                             <div class="_indx_post_card_txt">
                                                 <!-- <nuxtLink to="/singlePost"><h4 class="_clr_blck">Donate money for shelter less child education</h4></nuxtLink> -->
-                                                <p>{{feed.feedTxt}}</p>
-
+                                                <p v-if="!feed.isEdit">{{feed.feedTxt}}</p>
+                                                
+                                                <div class="_1card_comment_box_input_icon" v-if="feed.isEdit">
+                                                    <div class="_1card_comment_box_input">
+                                                        <input
+                                                        type="text" v-model="editFeedInput.feedTxt" @keyup.enter="editFeed(feed)"
+                                                        />
+                                                </div>
+                                                        <i style="margin-top:12px;cursor:pointer;" class="fas fa-times" @click="cancelFeedEditinput(feed)"></i>
+                                                    </div>
                                                 <!-- <div class="_indx_post_red_mre _mar_t15 _dis_flex">
                                                     <a href="" class="_clr1">Read More</a>
                                                     <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
@@ -197,6 +208,7 @@ import rightSection from '~/components/rightSection.vue'
 import leftSection from '~/components/leftSection.vue'
 
 export default {
+    middleware:"auth",
   components: {
     statusBox,
     commentBox,
@@ -213,10 +225,11 @@ export default {
       isHide: true,
       isModal: false,
       isImage: false,
-    //   comments:{
-    //       post_id:'',
-    //       commentTxt:''
-    //   }
+       editFeedInput:{
+        feed_id:'',
+        user_id:'',
+        feedTxt:''
+      },
     }
   },
   async asyncData({app , store}) {
@@ -267,31 +280,62 @@ export default {
             this.swr();
         }
     },
-    // async getFeedData(){
-    //     const res = await this.callApi('get',`feed/getFeed`)
-    //     if(res.status === 200){
-    //         // console.log(res.data)
-    //         this.$store.commit("setFeed", res.data);
-    //     }
-    //     else{
-    //         // this.swr();
-    //     }
-    // },
-    // async createComment(id){
-    //   if(this.comments.commentTxt == ""){
-    //       return
-    //   }
-    //   const res = await this.callApi('post', 'comment/createComment', {post_id: id, commentTxt: this.comments.commentTxt})
-    //     //   this.$store.commit("settodos", res.data);
-    //   if(res.status == 201){
-    //       console.log(res.data)
-    //     this.s('Comment Created Successfully !!')
-    //     this.comments.commentTxt =''
+    
+    async deleteFeed(feed, i){
+        let obj ={
+        feed_id: feed.id,
+        user_id: this.authUser.id
+      }
+    //   console.log(obj)
+      const res = await this.callApi('post',`feed/deleteFeed/`, obj)
         
-    //   }else{
-    //     this.swr()
-    //   }
-    // },
+      if(res.status == 200){
+          
+        this.s('Feed Deleted Successfully !!')
+        this.getFeed.splice(i, 1);
+        // this.feed.__meta__.comment_count--
+        
+      }else{
+        this.swr()
+      }
+    },
+    
+   onClickEditFeed(feed,i) {
+      feed.isEdit =true
+      this.editFeedInput = {
+        feed_id:feed.id,
+        user_id:feed.user_id,
+        feedTxt:feed.feedTxt
+      }
+    },
+    
+    cancelFeedEditinput(feed) {
+      feed.isEdit =false
+    },
+    
+    async editFeed(feed){
+      // console.log(this.editInput.commentTxt)
+      if(this.editFeedInput.feedTxt == ""){
+          return
+      }
+      const res = await this.callApi('post', 'feed/editFeed', this.editFeedInput)
+        //   this.$store.commit("settodos", res.data);
+      if(res.status == 200){
+          // console.log(res.data)
+          feed.feedTxt = this.editFeedInput.feedTxt
+        this.s('Feed updated Successfully !!')
+        feed.isEdit =false
+        
+        
+      }else{
+        this.swr()
+      }
+    }
+    
+    
+    
+    
+
   },
   
   created() {

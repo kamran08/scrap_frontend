@@ -20,20 +20,20 @@
                                         <div class="_1input_group">
                                             <p class="_1label">New Phone number</p>
 
-                                            <Input placeholder="New Phone number"/>
+                                            <Input v-model="formData.phone" placeholder="New Phone number"/>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-12 col-lg-12">
+                                    <!-- <div class="col-12 col-md-12 col-lg-12">
                                         <div class="_1input_group">
                                             <p class="_1label">Verificaton code</p>
 
                                             <Input placeholder="Verificaton code" />
                                         </div>
-                                    </div>
+                                    </div> -->
                                     
                                     <div class="col-12 col-md-12 col-lg-12">
                                         <div class="_advertise_step_button">
-                                            <button @click="current = 1" class="_btn1 _btn_150">Save Changes</button>
+                                            <Button @click="updatePhone()" :loading="isLoading" :disabled="isLoading" class="_btn1 _btn_150">{{ isLoading ? 'Please wait . . .' : 'Save Changes'}}</Button>
                                         </div>
                                     </div>
                                 </div>
@@ -51,22 +51,42 @@
 import settingLeft from '~/components/settingLeft.vue'
 
 export default {
+    middleware:"auth",
   components: {
       settingLeft
   },
 
   data(){
     return{
-      
+      formData:{
+          phone:'',
+      },
+      isLoading:false
     }
   },
 
   methods:{
-    
+    async updatePhone() {
+        if(this.formData.phone.trim() ==''){
+            return
+        }
+        this.isLoading = true;
+        const res = await this.callApi('post','profile/updatePhone', this.formData)
+        if(res.status==200){
+            this.s("Phone number updated Successfully")
+        }
+        else if(res.status==401){
+            this.e(res.data[0].message)
+        }
+        else{
+            this.swr();
+        }
+        this.isLoading = false;
+    },
   },
   
   created(){
-    
+    this.formData=this.authUser
   }
 }
 </script>

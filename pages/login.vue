@@ -83,7 +83,7 @@
 
 <script>
 export default {
-//   middleware:"guest",
+  middleware:"guest",
   data(){
     return{
         isLoading:false,

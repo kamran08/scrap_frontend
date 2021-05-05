@@ -2,9 +2,17 @@
   <span>
     <!-- Comment section -->
     <div class="_1card_comment_box _1card_comment_box_top">
-      <div class="_1card_comment_box_pic _load_div">
+      <div class="_1card_comment_box_pic _load_div" v-if="authUser.profilePic">
         <img
-          src="/img/man.jpg"
+          :src="authUser.profilePic" 
+          alt=""
+          title=""
+          class="_1card_comment_box_img"
+        />
+      </div>
+      <div class="_1card_comment_box_pic _load_div" v-else>
+        <img
+          src="/img/man.jpg" 
           alt=""
           title=""
           class="_1card_comment_box_img"
@@ -25,7 +33,11 @@
   <!-- {{feed.comments}} -->
     <div class="_comment_main" v-for="(comment, i) in feed.comments" :key="i" > 
       <!-- <span> -->
-      <a href="" class="_comment_pic"
+      <a href="" class="_comment_pic" v-if="comment.user.profilePic"
+        ><img alt="" title="" :src="comment.user.profilePic" class="_comment_img"
+      /></a>
+      
+      <a href="" class="_comment_pic" v-else
         ><img alt="" title="" src="/img/man.jpg" class="_comment_img"
       /></a>
       
@@ -34,7 +46,7 @@
           <div class="_comment_name">
             <a href="" class="_comment_name_text"> {{comment.user.firstName}} {{comment.user.lastName}} </a>
           </div>
-          <div class="_comment_more">
+          <div class="_comment_more" v-if="comment.user.id == authUser.id">
             <div class="ivu-dropdown">
               <div class="ivu-dropdown-rel" @click="openCommentDropDown(i)">
                 <a href="javascript:void(0)" class="_more"
