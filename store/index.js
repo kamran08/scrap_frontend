@@ -63,9 +63,10 @@ export const mutations = {
     state.feed.unshift(data)
   },
   setUpdateFeed(state, data) {
-    let ind = data.editIndex
-    delete data.editIndex
-    state.feed[ind] = data
+    console.log(data ,'dslakjd')
+    // let ind = data.editIndex
+    // delete data.editIndex
+    state.feed[data.editIndex] = data
   },
   setComment(state, data) {
     state.comments =data

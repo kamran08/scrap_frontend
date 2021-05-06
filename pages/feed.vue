@@ -98,8 +98,9 @@
                                                     <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
                                                 </div> -->
                                             </div>
+                                            
                                             <div class="_indx_post_card_txt">
-                                                <div @click="isImage = true" class="_status_image" v-for="image in JSON.parse(feed.images)" :key="image">
+                                                <div @click="imageModalOpen(feed.images,ind)" class="_status_image" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
                                                     <!-- <img class="_status_image_img" src="/img/image_1608022151387.jpeg" alt="" title=""> -->
                                                     <img class="_status_image_img" :src="image" alt="" title="">
                                                 </div>
@@ -189,12 +190,12 @@
                     <p @click="isImage = false" class="_imageShow_close"><i class="ivu-icon ivu-icon-md-close"></i></p>
                 </div>
                 <div class="_imageShow_main_pic">
-                    <div style="width: 100%; height: 100%;">
-                        <img alt="" title="" class="_imageShow_main_img" src="/img/image_1608022151387.jpeg">
+                    <div style="width: 100%; height: 100%;" v-if="singleItemImages[nextIndex]">
+                        <img alt="" title="" class="_imageShow_main_img" :src="singleItemImages[nextIndex]">
                     </div>
                 </div>
-                <div class="_imageShow_next_pre _imageShow_next"><i class="ivu-icon ivu-icon-md-arrow-dropleft"></i></div>
-                <div class="_imageShow_next_pre _imageShow_pre"><i class="ivu-icon ivu-icon-md-arrow-dropright"></i></div>
+                <div class="_imageShow_next_pre _imageShow_next" @click="previous()"><i class="ivu-icon ivu-icon-md-arrow-dropleft"></i></div>
+                <div class="_imageShow_next_pre _imageShow_pre"  @click="next()"><i class="ivu-icon ivu-icon-md-arrow-dropright"></i></div>
             </div>
         </div>
         <!-- Image modal -->
@@ -251,7 +252,7 @@
                     <img :src="item.url">
                     <div class="demo-upload-list-cover">
                         <!-- <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon> -->
-                        <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                        <Icon type="ios-trash-outline" @click.native="handleRemove(item,i)"></Icon>
                     </div>
                 </template>
                 <template v-else>
@@ -284,9 +285,8 @@
 
        <div slot="footer">
         <Button @click="onClickEditPost" type="primary">Edit</Button>
-        <Button @click="editModal = false">Close</Button>
+        <Button @click="closeModal">Close</Button>
       </div>
-    </Modal>
     </Modal>
     </div>
 </template>
@@ -296,7 +296,6 @@ import statusBox from '~/components/statusBox.vue'
 import commentBox from '~/components/comment.vue'
 import rightSection from '~/components/rightSection.vue'
 import leftSection from '~/components/leftSection.vue'
-import editSection from '~/components/editStatus.vue'
 
 export default {
     middleware:"auth",
@@ -309,8 +308,11 @@ export default {
 
   data(){
     return{
+        singleItem:{},
         editIndex:-1,
         editModal: false,
+        singleImage: '',
+        nextIndex: -1,
         likeLoad:-1,
     //   isDropdown: false,
     //   isCreateComment: false,
@@ -319,10 +321,15 @@ export default {
       isModal: false,
       isImage: false,
        edit_data:{
+        editIndex:-1,
         id:'',
         user_id:'',
         feedTxt:'',
-        images:[]
+        images:[],
+        comments:[],
+        singleItemImages:[],
+        user:{},
+        
       },
     }
   },
@@ -338,6 +345,35 @@ export default {
             // this.edit_data.images = this.$refs.upload.fileList;
         },
   methods:{
+    next(){
+        let a = this.nextIndex+1
+        console.log(this.nextIndex, 'first ')
+        if(a>=this.singleItemImages.length){
+            this.nextIndex = 0
+            return
+        }
+        else {
+            this.nextIndex+=1
+        }
+        console.log(this.nextIndex ,'last')
+    },
+    previous(){
+        let a = this.nextIndex-1
+        console.log(this.nextIndex ,'fist')
+        if(a<=-1){
+            this.nextIndex = this.singleItemImages.length
+        }
+        else {
+            this.nextIndex--
+        }
+        console.log(this.nextIndex, 'last')
+
+    },
+      imageModalOpen(feed,i){
+          this.singleItemImages = JSON.parse(feed)
+          this.nextIndex = i
+          this.isImage = true
+      },
      handleMaxSizeCover(file) {
       this.$Notice.warning({
         title: "Exceeding file size limit",
@@ -360,14 +396,21 @@ export default {
 
             //   this.cover = file;
     },
-      handleRemove(i){
+      handleRemove(item,i){
           this.edit_data.images.splice(i, 1);
       },
     handleSuccess (res, file) {
         let a =  this.edit_data.images.length
         this.edit_data.images[a-1].url = res
     },
+    closeModal(){
+        this.$store.commit('setUpdateFeed',this.singleItem)
+        
+        this.editModal = false
+    },
+    
     async onClickEditPost(){
+    
         let images = []
         if(this.edit_data.images.length){
             for(let it of this.edit_data.images){
@@ -380,8 +423,10 @@ export default {
         // return 
         let res = await this.callApi('post', 'feed/updateFeed', this.edit_data)
         if(res.status==200){
-            res.editIndex = this.editIndex
-            this.$store.commit('setUpdateFeed',res.data)
+            this.edit_data = res.data
+            this.edit_data.editIndex = this.editIndex
+            this.$store.commit('setUpdateFeed',this.edit_data)
+            console.log(res.data)
             this.editIndex = -1
             this.editModal = false
         }
@@ -411,7 +456,7 @@ export default {
         else this.swr()
     },
     async showComment(feed, index){
-        if(feed.comments.length){
+        if(feed.comments){
              this.$set(feed, 'isOpen', !feed.isOpen)
             return 
         }
@@ -450,13 +495,17 @@ export default {
     },
     
    onClickEditFeed(feed,i) {
+       let feed1 = JSON.parse(JSON.stringify(feed))
+       this.singleItem = JSON.parse(JSON.stringify(feed))
+       this.singleItem.editIndex=i
        this.edit_data.images = []
-       console.log(feed)
+       console.log(feed1)
        this.editIndex = i
-           this.edit_data.id=feed.id
-            this.edit_data.user_id=feed.user_id
-            this.edit_data.feedTxt=feed.feedTxt
-            let a=JSON.parse(feed.images)
+           this.edit_data.editIndex=i
+           this.edit_data.id=feed1.id
+            this.edit_data.user_id=feed1.user_id
+            this.edit_data.feedTxt=feed1.feedTxt
+            let a=JSON.parse(feed1.images)
             for(let it of a){
                 let ob = {
                     status:'finished',
@@ -472,24 +521,24 @@ export default {
       feed.isEdit =false
     },
     
-    async editFeed(feed){
-      // console.log(this.editInput.commentTxt)
-      if(this.editFeedInput.feedTxt == ""){
-          return
-      }
-      const res = await this.callApi('post', 'feed/editFeed', this.editFeedInput)
-        //   this.$store.commit("settodos", res.data);
-      if(res.status == 200){
-          // console.log(res.data)
-          feed.feedTxt = this.editFeedInput.feedTxt
-        this.s('Feed updated Successfully !!')
-        feed.isEdit =false
+    // async editFeed(feed){
+    //   // console.log(this.editInput.commentTxt)
+    //   if(this.editFeedInput.feedTxt == ""){
+    //       return
+    //   }
+    //   const res = await this.callApi('post', 'feed/editFeed', this.editFeedInput)
+    //     //   this.$store.commit("settodos", res.data);
+    //   if(res.status == 200){
+    //       // console.log(res.data)
+    //       feed.feedTxt = this.editFeedInput.feedTxt
+    //     this.s('Feed updated Successfully !!')
+    //     feed.isEdit =false
         
         
-      }else{
-        this.swr()
-      }
-    }
+    //   }else{
+    //     this.swr()
+    //   }
+    // }
     
     
     

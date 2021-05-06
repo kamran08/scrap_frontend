@@ -93,11 +93,11 @@
 
                     <div class="_indx_post_lst _mar_b20">
                         <ul class="_dis_flex">
-                            <li class="_active"><nuxtLink to="">All</nuxtLink></li>
-                            <li><nuxtLink to="">Status</nuxtLink></li>
-                            <li><nuxtLink to="">Bill</nuxtLink></li>
-                            <li><nuxtLink to="">Articles</nuxtLink></li>
-                            <li><nuxtLink to="/profilePhotos">Photos</nuxtLink></li>
+                            <li :class="(isActive==1)?'_active':''" @click="isActive=1"><nuxtLink to="">All</nuxtLink></li>
+                            <li :class="(isActive==2)?'_active':''" @click="isActive=2"><nuxtLink to="">Status</nuxtLink></li>
+                            <li :class="(isActive==3)?'_active':''" @click="isActive=3"><nuxtLink to="">Bill</nuxtLink></li>
+                            <li :class="(isActive==4)?'_active':''" @click="isActive=4"><nuxtLink to="">Articles</nuxtLink></li>
+                            <li :class="(isActive==5)?'_active':''" @click="isActive=5"><nuxtLink to="/profilePhotos">Photos</nuxtLink></li>
                         </ul>
                     </div>
 
@@ -342,6 +342,39 @@
 <script>
 export default {
     middleware:"auth",
+    data(){
+        return {
+            isActive:2,
+            alldata:{},
+            singleItem:{},
+            editIndex:-1,
+            editModal: false,
+            likeLoad:-1,
+            isloaded: false,
+            isHide: true,
+            isModal: false,
+            isImage: false,
+            edit_data:{
+                editIndex:-1,
+                id:'',
+                user_id:'',
+                feedTxt:'',
+                images:[],
+                comments:[],
+                user:{},
+        }
+    }
+    },
+    async asyncData({app , store}) {
+      try {
+          let {data} = await app.$axios.get(`/feed/getFeed?user_id=11`)
+          store.commit('setFeed',data)
+      } catch (error) {
+          console.log(error)
+      }
+    }
+      
+  
     
 }
 </script>
