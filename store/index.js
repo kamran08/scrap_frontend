@@ -62,6 +62,11 @@ export const mutations = {
   setNewSingleFeed(state, data) {
     state.feed.unshift(data)
   },
+  setUpdateFeed(state, data) {
+    let ind = data.editIndex
+    delete data.editIndex
+    state.feed[ind] = data
+  },
   setComment(state, data) {
     state.comments =data
    for(let f of state.feed){

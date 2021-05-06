@@ -85,14 +85,14 @@
                                                 <!-- <nuxtLink to="/singlePost"><h4 class="_clr_blck">Donate money for shelter less child education</h4></nuxtLink> -->
                                                 <p v-if="!feed.isEdit">{{feed.feedTxt}}</p>
                                                 
-                                                <div class="_1card_comment_box_input_icon" v-if="feed.isEdit">
+                                                <!-- <div class="_1card_comment_box_input_icon" v-if="feed.isEdit">
                                                     <div class="_1card_comment_box_input">
                                                         <input
                                                         type="text" v-model="editFeedInput.feedTxt" @keyup.enter="editFeed(feed)"
                                                         />
                                                 </div>
                                                         <i style="margin-top:12px;cursor:pointer;" class="fas fa-times" @click="cancelFeedEditinput(feed)"></i>
-                                                    </div>
+                                                    </div> -->
                                                 <!-- <div class="_indx_post_red_mre _mar_t15 _dis_flex">
                                                     <a href="" class="_clr1">Read More</a>
                                                     <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
@@ -198,6 +198,96 @@
             </div>
         </div>
         <!-- Image modal -->
+     
+
+    <Modal
+        v-model="editModal"
+          title="Edit Feed"
+          class-name="modal_center"
+            :mask-closable="false"
+      width="650"
+        >
+         <p slot="header">
+        <i class="fas fa-edit"></i>
+        <span class="_padd_l5">Edit Post</span>
+      </p>
+
+          <div>
+        <div class="_modal_content">
+          <div class="_statusEdit_top _mar_b15">
+            <div class="_card_top">
+              <div class="_card_pic">
+                <img
+                  class="_card_img"
+                  v-lazy="authUser.profilePic"
+                  alt=""
+                  title=""
+                />
+              </div>
+
+              <div class="_card_details">
+                <p class="_card_name">
+                  {{ authUser.firstName }}
+                </p>
+              </div>
+
+             
+            </div>
+          </div>
+
+          <div class="_statusEdit_statusBox">
+            <Input
+              type="textarea"
+              :rows="8"
+              v-model="edit_data.feedTxt"
+              placeholder="What's on your mind ?"
+            />
+          </div>
+          <!-- {{edit_data.images}} -->
+          <template>
+
+            <div class="demo-upload-list" v-for="(item,i) in edit_data.images" :key="i">
+                <template v-if="item.status === 'finished'">
+                    <img :src="item.url">
+                    <div class="demo-upload-list-cover">
+                        <!-- <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon> -->
+                        <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                    </div>
+                </template>
+                <template v-else>
+                    <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                </template>
+            </div>
+          
+           <Upload
+                multiple 
+                ref="uploads"
+                type="drag"
+                :on-progress="handleProgressCover"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png']"
+                :max-size="20480"
+                :on-format-error="handleFormatErrorCover"
+                :on-exceeded-size="handleMaxSizeCover"
+                :show-upload-list="false"
+                action="http://127.0.0.1:3333/feed/uploadImages"
+                
+            >
+                
+                <Button icon="ios-cloud-upload-outline">Photo / Video</Button>
+        </Upload>
+        </template>
+        
+        </div>
+      </div>
+             
+
+       <div slot="footer">
+        <Button @click="onClickEditPost" type="primary">Edit</Button>
+        <Button @click="editModal = false">Close</Button>
+      </div>
+    </Modal>
+    </Modal>
     </div>
 </template>
 
@@ -206,6 +296,7 @@ import statusBox from '~/components/statusBox.vue'
 import commentBox from '~/components/comment.vue'
 import rightSection from '~/components/rightSection.vue'
 import leftSection from '~/components/leftSection.vue'
+import editSection from '~/components/editStatus.vue'
 
 export default {
     middleware:"auth",
@@ -218,6 +309,8 @@ export default {
 
   data(){
     return{
+        editIndex:-1,
+        editModal: false,
         likeLoad:-1,
     //   isDropdown: false,
     //   isCreateComment: false,
@@ -225,10 +318,11 @@ export default {
       isHide: true,
       isModal: false,
       isImage: false,
-       editFeedInput:{
-        feed_id:'',
+       edit_data:{
+        id:'',
         user_id:'',
-        feedTxt:''
+        feedTxt:'',
+        images:[]
       },
     }
   },
@@ -240,7 +334,62 @@ export default {
           console.log(error)
       }
   },
+    mounted () {
+            // this.edit_data.images = this.$refs.upload.fileList;
+        },
   methods:{
+     handleMaxSizeCover(file) {
+      this.$Notice.warning({
+        title: "Exceeding file size limit",
+        desc: "File  " + file.name + " is too large, no more than 20M.",
+      });
+    },
+      handleFormatErrorCover(file) {
+      this.$Notice.warning({
+        title: "The file format is incorrect",
+        desc:
+          "File format of " +
+          file.name +
+          " is incorrect, please select jpg or png or gif.",
+      });
+    },
+      async handleProgressCover(event, file, fileList) {
+          this.edit_data.images.push(file)
+          console.log(file, 'files')
+        //   console.log(this.edit_data.images)
+
+            //   this.cover = file;
+    },
+      handleRemove(i){
+          this.edit_data.images.splice(i, 1);
+      },
+    handleSuccess (res, file) {
+        let a =  this.edit_data.images.length
+        this.edit_data.images[a-1].url = res
+    },
+    async onClickEditPost(){
+        let images = []
+        if(this.edit_data.images.length){
+            for(let it of this.edit_data.images){
+                images.push(it.url)
+            }
+        }
+        // delete this.edit_data.images 
+        this.edit_data.images = JSON.stringify(images)
+        console.log( this.edit_data)
+        // return 
+        let res = await this.callApi('post', 'feed/updateFeed', this.edit_data)
+        if(res.status==200){
+            res.editIndex = this.editIndex
+            this.$store.commit('setUpdateFeed',res.data)
+            this.editIndex = -1
+            this.editModal = false
+        }
+        else if(res.status==401){
+            this.e(res.data.message)
+        }   
+        else this.swr()
+    },
     async crateFeedLike(feed, index){
         this.likeLoad = index
         const res = await this.callApi('post','like/createLike',{feed_id:feed.id})
@@ -301,12 +450,22 @@ export default {
     },
     
    onClickEditFeed(feed,i) {
-      feed.isEdit =true
-      this.editFeedInput = {
-        feed_id:feed.id,
-        user_id:feed.user_id,
-        feedTxt:feed.feedTxt
-      }
+       this.edit_data.images = []
+       console.log(feed)
+       this.editIndex = i
+           this.edit_data.id=feed.id
+            this.edit_data.user_id=feed.user_id
+            this.edit_data.feedTxt=feed.feedTxt
+            let a=JSON.parse(feed.images)
+            for(let it of a){
+                let ob = {
+                    status:'finished',
+                    url:it
+                }
+                this.edit_data.images.push(ob)
+            }
+        feed.isEdit =true
+        this.editModal = true
     },
     
     cancelFeedEditinput(feed) {
@@ -355,3 +514,41 @@ export default {
     
 }
 </script>
+<style>
+    .demo-upload-list{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+    }
+</style>
