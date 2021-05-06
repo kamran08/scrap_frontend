@@ -105,8 +105,11 @@
                         <div class="row">
                             <div class="col-12 col-lg-8 col-md-8">
                                 <div class="_prfl_cntnt_lft_all">
+                                    <!-- Card status -->
+                                    <!-- Card status -->
+                                    
                                     <!-- card -->
-                                    <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30">
+                                    <div class="_indx_post_card _box_shdw2  _mar_b30">
                                         <div class="_indx_post_card_inner">
                                             <div class="_indx_post_card_top _dis_flex">
                                                 <div class="_indx_post_card_top_lft">
@@ -176,7 +179,7 @@
                                     <!-- card -->
 
                                     <!-- card -->
-                                    <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30">
+                                    <div class="_indx_post_card _box_shdw2">
                                         <div class="_indx_post_card_inner">
                                             <div class="_indx_post_card_top _dis_flex">
                                                 <div class="_indx_post_card_top_lft">

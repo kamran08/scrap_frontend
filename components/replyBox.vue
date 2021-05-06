@@ -13,41 +13,40 @@
           <div class="_comment_name">
             <a href="" class="_comment_name_text">{{reply.user.firstName}} {{reply.user.lastName}}</a>
           </div>
-          <div class="_comment_more"></div>
+          <div class="_comment_more"  v-if="reply.user.id == authUser.id">
+            <Dropdown trigger="click" placement="bottom-end">
+                <a class="_more" href="javascript:void(0)">
+                    <i class="fas fa-angle-down"></i>
+                </a>
+                <DropdownMenu slot="list">
+                    <DropdownItem><span style="cursor:pointer;" @click="onClickEditReply(reply)">Edit</span></DropdownItem>
+                    <DropdownItem><span style="cursor:pointer;" @click="deleteReply(reply, i)">Delete</span></DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+          </div>
         </div>
         <div class="_comment_status">
           <p class="_comment_status_text" v-if="!reply.isEdit">{{reply.replyTxt}}</p>
           
-            <div class="_1card_comment_box_input_icon" v-if="reply.isEdit">
-              <div class="_1card_comment_box_input">
-                <input type="text"
-                  v-model="editReplyInput.replyTxt"
-                  @keyup.enter="EditReply(reply)"
-                   />
-                   
-              </div>
+          <div class="_1card_comment_box_input_icon" v-if="comment.isEdit">
+            <div class="_1card_comment_box_input">
+              <input
+                type="text" v-model="editReplyInput.replyTxt" @keyup.enter="EditReply(reply)"
+              />
             </div>
-              <span style="cursor:pointer;" v-if="reply.isEdit" @click="cancelReplyEditinput(reply)">cancel</span>
+              <i style="margin-top:12px;cursor:pointer;" class="fas fa-times" v-if="reply.isEdit" @click="cancelReplyEditinput(reply)"></i>
+          </div>
         </div>
         <div class="_comment_reply">
           <div class="_comment_reply_num">
-            <ul class="_comment_reply_list"  v-if="reply.user.id == authUser.id">
-              <li @click="onClickEditReply(reply)">
-                <span class="_comment_reply_like">Edit</span>
-              </li>
-              <li @click="deleteReply(reply, i)">
-                <span class="_comment_reply_like">Delete</span>
-              </li>
-            </ul>
             <ul class="_comment_reply_list">
-              <li>
-
+              <li class="_active" @click="createReplyLike(reply,i)">
                 <template v-if="likeLoad==i"><i class="fas fa-spinner"></i> </template>
                 <template v-else>
-                 <i v-if="reply.hasUserLike" @click="createReplyLike(reply,i)" class="fas fa-thumbs-up"></i> 
-                 <i  v-else @click="createReplyLike(reply,i)" class="far fa-thumbs-up"></i>
-                </template>({{reply.__meta__.likes_count}})
-                <span class="_comment_reply_like">Like</span>
+                 <i v-if="reply.hasUserLike" class="fas fa-thumbs-up"></i> 
+                 <i v-else class="far fa-thumbs-up"></i>
+                </template> {{reply.__meta__.likes_count}} 
+                <span class="_comment_reply_like _mar_l4"> Like</span>
               </li>
             </ul>
           </div>

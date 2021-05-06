@@ -55,9 +55,6 @@
                                             <li>Articles</li>
                                         </ul>
                                     </div>
-
-
-
                                     
                                     <!-- Image card --> 
                                     <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30" v-for="(feed, index) in getFeed" :key="index">
@@ -76,10 +73,17 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <p class="text-right" v-if="feed.user.id == authUser.id">
-                                                    <span style="cursor:pointer;" @click="onClickEditFeed(feed, index)">Edit</span>
-                                                    <span style="cursor:pointer;" @click="deleteFeed(feed, index)">Delete</span>
-                                                </p>
+                                                <div v-if="feed.user.id == authUser.id" class="_card_top_more">
+                                                    <Dropdown trigger="click" placement="bottom-end">
+                                                        <a class="_more" href="javascript:void(0)">
+                                                            <i class="fas fa-angle-down"></i>
+                                                        </a>
+                                                        <DropdownMenu slot="list">
+                                                            <DropdownItem><span style="cursor:pointer;" @click="onClickEditFeed(feed, index)">Edit</span></DropdownItem>
+                                                            <DropdownItem><span style="cursor:pointer;" @click="deleteFeed(feed, index)">Delete</span></DropdownItem>
+                                                        </DropdownMenu>
+                                                    </Dropdown>
+                                                </div>
                                             </div>
                                             <div class="_indx_post_card_txt">
                                                 <!-- <nuxtLink to="/singlePost"><h4 class="_clr_blck">Donate money for shelter less child education</h4></nuxtLink> -->
@@ -99,19 +103,29 @@
                                                 </div> -->
                                             </div>
                                             
-                                            <div class="_indx_post_card_txt">
-                                                <div @click="imageModalOpen(feed.images,ind)" class="_status_image" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
-                                                    <!-- <img class="_status_image_img" src="/img/image_1608022151387.jpeg" alt="" title=""> -->
-                                                    <img class="_status_image_img" :src="image" alt="" title="">
+                                            <!-- Single image -->
+                                            <div class="_card_status_pic_all">
+                                                <div class="_card_status_pic">
+                                                    <img class="_card_status_img" src="/img/man.jpg" alt="" title="">
                                                 </div>
                                             </div>
+                                            <!-- Single image -->
+
+                                            <!-- Multipule image -->
+                                            <div class="_cardMulti_pic_all">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                                    <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
+                                                        <img class="_cardMulti_img" :src="image" alt="" title="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Multipule image -->
                                         </div>
 
                                         <div class="_indx_post_card_btm _dis_flex">
                                             <div class="_indx_post_btm_lft">
                                                 <ul>
                                                     <li>
-                                                        
                                                         <span>
                                                             <template v-if="likeLoad==index"><i class="fas fa-spinner"></i> </template>
                                                             <template v-else> 
@@ -166,8 +180,6 @@
                                         <!-- </span> -->
                                     </div>
                                     <!-- Image card -->
-
-                                   
                                 </template>
                             </div>
                         </div>

@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="_content">
+        <div class="">
            <div class="_landng_page">
                 <!-- BANNER -->
                 <div class="_lndng_bnr">

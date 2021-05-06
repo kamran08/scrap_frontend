@@ -47,23 +47,15 @@
             <a href="" class="_comment_name_text"> {{comment.user.firstName}} {{comment.user.lastName}} </a>
           </div>
           <div class="_comment_more" v-if="comment.user.id == authUser.id">
-            <div class="ivu-dropdown">
-              <div class="ivu-dropdown-rel" @click="openCommentDropDown(i)">
-                <a href="javascript:void(0)" class="_more"
-                  ><i class="fas fa-angle-down"></i
-                ></a>
-              </div>
-              <div class="ivu-select-dropdown" v-if="commentDropDown==i">
-                <ul class="ivu-dropdown-menu">
-                  <li class="ivu-dropdown-item" @click="onClickEditComment(comment, i)">
-                    <p class="_drop_text">Edit</p>
-                  </li>
-                  <li class="ivu-dropdown-item" @click="deleteComment(comment, i)">
-                    <p class="_drop_text">Delete</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <Dropdown trigger="click" placement="bottom-end">
+                <a class="_more" href="javascript:void(0)">
+                    <i class="fas fa-angle-down"></i>
+                </a>
+                <DropdownMenu slot="list">
+                    <DropdownItem><span style="cursor:pointer;" @click="onClickEditComment(comment, i)">Edit</span></DropdownItem>
+                    <DropdownItem><span style="cursor:pointer;" @click="deleteComment(comment, i)">Delete</span></DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
         <div class="_comment_status">
@@ -81,15 +73,14 @@
         <div class="_comment_reply">
           <div class="_comment_reply_num">
             <ul class="_comment_reply_list">
-              
-              <li>
+              <li class="_active" @click="createCommentLike(comment,i)">
                 <template v-if="likeLoad==i"><i class="fas fa-spinner"></i> </template>
                 <template v-else>
-                 <i v-if="comment.hasUserLike" @click="createCommentLike(comment,i)" class="fas fa-thumbs-up"></i> 
-                 <i  v-else @click="createCommentLike(comment,i)" class="far fa-thumbs-up"></i>
-                </template>({{comment.__meta__.likes_count}})
+                 <i v-if="comment.hasUserLike" class="fas fa-thumbs-up"></i> 
+                 <i v-else class="far fa-thumbs-up"></i>
+                </template>{{comment.__meta__.likes_count}}
                 Like</li>
-              <li @click="showReply(comment,i)">Reply</li>
+              <li @click="showReply(comment,i)"><i style="top:2px; position:relative" class="far fa-comment-alt"></i> Reply</li>
             </ul>
           </div>
           <div class="_comment_reply_time">
@@ -164,7 +155,7 @@ export default {
         else this.swr()
     },
     async showReply(comment, i){
-        if(comment.replies.length){
+        if(comment.replies){
              this.$set(comment, 'isOpen', !comment.isOpen)
             return 
         }
