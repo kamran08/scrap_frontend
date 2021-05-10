@@ -50,14 +50,15 @@
                     
                     <!-- Notification -->
                   <li class="_menu_list_items _menu_list_noti">
-                      <div @click="clickMenuDrop ('notiDrop')" class="_menu_noti">
+                      <!-- <div @click="clickMenuDrop ('notiDrop')" class="_menu_noti"> -->
+                      <div @click="tab=!tab" class="_menu_noti">
                         
                         <span class="_noti_icon"><i class="far fa-bell"></i></span>
                         <span class="_noti_num">2</span>
                     </div>
 
                     <!-- Dropdown -->
-                    <div v-if="tab == 'notiDrop'" class="_1dropdown _noti_all">
+                    <div v-if="tab" class="_1dropdown _noti_all">
                       <div class="_1dropdown_title">
                         <p class="_1dropdown_title_text _3title">Notifications</p>
 
@@ -74,7 +75,7 @@
                       </div>
 
                       <!-- Shimmer -->
-                      <template v-if="isHide">
+                      <template v-if="!allNotification.length && loading">
                         <div class="_drop_shimmer_all">
                           <div class="_drop_shimmer">
                             <div class="_shimmer_profilePic _shim_animate din"></div>
@@ -440,7 +441,8 @@ export default {
       isHide: true,
       isloaded2: false,
       isHide2: true,
-      tab: '',
+      loading: false,
+      tab: false,
       isMinimize: false,
       isMobileSearch: false,
       isProDrop: false,
