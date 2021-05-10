@@ -74,8 +74,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: "http://localhost:3333/",
-    baseURL: "https://api.scrapabill.com/",
+    baseURL: "http://localhost:3333/",
+    // baseURL: "https://api.scrapabill.com/",
     credentials: true
     
 
