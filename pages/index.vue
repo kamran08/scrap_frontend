@@ -702,6 +702,7 @@
 
 <script>
 export default {
+    middleware:"guest",
     methods:{
         goToSignIn(){
             this.$router.push('/login')

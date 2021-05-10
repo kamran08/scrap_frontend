@@ -7,9 +7,35 @@ Vue.use(iView, {
 })
  
 import { mapActions, mapGetters } from 'vuex';
+import VueTimeago from 'vue-timeago'
+
+Vue.use(VueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'en', // Default locale
+  // We use `date-fns` under the hood
+  // So you can use all locales from it
+  locales: {
+    'zh-CN': require('date-fns/locale/zh_cn'),
+    ja: require('date-fns/locale/ja')
+  }
+})
 // mixins for using common methods
 
 Vue.mixin({
+    filters: {
+        formateDate: function (value) {
+            if(!value) return ""
+            let months=["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ]
+               var dateObj = new Date(value);
+                var month = dateObj.getUTCMonth(); //months from 1-12
+                var day = dateObj.getUTCDate();
+                var year = dateObj.getUTCFullYear();
+                return day+" "+months[month]+" "+year
+        }
+    },
+     
     computed: {
         ...mapGetters({
             authUser:'getAuthUser',

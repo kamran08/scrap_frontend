@@ -138,26 +138,27 @@
                         </div>
                       </template>
                       <!-- Shimmer -->
-
                       <!-- Notification Data -->
-                      <template v-if="isloaded">
+                      <template v-if="allNotification">
                         <div class="_1dropdown_body _1scrollbar">
                             <ul class="_1dropdown_body_list">
                               <!-- Items -->
-                              <li class="_active" v-for="(items, index) in 10" :key="index">
-                                <div class="_noti_items">
-                                  <div class="_noti_main">
+                              <li class="_active" v-for="(item, index) in allNotification" :key="index">
+                                <div class="_noti_items " :class="(item.seen)?'':'noti_active'">
+                                  <div class="_noti_main" >
                                     <div class="_noti_pic">
                                       <img class="_noti_img" src="/img/pic.jpg" alt="" title=""/>
                                     </div>
 
                                     <div class="_noti_details">
                                       <p class="_noti_details_title">
-                                        <strong class="_noti_details_title_name">Kollol Chakraborty</strong>
-                                      comment in your post.
+                                        <strong class="_noti_details_title_name" >{{item.message}}</strong>
+                                      <!-- comment in your post. -->
                                       </p>
 
-                                      <p class="_noti_details_time">5m ago</p>
+                                      <p class="_noti_details_time">
+                                        <timeago :datetime="item.created_at" :auto-update="60"></timeago>
+                                        </p>
                                     </div>
                                   </div>
 
@@ -186,7 +187,7 @@
                       <!-- Notification Data -->
 
                       <!-- No Notifiaction -->
-                      <template  v-if="noData">
+                      <template  v-else>
                         <div class="_drop_no_data">
                           <div class="_drop_no_data_icon">
                             <i class="fas fa-bell"></i>
@@ -211,8 +212,8 @@
                     </nuxtLink>
                   </li>
 
-                  <li class="_menu_more">
-                      <a class="_menu_page_item" @click="isProDrop = !isProDrop"><i class="fas fa-sort-down"></i></a>
+                  <li class="_menu_more" @mouseover="isProDrop = true" @mouseleave="isProDrop = false">
+                      <a class="_menu_page_item"  ><i class="fas fa-sort-down"></i></a>
                       <div v-if="isProDrop" class="_1dropdown _proDrop">
                           <div class="_1dropdown_body">
                               <div class="_proDrop_top_all">
@@ -442,10 +443,23 @@ export default {
       tab: '',
       isMinimize: false,
       isMobileSearch: false,
-      isProDrop: false
+      isProDrop: false,
+      allNotification:[]
     }
   },
+ async asyncData({app , store}) {
+      // try {
+      //   var allNotification = []
+      //     let {data} = await app.$axios.get('/notification/getNotification')
+      //     // store.commit('setFeed',data)
+      //     return {
+      //       allNotification:data
+      //     }
 
+      // } catch (error) {
+      //     console.log(error)
+      // }
+  },
   methods:{
     async logout(){
       const res = await this.callApi('get','auth/logout')
@@ -477,7 +491,13 @@ export default {
     }
   },
   
-  created() {
+  async created() {
+    const res =await this.callApi('get','notification/getNotification')
+    if(res.status==200){
+      console.log(res)
+      this.allNotification = res.data
+    }
+
     var self3 = this;
       var self4 = this;
       setTimeout(function() {
@@ -491,3 +511,8 @@ export default {
   }
 }
 </script>
+<style>
+.noti_active{
+  background: #6e6e6e;
+}
+</style>

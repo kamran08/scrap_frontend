@@ -69,7 +69,7 @@
                                                     </div>
                                                     <div class="_indx_post_card_top_titl">
                                                         <nuxtLink to="/profile"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
-                                                        <p>22 March 2021</p>
+                                                        <p>{{feed.created_at | formateDate}} </p>
                                                     </div>
                                                     
                                                 </div>
@@ -104,15 +104,15 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all">
-                                                <div class="_card_status_pic">
-                                                    <img class="_card_status_img" src="/img/man.jpg" alt="" title="">
+                                            <div class="_card_status_pic_all" v-if="JSON.parse(feed.images).length==1">
+                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                                    <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
                                             </div>
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all">
+                                            <div class="_cardMulti_pic_all" v-else>
                                                 <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
@@ -133,7 +133,8 @@
                                                                 <i @click="crateFeedLike(feed,index)" class="far fa-heart" v-else></i>
                                                             </template>
                                                             
-                                                        </span>{{feed.__meta__.likes_count}} Bill Followers
+                                                        </span>{{feed.__meta__.likes_count}} Like
+                                                        <!-- Bill Followers -->
                                                     </li>
                                                     <li @click="showComment(feed, index)">
                                                         <span><i class="far fa-comment"></i></span>{{feed.__meta__.comment_count}} Comments
@@ -349,6 +350,7 @@ export default {
       try {
           let {data} = await app.$axios.get('/feed/getFeed')
           store.commit('setFeed',data)
+
       } catch (error) {
           console.log(error)
       }
@@ -373,7 +375,7 @@ export default {
         let a = this.nextIndex-1
         console.log(this.nextIndex ,'fist')
         if(a<=-1){
-            this.nextIndex = this.singleItemImages.length
+            this.nextIndex = this.singleItemImages.length-1
         }
         else {
             this.nextIndex--

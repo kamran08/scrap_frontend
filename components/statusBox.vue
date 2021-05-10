@@ -85,11 +85,26 @@
                         <!-- Status -->
                         <div v-if="isStatusbox" class="_statusBox_textarea">
                             <textarea v-model="feed.feedTxt" type="text" placeholder="What's on your mind or financial story?" class="_statusBox_textarea_text"></textarea>
+                           
+                            <div class="demo-upload-list" v-for="(item,i) in feed.images" :key="i">
+                                <template v-if="item.status === 'finished'">
+                                    <img :src="item.url">
+                                    <div class="demo-upload-list-cover">
+                                        <!-- <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon> -->
+                                        <Icon type="ios-trash-outline" @click.native="handleRemove(item,i)"></Icon>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                                </template>
+                            </div>
                             <Upload
                                 multiple 
                                 ref="uploads"
                                 type="drag"
+                                :on-progress="handleProgressCover"
                                 :on-success="handleSuccess"
+                                :show-upload-list="false"
                                 :format="['jpg','jpeg','png']"
                                 :max-size="2048"
                                 action="http://127.0.0.1:3333/feed/uploadImages">
@@ -240,16 +255,35 @@ export default {
   },
 
   methods:{
+        async handleRemove(item, i) {
+            this.feed.images.splice(i, 1);
+        },
+        async handleProgressCover(event, file, fileList) {
+          this.feed.images.push(file)
+          console.log(file, 'files')
+        //   console.log(this.edit_data.images)
+
+            //   this.cover = file;
+    },
     handleSuccess (res, file) {
-        this.feed.images.push(res)
-        console.log(res)
+        let a =  this.feed.images.length
+        this.feed.images[a-1].url = res
+        // this.feed.images.push(res)
+        // console.log(res)
     },
     async createFeed(){
           if(this.feed.feedTxt == '' && !this.feed.images.length){
                 // this.i("All fields are required.");
                 return this.i("Please write some text or upload images.");
             }
-            this.feed.images =JSON.stringify(this.feed.images)
+            let images = []
+            if(this.feed.images.length){
+                for(let it of this.feed.images){
+                    images.push(it.url)
+                }
+            }
+
+            this.feed.images =JSON.stringify(images)
             let obj = this.feed
             obj.user_id =this.authUser.id
         	// this.loading = true

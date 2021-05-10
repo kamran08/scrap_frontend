@@ -90,7 +90,7 @@
                     <div class="_indx_post_lst _mar_b20">
                         <ul class="_dis_flex">
                             <li><router-link to="/profile">All</router-link></li>
-                            <li><router-link to="">Status</router-link></li>
+                            <li><router-link to="/profile">Status</router-link></li>
                             <li><router-link to="">Bill</router-link></li>
                             <li><router-link to="">Articles</router-link></li>
                             <li class="_active"><router-link to="/profilePhotos">Photos</router-link></li>
@@ -102,66 +102,18 @@
                             <h2 class="_1frient_title _pre_icon _mar_b20"><i class="fas fa-image"></i> Photos</h2>
                             
                             <div class="_photo_main_all">
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609569526445.jpg">
+                                <div class="_photo_main" v-for="(item,index) in alldata" :key="index">
+                                    <div @click="imageModalOpen(item,index) " class="_photo_main_pic _load_div">
+                                        <img alt="" title="" class="_photo_main_img" :src="item">
                                     </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
+                                    <!-- <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div> -->
                                 </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://joincarevan.info/uploads/image_1609669930850.jpeg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
+                                <!-- <div class="_photo_main">
                                     <div @click="isImage = true" class="_photo_main_pic _load_div">
                                         <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609671051741.jpg">
                                     </div>
                                     <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609569526445.jpg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://joincarevan.info/uploads/image_1609669930850.jpeg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609671051741.jpg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609569526445.jpg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://joincarevan.info/uploads/image_1609669930850.jpeg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609671051741.jpg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
-                                <div class="_photo_main">
-                                    <div @click="isImage = true" class="_photo_main_pic _load_div">
-                                        <img alt="" title="" class="_photo_main_img" src="https://app.joincarevan.info/uploads/image_1609671051741.jpg">
-                                    </div>
-                                    <div class="_photo_main_delete"><i aria-hidden="true" class="fa fa-trash"></i></div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -177,12 +129,12 @@
                     <p @click="isImage = false" class="_imageShow_close"><i class="ivu-icon ivu-icon-md-close"></i></p>
                 </div>
                 <div class="_imageShow_main_pic">
-                    <div style="width: 100%; height: 100%;">
-                        <img alt="" title="" class="_imageShow_main_img" src="/static/img/image_1608022151387.jpeg">
+                    <div style="width: 100%; height: 100%;" v-if="alldata[nextIndex]">
+                        <img alt="" title="" class="_imageShow_main_img" :src="alldata[nextIndex]">
                     </div>
                 </div>
-                <div class="_imageShow_next_pre _imageShow_next"><i class="ivu-icon ivu-icon-md-arrow-dropleft"></i></div>
-                <div class="_imageShow_next_pre _imageShow_pre"><i class="ivu-icon ivu-icon-md-arrow-dropright"></i></div>
+                <div class="_imageShow_next_pre _imageShow_next"  @click="previous()"><i class="ivu-icon ivu-icon-md-arrow-dropleft"></i></div>
+                <div class="_imageShow_next_pre _imageShow_pre"  @click="next()"><i class="ivu-icon ivu-icon-md-arrow-dropright"></i></div>
             </div>
         </div>
         <!-- Image modal -->
@@ -194,12 +146,54 @@
 export default {
   data(){
     return{
-      isImage: false
+      isImage: false,
+      nextIndex: -1,
+      singleItemImages:[]
     }
   },
+    async asyncData({app , store}) {
+      try {
+        var alldata= []
+           let {data} = await app.$axios.get(`/feed/getGalryImages`)
+        return {
+            alldata:data
+        }
+        //   store.commit('setFeed',data)
+      } catch (error) {
+          console.log(error)
+      }
+    },
 
   methods:{
-      
+      next(){
+        let a = this.nextIndex+1
+        console.log(this.nextIndex, 'first ')
+        if(a>=this.alldata.length){
+            this.nextIndex = 0
+            return
+        }
+        else {
+            this.nextIndex+=1
+        }
+        console.log(this.nextIndex ,'last')
+    },
+    previous(){
+        let a = this.nextIndex-1
+        console.log(this.nextIndex ,'fist')
+        if(a<=-1){
+            this.nextIndex = this.alldata.length-1
+        }
+        else {
+            this.nextIndex--
+        }
+        console.log(this.nextIndex, 'last')
+
+    },
+      imageModalOpen(feed,i){
+        //   this.singleItemImages = this.alldata
+          this.nextIndex = i
+          this.isImage = true
+      },
   },
   
   created() {

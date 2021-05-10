@@ -73,7 +73,7 @@
         <div class="_comment_reply">
           <div class="_comment_reply_num">
             <ul class="_comment_reply_list">
-              <li class="_active" @click="createCommentLike(comment,i)">
+              <li :class="(comment.hasUserLike)?'_active':''" @click="createCommentLike(comment,i)">
                 <template v-if="likeLoad==i"><i class="fas fa-spinner"></i> </template>
                 <template v-else>
                  <i v-if="comment.hasUserLike" class="fas fa-thumbs-up"></i> 
@@ -84,7 +84,9 @@
             </ul>
           </div>
           <div class="_comment_reply_time">
-            <p class="_comment_reply_time_text">2 days ago</p>
+            <p class="_comment_reply_time_text">
+              <timeago :datetime="comment.created_at" :auto-update="60"></timeago>
+            </p>
           </div>
         </div>
         
