@@ -32,8 +32,10 @@
                                     
                                     :on-success="handleSuccess"
                                     :format="['jpg','jpeg','png']"
-                                    :max-size="2048"
-                                    action="http://127.0.0.1:3333/profile/uploadImages">
+                                    :max-size="10048"
+                                     action="https://api.scrapabill.com/feed/uploadImages"
+                                    >
+                                    <!-- action="http://127.0.0.1:3333/profile/uploadImages" -->
                                     <span><i class="ivu-icon ivu-icon-ios-camera"></i></span>
                                 </Upload>
                             </div>
