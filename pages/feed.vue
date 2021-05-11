@@ -289,7 +289,7 @@
                 
             >
                 
-                <Button icon="ios-cloud-upload-outline">Photo / Video</Button>
+                <Button icon="ios-cloud-upload-outline">Photo</Button>
         </Upload>
         </template>
         

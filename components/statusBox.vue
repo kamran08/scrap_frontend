@@ -36,8 +36,8 @@
                     <router-link to="/profile" class="_titl1">{{authUser.firstName}} {{authUser.lastName}}</router-link>
                 </div>
 
-                <div class="_card1_inpt">
-                    <input @click="clickStatusbox" type="text" placeholder="What's on your mind or financial story?">
+                <div class="_card1_inpt" @click="clickStatusbox">
+                    <input @click="clickStatusbox" type="text" placeholder="What's on your mind or financial story?" disabled>
                 </div>
 
                 <div class="_card1_btm">
@@ -61,9 +61,9 @@
                     <div class="_statusBox_main _padd">
                         <p class="_statusBox_close" @click="closeStatusbox"><Icon type="md-close" /></p>
                         <div class="_statusBox_main_top">
-                            <div class="_statusBox_main_pic"><img src="/img/man.jpg" alt="" title="" class="_statusBox_main_img _1border_color" /></div>
+                            <div class="_statusBox_main_pic"><img :src="authUser.profilePic" alt="" title="" class="_statusBox_main_img _1border_color" /></div>
                             <div class="_statusBox_main_details">
-                                <p class="_statusBox_main_name"><a href="" class="_3link">Jacqueline J. Hill</a></p>
+                                <p class="_statusBox_main_name"><a href="" class="_3link">{{authUser.firstName}} {{authUser.lastName}}</a></p>
                                 <div class="_statusBox_main_drop">
                                     <p class="_status_public" @click="isStatusType = true">Public</p>
                                     <!-- <Dropdown trigger="click" placement="bottom-start">
@@ -107,9 +107,9 @@
                                 :show-upload-list="false"
                                 :format="['jpg','jpeg','png']"
                                 :max-size="2048"
-                                action="http://127.0.0.1:3333/feed/uploadImages">
+                                :action="BASE_URL+'feed/uploadImages'">
                                 
-                                <Button icon="ios-cloud-upload-outline">Photo / Video</Button>
+                                <Button icon="ios-cloud-upload-outline">Photo</Button>
                             </Upload>
                         </div>
                         <!-- Status -->
@@ -272,7 +272,7 @@ export default {
         // console.log(res)
     },
     async createFeed(){
-          if(this.feed.feedTxt == '' && !this.feed.images.length){
+          if(this.feed.feedTxt == '' || !this.feed.images.length){
                 // this.i("All fields are required.");
                 return this.i("Please write some text or upload images.");
             }

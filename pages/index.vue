@@ -18,19 +18,24 @@
 								<a href="">Home</a>
 							</li>
 							<li>
-								<a href="">Why Scrapabill?</a>
+								<a href="#1">Why Scrapabill?</a>
 							</li>
 							<li>
-								<a href="">How It Works</a>
+								<a href="#2">How It Works</a>
 							</li>
 							<li>
-								<a href="">Features</a>
+								<a href="#3">Features</a>
 							</li>
 							<li>
-								<a href="">Testimonials</a>
+								<a href="#4">Testimonials</a>
 							</li>
 							<li>
-								<a href="">Mobile</a>
+								<a href="#5">Mobile</a>
+							</li>
+							<li>
+								<nuxt-link to="/login">
+									<Button type="primary" > Get Started</Button>
+								</nuxt-link>
 							</li>
 						</ul>
 					</div>
@@ -69,19 +74,19 @@
 						<a href="">Home</a>
 					</li>
 					<li>
-						<a href="">Why Scrapabill?</a>
+						<a href="#1">Why Scrapabill?</a>
 					</li>
 					<li>
-						<a href="">How It Works</a>
+						<a href="#2">How It Works</a>
 					</li>
 					<li>
-						<a href="">Features</a>
+						<a href="#3">Features</a>
 					</li>
 					<li>
-						<a href="">Testimonials</a>
+						<a href="#4">Testimonials</a>
 					</li>
 					<li>
-						<a href="">Mobile</a>
+						<a href="#5">Mobile</a>
 					</li>
 				</ul>
 			</div>
@@ -128,7 +133,7 @@
    <!-- BANNER -->
 
    <!-- Why Scrapabill -->
-   <div class="_lndng2_abt _bg_wht">
+   <div class="_lndng2_abt _bg_wht" id="1">
    	   <div class="container">
    	   		<div class="_lndng2_abt_top _text_center">
    	   			<h1 class="_lndng2_title1">
@@ -210,7 +215,7 @@
    <!-- Why Scrapabill -->
 
    <!-- How It Works -->
-   <div class="_lndng2_works">
+   <div class="_lndng2_works" id="2">
    		<div class="container">
    			<div class="_lndng2_abt_top _text_center">
    	   			<h1 class="_lndng2_title1">
@@ -299,7 +304,7 @@
    <!--How It Works -->
 
    <!-- Features -->
-   <div class="_lndng2_feature">
+   <div class="_lndng2_feature" id="3">
    		<div class="container">
    			<div class="row">
    				<div class="col-12 col-md-5 col-lg-4 _pad_l0">
@@ -378,7 +383,7 @@
    <!-- Scrapabill For Business -->
 
    <!-- Mobile App -->
-   <div class="_lndng2_mbl_app">
+   <div class="_lndng2_mbl_app" id="5">
 	   	<div class="container">
 	   		<div class="_lndng2_mbl_app_inner _dis_flex">
 	   			<div class="_lndng2_mbl_app_img">

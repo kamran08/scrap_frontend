@@ -13,6 +13,7 @@
                         </div> 
                         <div class="_sign_all_img">
                             <img  src="/img/sign1.png">
+                            <!-- <img  src="/img/sitdeImage.webp"> -->
                         </div>
                     </div>
                 </div>
@@ -43,7 +44,7 @@
                                 </div>
 
                                 <div class="_forgot_pass _text_right _mar_t10">
-                                	<router-link to="/forgot_password">forgot password?</router-link> 
+                                	<router-link to="/forgot_password">Forgot password?</router-link> 
                                 </div>
  
 	                            <div class="_signUp_card_btm">

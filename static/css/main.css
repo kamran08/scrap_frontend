@@ -6225,7 +6225,7 @@ background: #f5f8fb;
     overflow: hidden;
 }
 ._sign_all_lft_logo {
-    width: 88px;
+    width: 126px;
     height: auto;
     position: absolute;
     top: 40px;
@@ -7013,5 +7013,14 @@ background: #f5f8fb;
 }
 ._lndng2_mbl_menu_overlay{
   display: none;
+}
+._1inputreg_pass{
+  position: relative;
+}
+._1inputreg_pass span {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  cursor: pointer;
 }
 /*final landing page end*/
