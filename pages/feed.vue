@@ -351,8 +351,8 @@ export default {
     }
   },
   created(){
-      console.log(this.$store.state.U_Id)
-      console.log(process.env)
+    //   console.log(this.$store.state.U_Id)
+    //   console.log(process.env)
   },
   async asyncData({app , store}) {
       try {
