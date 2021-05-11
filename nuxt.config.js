@@ -74,8 +74,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: process.env.BASE_URL,
-    // baseURL: "https://api.scrapabill.com/",
+    // baseURL: process.env.BASE_URL,
+    baseURL: "https://api.scrapabill.com/",
     credentials: true
     
 

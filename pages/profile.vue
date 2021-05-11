@@ -434,10 +434,10 @@
                 :on-format-error="handleFormatErrorCover"
                 :on-exceeded-size="handleMaxSizeCover"
                 :show-upload-list="false"
-                :action="BASE_URL+'feed/uploadImages'"
-                
+                action="https://api.scrapabill.com/feed/uploadImages"
                 
             >
+                <!-- :action="BASE_URL+'feed/uploadImages'" -->
                  <div style="width: 70px;height:58px;line-height: 58px;">
                                     <Icon type="ios-camera" size="20"></Icon>
                                 </div>

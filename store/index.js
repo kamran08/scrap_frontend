@@ -9,6 +9,7 @@ export const state = () => ({
     feed:[],
     comments:[],
     BASE_URL: process.env.BASE_URL,
+    U_Id: process.env.U_Id,
 })
 // common getters
 export const getters ={

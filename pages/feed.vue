@@ -285,9 +285,10 @@
                 :on-exceeded-size="handleMaxSizeCover"
                 :show-upload-list="false"
                 
-                :action="BASE_URL+'feed/uploadImages'"
+                action="https://api.scrapabill.com/feed/uploadImages"
                 
             >
+                <!-- :action="BASE_URL+'feed/uploadImages'" -->
                  <div style="width: 70px;height:58px;line-height: 58px;">
                                     <Icon type="ios-camera" size="20"></Icon>
                                 </div>
@@ -348,6 +349,10 @@ export default {
         
       },
     }
+  },
+  created(){
+      console.log(this.$store.state.U_Id)
+      console.log(process.env)
   },
   async asyncData({app , store}) {
       try {
@@ -563,20 +568,20 @@ export default {
 
   },
   
-  created() {
-    //   this.getFeedData();
+//   created() {
+//     //   this.getFeedData();
       
-    var self = this;
-      var self2 = this;
-      setTimeout(function() {
-        self.$nextTick(function() {
-          self.isloaded = true;
-        })
-        self2.$nextTick(function() {
-          self2.isHide = false;
-        })
-    }, 1000);
-    }
+//     // var self = this;
+//     //   var self2 = this;
+//     //   setTimeout(function() {
+//     //     self.$nextTick(function() {
+//     //       self.isloaded = true;
+//     //     })
+//     //     self2.$nextTick(function() {
+//     //       self2.isHide = false;
+//     //     })
+//     // }, 1000);
+//     // }
     
 }
 </script>
