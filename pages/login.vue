@@ -6,9 +6,10 @@
                 <div class="col-12 col-md-5 col-lg-5 _pad_r_0">
                     <div class="_sign_all_lft">
                         <div  class="_sign_all_lft_logo">
-                            <a href="">
-                                <img  src="/img/appifylab_logo.png" alt="image">
-                            </a>
+                            <nuxt-link to="/">
+                                <!-- <img  src="/img/appifylab_logo.png" alt="image"> -->
+                                <img  src="/img/logo.png" alt="image">
+                            </nuxt-link>
                         </div> 
                         <div class="_sign_all_img">
                             <img  src="/img/sign1.png">

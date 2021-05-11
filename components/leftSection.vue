@@ -16,7 +16,7 @@
                         <div class="_blog2_card_pro_pic">
                             <img class="_blog2_card_pro_img" src="/img/pic.jpg" alt="" title="">
                         </div>
-                        <p class="_blog2_card_pro_name">Jacqueline J. Hill</p>
+                        <p class="_blog2_card_pro_name">Jacqueline J. Hill </p>
                     </div>
                 </div>
             </div>

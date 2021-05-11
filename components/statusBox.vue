@@ -46,14 +46,14 @@
                             <p>Post a Story</p>
                             <span><i class="fas fa-arrow-right"></i></span>
                         </li>
-                        <li @click="clickBill"> 
+                        <!-- <li @click="clickBill"> 
                             <p>Post Bill</p>
                             <span><i class="fas fa-arrow-right"></i></span>
                         </li>
                         <li @click="clickArticle">
                             <p>Write an Article</p>
                             <span><i class="fas fa-arrow-right"></i></span>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
 

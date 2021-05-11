@@ -7,7 +7,8 @@
                     <div class="_prfl_card1 _bg_wht _b_radious5 _box_shdw2">
                         <div class="_prfl_card1_lft _dis_flex">
                             <div class="_prfl_card1_img">
-                                <img src="/static/img/man.jpg" alt="image">
+                                <img v-if="feedUser.profilePic" :src="feedUser.profilePic" alt="image">
+                                <img v-else src="/static/img/man.jpg" alt="image">
                                 <div class="_prfl_card1_img_btm _dis_flex_all">
                                     <span><i class="far fa-check-circle"></i></span>
                                     <p>Verified User</p>
@@ -16,7 +17,7 @@
 
                             <div class="_prfl_card1_info">
                                 <div class="_prfl_card1_info_top">
-                                    <h2 class="_titl1 _mar_b5">Jacquline J. Hill</h2>
+                                    <h2 class="_titl1 _mar_b5">{{feedUser.firstName}} {{feedUser.lastName}}</h2>
                                 <p>Child welfare organization</p>
                                 </div>
 
@@ -35,7 +36,7 @@
                                             <p>Helped</p>
                                         </li>
                                         <li>
-                                            <h4>1k</h4>
+                                            <h4>{{feedUser.view}}</h4>
                                             <p>View</p>
                                         </li>
                                     </ul>
@@ -89,11 +90,13 @@
 
                     <div class="_indx_post_lst _mar_b20">
                         <ul class="_dis_flex">
-                            <li><router-link to="/profile">All</router-link></li>
-                            <li><router-link to="/profile">Status</router-link></li>
+                            <li ><router-link to="/profile">All</router-link></li>
+                            <li v-if="id" ><router-link :to="'/profile?id='+id">Status</router-link></li>
+                            <li v-else><router-link to="/profile">Status</router-link></li>
                             <li><router-link to="">Bill</router-link></li>
                             <li><router-link to="">Articles</router-link></li>
-                            <li class="_active"><router-link to="/profilePhotos">Photos</router-link></li>
+                            <li v-if="id" class="_active"><router-link :to="'/profilePhotos?id='+id">Photos</router-link></li>
+                            <li v-else class="_active"><router-link to="/profilePhotos">Photos</router-link></li>
                         </ul>
                     </div>
 
@@ -151,12 +154,16 @@ export default {
       singleItemImages:[]
     }
   },
-    async asyncData({app , store}) {
+    async asyncData({app , store,query}) {
       try {
+          var id = 0
+          if(query.id) id = query.id
         var alldata= []
-           let {data} = await app.$axios.get(`/feed/getGalryImages`)
+           let {data} = await app.$axios.get(`/feed/getGalryImages?user_id=${id}`)
         return {
-            alldata:data
+            alldata:data.alldata,
+            feedUser:data.feedUser,
+            id:id
         }
         //   store.commit('setFeed',data)
       } catch (error) {
@@ -207,6 +214,19 @@ export default {
           self2.isHide = false;
         })
     }, 1000);
-  }
+  },
+  head() {
+      return {
+        title: "Photos | Scrapabill",
+        meta: [
+          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+          {
+            // hid: 'description',
+            // name: 'description',
+            // content: 'My custom description'
+          }
+        ]
+      }
+    }
 }
 </script>

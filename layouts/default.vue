@@ -204,13 +204,14 @@
                   <!-- Notification -->
 
                   <li :class="$route.path=='/profile'?'_menu_page _active_page _menu_user_li':'_menu_page _menu_user_li'">
-                    <nuxtLink class="_menu_page_item _menu_user_items" to="/profile">
+                    <a class="_menu_page_item _menu_user_items" href="/profile">
                       <div class="_menu_user_items_pic">
-                        <img src="/img/man.jpg" alt="image">
+                        <img v-if="authUser.profilePic" :src="authUser.profilePic" alt="image">
+                        <img v-else src="/img/man.jpg" alt="image">
                       </div>
                       <p class="_menu_user_items_name" v-if="authUser">{{authUser.firstName}} {{authUser.lastName}}</p>
-                      <p class="_menu_user_items_name" v-else>Anjelina jullie</p>
-                    </nuxtLink>
+                      <p class="_menu_user_items_name" v-else></p>
+                    </a>
                   </li>
 
                   <li class="_menu_more" @mouseover="isProDrop = true" @mouseleave="isProDrop = false">
@@ -220,13 +221,13 @@
                               <div class="_proDrop_top_all">
                                 <nuxtLink class="_proDrop_top" to="/">
                                     <div class="_proDrop_pic">
-                                      <img src="https://app.joincarevan.info/uploads/image_1608361634763.jpg" alt="" title="" class="_proDrop_img">
+                                      <img :src="authUser.profilePic" alt="image" title="" class="_proDrop_img">
                                     </div>
                                     <div class="_proDrop_details">
                                         <p class="_proDrop_name">
-                                            Anjelina jullie
+                                            {{authUser.firstName}} {{authUser.lastName}}
                                         </p> 
-                                        <span class="_proDrop_email">Anjelina@gmail.com</span>
+                                        <span class="_proDrop_email">{{authUser.email}}</span>
                                     </div>
                                 </nuxtLink>
                               </div>

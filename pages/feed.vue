@@ -51,8 +51,8 @@
                                         <ul class="_dis_flex">
                                             <li class="_active">All</li>
                                             <li>Status</li>
-                                            <li>Bill</li>
-                                            <li>Articles</li>
+                                            <!-- <li>Bill</li>
+                                            <li>Articles</li> -->
                                         </ul>
                                     </div>
                                     
@@ -348,7 +348,7 @@ export default {
   },
   async asyncData({app , store}) {
       try {
-          let {data} = await app.$axios.get('/feed/getFeed')
+          let {data} = await app.$axios.get('/feed/getFeed1')
           store.commit('setFeed',data)
 
       } catch (error) {

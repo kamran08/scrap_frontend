@@ -3,21 +3,22 @@
         <!-- CONTENT -->
         <div class="_content">
             <div class="_index_page">
-                <div class="container">
+                <div class="container" v-if="feedUser">
                     <div class="_prfl_card1 _bg_wht _b_radious5 _box_shdw2">
                         <div class="_prfl_card1_lft _dis_flex">
                             <div class="_prfl_card1_img">
-                                <img src="/img/man.jpg" alt="image">
+                                <img v-if="feedUser && feedUser.profilePic" :src="feedUser.profilePic" alt="image">
+                                <img v-else src="/img/man.jpg" alt="image">
                                 <div class="_prfl_card1_img_btm _dis_flex_all">
                                     <span><i class="far fa-check-circle"></i></span>
-                                    <p>Lives in Toronto, Canada</p>
+                                    <p>Lives in {{feedUser.country?feedUser.country:""}}</p>
                                 </div>
                             </div>
 
                             <div class="_prfl_card1_info">
                                 <div class="_prfl_card1_info_top">
-                                    <h2 class="_titl1 _mar_b5">Jacquline J. Hill</h2>
-                                    <p>Child Welfare Organization</p>
+                                    <h2 class="_titl1 _mar_b5">{{feedUser.firstName}} {{feedUser.lastName}}</h2>
+                                    <p>{{feedUser.company}}</p>
                                 </div>
 
                                 <div class="_prfl_card1_info_btm">
@@ -35,13 +36,13 @@
                                             <p>Bills Supported</p>
                                         </li>
                                         <li>
-                                            <h4>1k</h4>
+                                            <h4>{{feedUser.view}}</h4>
                                             <p>Views</p>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <h4>1k</h4>
                                             <p>Clicks</p>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -94,10 +95,13 @@
                     <div class="_indx_post_lst _mar_b20">
                         <ul class="_dis_flex">
                             <li :class="(isActive==1)?'_active':''" @click="isActive=1"><nuxtLink to="">All</nuxtLink></li>
-                            <li :class="(isActive==2)?'_active':''" @click="isActive=2"><nuxtLink to="/profile">Status</nuxtLink></li>
+                            <li class="_active" v-if="id" ><router-link :to="'/profile?id='+id">Status</router-link></li>
+                            <li class="_active" v-else> <router-link to="/profile">Status</router-link></li>
                             <li :class="(isActive==3)?'_active':''" @click="isActive=3"><nuxtLink to="">Bill</nuxtLink></li>
+
                             <li :class="(isActive==4)?'_active':''" @click="isActive=4"><nuxtLink to="">Articles</nuxtLink></li>
-                            <li :class="(isActive==5)?'_active':''" @click="isActive=5"><nuxtLink to="/profilePhotos">Photos</nuxtLink></li>
+                             <li v-if="id"><router-link :to="'/profilePhotos?id='+id">Photos</router-link></li>
+                            <li v-else  @click="isActive=5"><nuxtLink to="/profilePhotos">Photos</nuxtLink></li>
                         </ul>
                     </div>
 
@@ -657,10 +661,24 @@ export default {
       feed.isEdit =false
     },
     },
-    async asyncData({app , store}) {
+    async asyncData({app , store,query}) {
       try {
-          let {data} = await app.$axios.get(`/feed/getFeed?user_id=11`)
-          store.commit('setFeed',data)
+        //   console.log(query)
+        var user = []
+        var feedUser = []
+        let id = 0
+        if(query.id) {
+            id = query.id
+        }
+          let {data} = await app.$axios.get(`/feed/getFeed?user_id=${id}`)
+          if(data && data.feedData)
+          store.commit('setFeed',data.feedData)
+           if(data && data.feedUser)
+          feedUser = data.feedUser
+          return {
+              feedUser:feedUser,
+              id:query.id
+          }
       } catch (error) {
           console.log(error)
       }
