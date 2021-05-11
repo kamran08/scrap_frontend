@@ -20,7 +20,7 @@
                     <div class="_sign_r8_all">
                         <div class="_sign_r8_main">
                             <div class="_sign_r8_main_top">
-                                <h1>Reset Your Password</h1>
+                                <h1 class="_sign_titl">Reset Your Password</h1>
                                 <!-- <p>Let’s sign up first for enter into Uihut website. Uh She Up!</p> -->
                             </div>
 

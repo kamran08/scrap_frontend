@@ -56,6 +56,15 @@ $(document).ready(function(){
     $("._lndng2_footer_lft_btn").click(function(){
       $("._lndng2_ftr_drpdwn").toggleClass("_lndng2_ftr_drpdwn_active");
     })
+
+ $("._mbl_menu_search span").click(function(){
+      $("._mbl_menu_search_input").toggleClass("_mbl_menu_search_input_active");
+    })
+
+
+
+
+
 });
 
 

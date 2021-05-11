@@ -24,9 +24,34 @@
     flex: 1 1;
     text-align: right;
     padding: 0 10px 0;
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
 }
 ._mbl_menu_search span{
     color: #333;
+    font-size: 14px;
+    margin-left: 5px;
+    z-index: 3;
+}
+._mbl_menu_search_input{
+    border: 1px solid #c5c3c3;
+    border-radius: 35px;
+    padding: 0px 10px;
+    font-size: 11px;
+    height: 22px;
+    width: 0px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+._mbl_menu_search_input_active{
+   opacity: 1;
+   visibility: visible;
+   width: 140px;
 }
 ._mbl_menu_top_r8{
     /* height: max-content; */
@@ -38,11 +63,12 @@
     padding: 5px 10px;
     font-size: 12px;
     border-radius: 38px;
+    align-items: center;
 }
 ._mbl_menu_top_r8 span{
-    width: 16px;
-    height: 16px;
-    font-size: 8px;
+    width: 13px;
+    height: 13px;
+    font-size: 7px;
     margin-left: 4px;
 }
 ._mbl_menu_btm{
@@ -64,6 +90,39 @@
     color: #fff;
     font-size: 9px;
 }
+._sign_r8_sngl {
+    margin-bottom: 20px;
+}
+._pad_r_0{
+    padding-right: 15px;
+}
+._pad_l_0{
+    padding-left: 15px;
+}
+._sign_r8_all {
+    height: initial;
+}
+._sign_all_lft {
+    height: initial;
+}
+._transtn_top_lft {
+     margin-bottom: 0; 
+}
+._transtn_hstry_r8 .ivu-input-wrapper{
+    margin-bottom: 10px;
+}
+._transtn_table_hd, ._transtn_tbl_bdy_row {
+    min-width: 750px;
+}
+._transtn_tbl_bdy_row ul li:nth-child(3), ._transtn_table_itm:nth-child(3){
+    width: 30%;
+}
+._transtn_tbl_bdy_row ul li:nth-child(5), ._transtn_table_itm:nth-child(5){
+    width: 10%;
+}
+._privacy_r8{
+    margin-top: 25px;
+}
 ._lndng2_mbl_menu {
     display: block;
     position: fixed;
@@ -73,6 +132,7 @@
     z-index: 5;
     background: #fff;
     padding: 10px 15px;
+    border-bottom: 1px solid #e6e4e4;
 }
 ._lndng2_mbl_menu_overlay{
     display: block;
@@ -105,6 +165,11 @@
     flex: 0 0 105px;
     width: 105px;
 }
+._1dropdown._proDrop {
+    right: 19px;
+    top: 90px;
+    width: 260px;
+}
 ._mbl_menu_logo img{
     height: auto;
 }
@@ -133,7 +198,10 @@
      border-bottom: 1px solid #848484;
      color: #d4d4d4;
      width: 100%;              
-}                            
+}   
+._lndng2_mbl_menu_list_all ul li a:last-child{
+     border-bottom: 0;
+}                          
 ._close_sidbar{                      
     text-align: right;
     padding-bottom: 10px;                                                            
@@ -150,6 +218,22 @@
 }             
 ._left_sec {       
     margin-top: 20px;
+}
+._lndng2_footer_r8 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+._lndng2_footer_r8_sngl {
+    width: 33.33%;
+    margin-bottom: 20px;
+}
+._lndng2_footer_r8_titl {
+    margin-bottom: 15px;
+}
+._lndng2_ftr_drpdwn {
+    height: 160px;
+    top:60px;
 }
 ._footer_inner {
     display: block;
@@ -250,8 +334,9 @@
     flex: 0 0 100%;
     padding: 0 0 11px;
 }
-._transtn_top_lft  {
-    margin-bottom: 13px;
+._sign_all_lft_logo {
+    top: 20px;
+    left: 20px;
 }
 ._prfl_card1 {
     padding: 15px;
@@ -471,7 +556,7 @@
 }
 
 /* Small mobile */
-@media (max-width: 350px){
+@media (max-width: 375px){
 ._card1_btm ul li p {
     padding-right: 0;
     font-size: 10px;
@@ -482,17 +567,36 @@
     margin-right: 4px;
     padding: 7px 5px;
 }
-
+._mbl_menu_search_input_active {
+    width: 115px;
+}
 
 }
 
 /*Ipad*/
 @media all and (min-width: 768px) and (max-width: 1024px) {
+._landng_menu_lft {
+    width: 125px;
+}
+._landng_menu_list ul li {
+    margin-right: 12px;
+}
+._landng_menu_list ul li a {
+    font-size: 13px;
+}
 ._menu_input {
     display: none;
 }
 ._menu_input_ipad{
     display: block;
+}
+._sign_all_lft_logo {
+    top: 20px;
+    left: 30px;
+}
+._landng_menu_btn {
+    width: 90px;
+    height: 30px;
 }
 ._card1_btm ul li p {
     padding-right: 4px;
@@ -530,4 +634,9 @@
 
 
 
+}
+@media all and (min-width: 1021px) and (max-width: 1400px) {
+._lndng_cntnr{
+    max-width: 1140px;
+}
 }

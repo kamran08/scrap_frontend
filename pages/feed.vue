@@ -68,7 +68,7 @@
                                                         <img src="/img/man.jpg" alt="image">
                                                     </div>
                                                     <div class="_indx_post_card_top_titl">
-                                                        <nuxtLink to="/profile"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
+                                                        <nuxtLink :to="'/profile?id='+feed.user.id"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
                                                         <p>{{feed.created_at | formateDate}} </p>
                                                     </div>
                                                     
@@ -288,8 +288,10 @@
                 :action="BASE_URL+'feed/uploadImages'"
                 
             >
-                
-                <Button icon="ios-cloud-upload-outline">Photo</Button>
+                 <div style="width: 70px;height:58px;line-height: 58px;">
+                                    <Icon type="ios-camera" size="20"></Icon>
+                                </div>
+                <!-- <Button icon="ios-cloud-upload-outline">Photo</Button> -->
         </Upload>
         </template>
         
@@ -330,8 +332,8 @@ export default {
         likeLoad:-1,
     //   isDropdown: false,
     //   isCreateComment: false,
-      isloaded: false,
-      isHide: true,
+      isloaded: true,
+      isHide: false,
       isModal: false,
       isImage: false,
        edit_data:{
@@ -614,5 +616,8 @@ export default {
         font-size: 20px;
         cursor: pointer;
         margin: 0 2px;
+    }
+    .ivu-upload{
+            width: 74px  !important; 
     }
 </style>

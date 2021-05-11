@@ -20,7 +20,7 @@
                     <div class="_sign_r8_all _forgt_pass">
                         <div class="_sign_r8_main">
                             <div class="_sign_r8_main_top">
-                                <h1>Find Your Account</h1>
+                                <h1 class="_sign_titl">Find Your Account</h1>
                                 <p>Please enter your email address to recover your account.</p>
                             </div>              
                        

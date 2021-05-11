@@ -12,7 +12,7 @@
                             </nuxt-link>
                         </div> 
                         <div class="_sign_all_img">
-                            <img  src="/img/sign1.png">
+                            <img  src="/img/sign_up_img.svg">
                         </div>
                     </div>
                 </div>
@@ -21,8 +21,8 @@
                     <div class="_sign_r8_all">
                         <div class="_sign_r8_main">
                             <div class="_sign_r8_main_top">
-                                <h1>Welcome to Scrapbill</h1>
-                                <p>Let’s sign up first for enter into Scrapbill website. Uh She Up!</p>
+                                <h1 class="_sign_titl">WELCOME TO SCRAPABILL</h1>
+                                <p>Tell your financial story, meet people, and get cash support.</p>
                             </div>
 
                             <div class="_sign_r8_sngl_all">
@@ -76,7 +76,7 @@
                                 </div>
 
                             <div class="_signUp_card_btm">
-                                <p class="_signUp_btm_txt">Or Sign Up With</p>
+                                <!-- <p class="_signUp_btm_txt">Or Sign Up With</p>
                                 <ul>
                                     <li>
                                         <a href="http://localhost:3333/auth/google">
@@ -88,12 +88,8 @@
                                             <span><i class="fab fa-facebook-f"></i></span>
                                         </a>
                                     </li>
-                                    <!-- <li>
-                                        <a href="">
-                                            <span><i class="fab fa-twitter"></i></span>
-                                        </a>
-                                    </li> -->
-                                </ul>
+                                   
+                                </ul> -->
                                 <div class="_signUp_card_acnt _dis_flex _dis_flex_cntr1">
                                     <p>Have an account?</p>
                                      <nuxtLink to="/login">Sign In</nuxtLink> 

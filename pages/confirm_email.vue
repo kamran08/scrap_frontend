@@ -20,7 +20,9 @@
                     <div class="_sign_r8_all _forgt_pass">
                         <div class="_sign_r8_main">
                             <div class="_sign_r8_main_top">
-                                <h1>Check your email for a code</h1>
+                                <h1 class="_sign_titl">
+                                  Check your email for a code
+                               </h1>
                                 <p>We’ve sent a 6-character code to your email. The code expires shortly, so please enter it soon.</p>
                             </div>              
                        

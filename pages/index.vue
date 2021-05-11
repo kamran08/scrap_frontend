@@ -2,11 +2,13 @@
 	<div>
 		<!-- MENU -->
 	<div class="_landng_menu">
-		<div class="container">
+		<div class="container _lndng_cntnr">
 			<div class="_landng_menu_inner _dis_flex">
 				<!-- LOGO -->
 				<div class="_landng_menu_lft">
-					<img src="/img/logo2.png" alt="image">
+					<a href="">
+						<img src="/img/logo2.png" alt="image">
+					</a>
 				</div>
 				<!-- LOGO -->
 
@@ -34,7 +36,9 @@
 							</li>
 							<li>
 								<nuxt-link to="/login">
-									<Button type="primary" > Get Started</Button>
+									<Button type="primary" class="_landng_menu_btn"> 
+										Get Started
+									</Button>
 								</nuxt-link>
 							</li>
 						</ul>
@@ -51,7 +55,9 @@
 		<div class="_lndng2_mbl_menu_inner _dis_flex">
 			<div class="_lndng2_mbl_menu_lft">
 				<div class="_lndng2_mbl_menu_logo">
-					<img src="/img/logo2.png" alt="image">
+					<a href="">
+						<img src="/img/logo2.png" alt="image">
+					</a>
 				</div>
 			</div>
 			<div class="_lndng2_mbl_menu_r8">
@@ -88,6 +94,11 @@
 					<li>
 						<a href="#5">Mobile</a>
 					</li>
+					<li>
+						<nuxt-link to="/login">
+							<Button type="primary" > Get Started</Button>
+						</nuxt-link>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -96,7 +107,7 @@
 
    <!-- BANNER -->
    <div class="_lndng2_banner">
-   		<div class="container">
+   		<div class="container _lndng_cntnr">
    			<div class="row">
    				<div class="col-12 col-md-8 col-lg-8">
    					<div class="_lndng2_banner_lft">
@@ -134,7 +145,7 @@
 
    <!-- Why Scrapabill -->
    <div class="_lndng2_abt _bg_wht" id="1">
-   	   <div class="container">
+   	   <div class="container _lndng_cntnr">
    	   		<div class="_lndng2_abt_top _text_center">
    	   			<h1 class="_lndng2_title1">
    	   				Why Scrapabill?
@@ -216,7 +227,7 @@
 
    <!-- How It Works -->
    <div class="_lndng2_works" id="2">
-   		<div class="container">
+   		<div class="container _lndng_cntnr">
    			<div class="_lndng2_abt_top _text_center">
    	   			<h1 class="_lndng2_title1">
    	   				How It Works
@@ -305,7 +316,7 @@
 
    <!-- Features -->
    <div class="_lndng2_feature" id="3">
-   		<div class="container">
+   		<div class="container _lndng_cntnr">
    			<div class="row">
    				<div class="col-12 col-md-5 col-lg-4 _pad_l0">
    					<div class="_lndng2_feature_lft">
@@ -367,7 +378,7 @@
    <!-- Scrapabill For Business -->
    	<div class="_lndng2_bsns_sec_all _bg_wht">
 	   <div class="_lndng2_bsns_sec">
-	   		<div class="container">
+	   		<div class="container _lndng_cntnr">
 	   			<div class="_lndng2_bsns">
 	   				<h1>
 	   					Scrapabill For Business
@@ -384,7 +395,7 @@
 
    <!-- Mobile App -->
    <div class="_lndng2_mbl_app" id="5">
-	   	<div class="container">
+	   	<div class="container _lndng_cntnr">
 	   		<div class="_lndng2_mbl_app_inner _dis_flex">
 	   			<div class="_lndng2_mbl_app_img">
 	   				<img src="/img/mobile1.png" alt="image">
@@ -416,7 +427,7 @@
 
    <!-- Slider -->
    <div class="_lndng2_slider_sec _bg_wht">
-   		<div class="container">
+   		<div class="container _lndng_cntnr">
    			<div class="_lndng2_slider_top">
    				<h1 class="_lndng2_title1">
    					Community Reviews
@@ -569,7 +580,7 @@
 
    <!-- Membership and Compliance -->
    <div class="_lndng2_membership_sec _bg_wht">
-   		<div class="container">
+   		<div class="container _lndng_cntnr">
    			<div class="_lndng2_membership">
    				<h1 class="_lndng2_title1">
    					Membership and Compliance
@@ -593,7 +604,7 @@
    <!--  Subscribe to our newsletter  -->
    	<div class="_lndng2_sbscrbr_sec_all _bg_wht">
 	   <div class="_lndng2_sbscrbr_sec">
-	   		<div class="container">
+	   		<div class="container _lndng_cntnr">
 	   			<div class="_lndng2_sbscrbr_top _text_center">
 	   				<h1 class="_lndng2_title1"> Subscribe to our newsletter </h1>
 	   			</div>
@@ -608,7 +619,7 @@
 
    <!--  Footer  -->
    <div class="_lndng2_footer">
-   		<div class="container">
+   		<div class="container _lndng_cntnr">
    			<div class="row">
    				<div class="col-12 col-md-3 col-lg-3">
    					<div class="_lndng2_footer_lft">
