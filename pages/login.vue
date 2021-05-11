@@ -8,7 +8,7 @@
                         <div  class="_sign_all_lft_logo">
                             <nuxt-link to="/">
                                 <!-- <img  src="/img/appifylab_logo.png" alt="image"> -->
-                                <img  src="/img/logo.png" alt="image">
+                                <img  src="/img/logo2.png" alt="image">
                             </nuxt-link>
                         </div> 
                         <div class="_sign_all_img">
@@ -141,7 +141,8 @@ export default {
                window.location = "/feed";
         }
         else if(res.status==401){ 
-            this.e(res.data[0].message)
+            // this.e(res.data[0].message)
+            this.e("Invalid Credentials")
         }
         else{
             this.swr();

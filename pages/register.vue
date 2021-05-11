@@ -6,9 +6,10 @@
                 <div class="col-12 col-md-5 col-lg-5 _pad_r_0">
                     <div class="_sign_all_lft">
                         <div  class="_sign_all_lft_logo">
-                            <a href="">
-                                <img  src="/img/appifylab_logo.png" alt="image">
-                            </a>
+                            <nuxt-link to="/">
+                                <img  src="/img/logo2.png" alt="image">
+                                <!-- <img  src="/img/appifylab_logo.png" alt="image"> -->
+                            </nuxt-link>
                         </div> 
                         <div class="_sign_all_img">
                             <img  src="/img/sign1.png">
@@ -51,7 +52,7 @@
                                     <p>Password</p>
                                     <div class="_1inputreg_pass">
                                        <input :type="showPassword ? 'text' : 'password'" @keyup="error.password = '' " placeholder="Enter your password" v-model="form.password">
-                                       <!-- <span @click="eyeClick()" ><i data-v-7dbb584a="" class="fas" :class="showPassword==false? 'fa-eye': 'fa-eye-slash'"></i></span>  -->
+                                       <span @click="eyeClick()" ><i data-v-7dbb584a="" class="fas" :class="showPassword==false? 'fa-eye': 'fa-eye-slash'"></i></span> 
                                     </div>
                                     <p class="_inpt1_eror_p" v-if="error.password!=''">{{error.password}}</p>
                                 </div>
@@ -60,7 +61,7 @@
                                     <p>Confrim Password</p>
                                     <div class="_1inputreg_pass">
                                         <input :type="showPassword2 ? 'text' : 'password'" @keyup="error.repassword = '' " placeholder="Confirm your password" v-model="repassword">
-                                        <!-- <span @click="eyeClick2()" ><i data-v-7dbb584a="" class="fas" :class="showPassword2==false? 'fa-eye': 'fa-eye-slash'"></i></span> -->
+                                        <span @click="eyeClick2()" ><i data-v-7dbb584a="" class="fas" :class="showPassword2==false? 'fa-eye': 'fa-eye-slash'"></i></span>
                                     </div>
                                         <p class="_inpt1_eror_p" v-if="error.repassword!=''">{{error.repassword}}</p>
                                 </div>
@@ -247,6 +248,17 @@ export default {
 <style scoped>
 .ivu-btn[disabled]{
     background: #ce6a6a;
+}
+._1input_pass{
+  position: relative;
+}
+._1input_pass span {
+    position: absolute;
+    right: 9px;
+    top: 8px;
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
 }
 </style>
 

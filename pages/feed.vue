@@ -284,7 +284,8 @@
                 :on-format-error="handleFormatErrorCover"
                 :on-exceeded-size="handleMaxSizeCover"
                 :show-upload-list="false"
-                action="http://127.0.0.1:3333/feed/uploadImages"
+                
+                :action="BASE_URL+'feed/uploadImages'"
                 
             >
                 

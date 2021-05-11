@@ -28,8 +28,8 @@
                                     
                                     <div class="col-12 col-md-12 col-lg-12">
                                         <div class="_advertise_step_button">
-                                            <button @click="sendEmail()" class="_btn1 _btn_150" v-if="!isLoading">Send</button>
-                                            <button class="_btn1 _btn_150" style="background:#f59598;cursor:no-drop;" v-if="isLoading">Send</button>
+                                            <Button @click="sendEmail()" :loading="isLoading" :disabled="isLoading" class="_btn1 _btn_150">{{ isLoading ? 'Please wait . . .' : 'Send'}} </Button>
+                                            <!-- <button class="_btn1 _btn_150" style="background:#f59598;cursor:no-drop;" v-if="isLoading">Send</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -55,8 +55,9 @@
                                     
                                     <div class="col-12 col-md-12 col-lg-12">
                                         <div class="_advertise_step_button">
-                                            <button @click="verifyEmail()" class="_btn1 _btn_150" v-if="!isLoading2">Verify </button>
-                                            <button class="_btn1 _btn_150" style="background:#f59598;cursor:no-drop;" v-if="isLoading2">Verify</button>
+                                             <Button @click="verifyEmail()" :loading="isLoading2" :disabled="isLoading2" class="_btn1 _btn_150">{{ isLoading2 ? 'Please wait . . .' : 'Verify'}} </Button>
+                                            <!-- <button @click="verifyEmail()" class="_btn1 _btn_150" v-if="!isLoading2">Verify </button>
+                                            <button class="_btn1 _btn_150" style="background:#f59598;cursor:no-drop;" v-if="isLoading2">Verify</button> -->
                                         </div>
                                     </div>
                                 </div>

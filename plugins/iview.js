@@ -38,6 +38,7 @@ Vue.mixin({
      
     computed: {
         ...mapGetters({
+            BASE_URL:'getBaseUrl',
             authUser:'getAuthUser',
             isLoggedIn:'isLoggedIn',
             getSideBar1:'getSideBar1',

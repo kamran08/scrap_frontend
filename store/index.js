@@ -8,11 +8,15 @@ export const state = () => ({
     sideBar2:true,
     feed:[],
     comments:[],
+    BASE_URL: process.env.BASE_URL,
 })
 // common getters
 export const getters ={
   isLoggedIn (state) {
     return !!state.authUser
+  },
+   getBaseUrl (state) {
+    return state.BASE_URL;
   },
   getAuthUser (state) {
     return state.authUser

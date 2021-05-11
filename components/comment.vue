@@ -157,7 +157,7 @@ export default {
         else this.swr()
     },
     async showReply(comment, i){
-        if(comment.replies){
+        if(comment.replies && comment.replies.length){
              this.$set(comment, 'isOpen', !comment.isOpen)
             return 
         }
@@ -167,7 +167,8 @@ export default {
            let obj = res.data
            obj.comment_id =comment.id
           //  console.log(res.data)
-            this.$store.commit("setReply", obj);
+          comment.replies = obj
+            // this.$store.commit("setReply", obj);
             this.$set(comment, 'isOpen', !comment.isOpen)
             
         }
