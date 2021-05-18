@@ -148,7 +148,8 @@
    				</div>
    				<div class="col-12 col-md-4 col-lg-4 align-self: flex-end;">
    					<div class="_lndng2_banner_r8">
-   						<img src="/img/man3.jpg" alt="image">
+   						<img src="/img/banner_top.svg" alt="image">
+   						<!-- <img src="/img/man3.jpg" alt="image"> -->
    					</div>
    				</div>
    			</div>
@@ -333,7 +334,8 @@
    			<div class="row">
    				<div class="col-12 col-md-5 col-lg-4 _pad_l0">
    					<div class="_lndng2_feature_lft">
-   						<img src="/img/girl1.png" alt="image">
+   						<!-- <img src="/img/girl1.png" alt="image"> -->
+   						<img src="/img/feature.svg" alt="image">
    					</div>         
    				</div>               
    				<div class="col-12 col-md-7 col-lg-8">

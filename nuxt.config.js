@@ -74,8 +74,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: process.env.BASE_URL,
-    // baseURL: "https://api.scrapabill.com/",
+    // baseURL: process.env.BASE_URL,
+    baseURL: "https://api.scrapabill.com/",
     credentials: true
     
 
@@ -87,8 +87,8 @@ export default {
   build: {
   },
   server: {
-    // port: 8000, // default: 3000
-    port: 3000, // default: 3000
+    port: 8000, // default: 3000
+    // port: 3000, // default: 3000
     host: 'localhost' // default: localhost
   }
 

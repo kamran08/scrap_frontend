@@ -88,7 +88,7 @@
                            
                             <div class="demo-upload-list" v-for="(item,i) in feed.images" :key="i">
                                 <template v-if="item.status === 'finished'">
-                                    <img :src="item.url">
+                                    <img :src="item.response">
                                     <div class="demo-upload-list-cover">
                                         <!-- <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon> -->
                                         <Icon type="ios-trash-outline" @click.native="handleRemove(item,i)"></Icon>
@@ -109,6 +109,7 @@
                                 :max-size="10048"
                                 action="https://api.scrapabill.com/feed/uploadImages"
                                 >
+                                <!-- :action="'http://localhost:3333/'+'feed/uploadImages'" -->
                                 <!-- :action="BASE_URL+'feed/uploadImages'" -->
                                  <div style="width: 70px;height:58px;line-height: 58px;">
                                     <Icon type="ios-camera" size="20"></Icon>
@@ -253,7 +254,8 @@ export default {
           images:[],
           metaData:null,
           type:'feed',
-      }
+      },
+      
     //   image:''
     }
   },
@@ -263,15 +265,26 @@ export default {
             this.feed.images.splice(i, 1);
         },
         async handleProgressCover(event, file, fileList) {
-          this.feed.images.push(file)
-          console.log(file, 'files')
+            let a = fileList.length
+            let b = this.feed.images.length
+            if(a==b) {
+                this.$set(this.feed.images,a-1, fileList[a-1])
+            }
+            else{
+                this.feed.images.push(fileList[a-1])
+            }
+            // this.$set(this.feed,'images', JSON.parse(JSON.stringify(fileList)))
+        //   this.feed.images = JSON.parse(JSON.stringify(fileList));
+        //   console.log(fileList, 'files')
         //   console.log(this.edit_data.images)
 
             //   this.cover = file;
     },
     handleSuccess (res, file) {
-        let a =  this.feed.images.length
-        this.feed.images[a-1].url = res
+        // console.log(file, 'files')
+        // this.feed.images.push(file)
+        // let a =  this.feed.images.length
+        // this.feed.images[a-1].url = res
         // this.feed.images.push(res)
         // console.log(res)
     },
@@ -283,7 +296,7 @@ export default {
             let images = []
             if(this.feed.images.length){
                 for(let it of this.feed.images){
-                    images.push(it.url)
+                    images.push(it.response)
                 }
             }
             // this.feed.images =JSON.stringify(images)
