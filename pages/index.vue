@@ -17,7 +17,9 @@
 					<div class="_landng_menu_list">
 						<ul class="_dis_flex">
 							<li class="_active">
-								<a href="">Home</a>
+								<nuxtLink to="/">
+									<span><i class="fas fa-home"></i></span>
+								</nuxtLink>
 							</li>
 							<li>
 								<a href="#1">Why Scrapabill?</a>
@@ -37,7 +39,16 @@
 							<li>
 								<nuxt-link to="/login">
 									<Button type="primary" class="_landng_menu_btn"> 
-										Get Started
+										Login
+										<!-- Get Started -->
+									</Button>
+								</nuxt-link>
+							</li>
+							<li>
+								<nuxt-link to="/register">
+									<Button type="primary" class="_landng_menu_btn"> 
+										Sign Up
+										<!-- Get Started -->
 									</Button>
 								</nuxt-link>
 							</li>
@@ -77,7 +88,9 @@
 				<!-- CLOSE -->
 				<ul>
 					<li>
-						<a href="">Home</a>
+						<nuxtLink to="/">
+							<span><i class="fas fa-home"></i></span>
+						</nuxtLink>
 					</li>
 					<li>
 						<a href="#1">Why Scrapabill?</a>
@@ -96,7 +109,7 @@
 					</li>
 					<li>
 						<nuxt-link to="/login">
-							<Button type="primary" > Get Started</Button>
+							<Button type="primary" >Log in</Button>
 						</nuxt-link>
 					</li>
 				</ul>
@@ -119,8 +132,8 @@
    						</p>
    						<ul>
    							<li>
-   								<input type="text" placeholder="Enter Email">
-   								<button class="_lndng2_btn" @click="goToSignIn()">Get Started</button>
+   								<input v-model="email" type="text" placeholder="Enter Email">
+   								<button class="_lndng2_btn" @click="goToSignUp()">Get Started</button>
    							</li>
    							<li>
    								<button>Contact Us</button>
@@ -924,9 +937,20 @@
 <script>
 export default {
     middleware:"guest",
+	data(){
+		return{
+
+			email:''
+		}
+	},
     methods:{
-        goToSignIn(){
-            this.$router.push('/login')
+        goToSignUp(){
+			if(!this.email){
+				this.i('Put your email first');
+				return
+			}
+
+            this.$router.push('/register?email='+this.email)
         }
     }
 }

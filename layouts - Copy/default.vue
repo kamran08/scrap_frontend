@@ -297,13 +297,12 @@
       <!-- Menu -->
 
       <!-- MOBILE MENU -->
-      <div v-if="$route.path != '/' && $route.path != '/login' && $route.path != '/register' && $route.path != '/forgot_password' && $route.path != '/confirm_email' && $route.path != '/verify_email' && $route.path != '/resetPassword'"  class="_mbl_menu">
+      <div class="_mbl_menu">
         <div class="_mbl_menu_top _dis_flex_cntr1 _dis_flex">
           <div class="_mbl_menu_top_lft">
             <img src="/img/appifylab_logo.png" alt="image">
           </div>
           <div class="_mbl_menu_search">
-            <input type="text" placeholder="Search Scrapabill" class="_mbl_menu_search_input">
               <span><i class="fas fa-search"></i></span>
           </div>
           <div class="_mbl_menu_top_r8 _dis_flex_cntr1">
@@ -319,7 +318,7 @@
         <div class="_mbl_menu_btm _dis_flex_cntr1 _dis_flex">
           <ul>
             <li>
-              <nuxtLink to="/">
+              <nuxtLink to="">
                 <span><i class="fas fa-home"></i></span>
               </nuxtLink>
             </li>
@@ -345,66 +344,8 @@
               </a>
             </li>
             <li>
-              <div class="_menu_user" @mouseover="isProDrop = true" @mouseleave="isProDrop = false">
+              <div class="_menu_user">
                 <img src="/img/man.jpg" alt="image">
-               <!--   <a class="_menu_page_item"  ><i class="fas fa-sort-down"></i></a> -->
-                    <div v-if="isProDrop" class="_1dropdown _proDrop">
-                        <div class="_1dropdown_body">
-                            <div class="_proDrop_top_all">
-                              <nuxtLink class="_proDrop_top" to="/">
-                                  <div class="_proDrop_pic">
-                                    <img :src="authUser.profilePic" alt="image" title="" class="_proDrop_img">
-                                  </div>
-                                  <div class="_proDrop_details">
-                                      <p class="_proDrop_name">
-                                          {{authUser.firstName}} {{authUser.lastName}}
-                                      </p> 
-                                      <span class="_proDrop_email">{{authUser.email}}</span>
-                                  </div>
-                              </nuxtLink>
-                            </div>
-                            <ul class="_1dropdown_body_list _2dropdown_body_list _pro_drop_icon">
-                                <li>
-                                  <nuxtLink to="/transection" class=""><i class="fas fa-wallet"></i> Cash Balance</nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="/funding" class=""><i class="far fa-file-alt"></i> My Bill Support</nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="/bill" class=""><i class="far fa-file-alt"></i> My Bills </nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="/bill" class=""><i class="far fa-file-alt"></i> Enter Bill </nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="/profile" class=""><i class="fas fa-newspaper"></i> My Articles</nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="" class=""><i class="fas fa-plus"></i> Add Article</nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="/settingBasic" class=""><i class="fas fa-cog"></i> Settings</nuxtLink>
-                                </li>
-                                <li>
-                                  <a href="javascript:void(0)" @click="logout()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-                                </li>
-                            </ul>
-                            <!-- <div class="_proDrop_mode">
-                                <h2 class="_proDrop_mode_title">Dark mode</h2>
-                                <div class="_proDrop_mode_switch">
-                                  <label class="switch">
-                                    <input type="checkbox"> 
-                                    <span class="slider round"></span>
-                                  </label>
-                                </div>
-                            </div> -->
-                            <!-- <ul class="_1dropdown_body_list _2dropdown_body_list">
-                                <li>
-                                  <a href="/app/user/logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-                                </li>
-                            </ul> -->
-                        </div>
-                    </div>
               </div>
             </li>
           </ul>

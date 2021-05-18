@@ -11,7 +11,8 @@
                             </nuxt-link>                         
                         </div>      
                         <div class="_sign_all_img">             
-                            <img  src="/img/sign1.png">
+                            <img  src="/img/forgotpassword.png">
+                            <!-- <img  src="/img/sign1.png"> -->
                         </div>
                     </div>                         
                 </div>                                         

@@ -58,7 +58,7 @@
                                 </div>
 
                                 <div class="_sign_r8_sngl" :class="error.repassword!=''? '_inpt1_eror': ''">
-                                    <p>Confrim Password</p>
+                                    <p>Confirm Password</p>
                                     <div class="_1inputreg_pass">
                                         <input :type="showPassword2 ? 'text' : 'password'" @keyup="error.repassword = '' " placeholder="Confirm your password" v-model="repassword">
                                         <span @click="eyeClick2()" ><i data-v-7dbb584a="" class="fas" :class="showPassword2==false? 'fa-eye': 'fa-eye-slash'"></i></span>
@@ -67,12 +67,13 @@
                                 </div>
 
                                 <div class="_sign_r8_btn">
-                                    <Button @click="register()" :loading="isLoading" :disabled="isLoading || checkTrue==false">{{ isLoading ? 'Please wait . . .' : 'Sign Up'}}</Button>
+                                    <!-- <Button @click="register()" :loading="isLoading" :disabled="isLoading || checkTrue==false">{{ isLoading ? 'Please wait . . .' : 'Sign Up'}}</Button> -->
+                                    <Button @click="register()" :loading="isLoading" >{{ isLoading ? 'Please wait . . .' : 'Sign Up'}}</Button>
                                 </div>
 
                                 <div class="_signUp_card_agre _dis_flex_cntr1 _dis_flex">
                                     <input type="checkbox" v-model="checkTrue" @click="checkTrue=true">
-                                    <p>I Agree with Terms &amp; Condition</p>
+                                    <p>I have read and agreed to Scrapabill Terms of Service and Privacy Policy. I confirm that I am at least 18 years of age</p>
                                 </div>
 
                             <div class="_signUp_card_btm">
@@ -228,6 +229,10 @@ export default {
 
   },
   created(){
+      if(this.$route.query && this.$route.query.email){
+          this.form.email = this.$route.query.email
+      }
+
     
   },
   computed: {
