@@ -128,7 +128,7 @@
    							Get Cash Support Online to Pay Bills
    						</h1>
    						<p>
-   							Scrapabill is an online social platform where friends and family meet, interact, and tell financial stories to get cash support for bills and debts.
+   							Scrapabill is an online social platform where friends, members and family meet, interact, and tell financial stories to get cash support for bills and debts.
    						</p>
    						<ul>
    							<li>

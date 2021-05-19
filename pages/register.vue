@@ -21,7 +21,7 @@
                     <div class="_sign_r8_all">
                         <div class="_sign_r8_main">
                             <div class="_sign_r8_main_top">
-                                <h1 class="_sign_titl">WELCOME TO SCRAPABILL</h1>
+                                <h1 class="_sign_titl">Welcome to Scrapabill</h1>
                                 <p>Tell your financial story, meet people, and get cash support.</p>
                             </div>
 

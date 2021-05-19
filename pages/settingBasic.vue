@@ -74,7 +74,7 @@
                                         <div class="_1input_group">
                                             <p class="_1label">Country</p>
 
-                                            <Select style="width:100%" v-model="userData.country">
+                                            <Select style="width:100%" v-model="userData.country" filterable>
                                                 
                                                 <Option v-for="(country, index) in countries" :value="country.name" :key="index">{{country.name}}</Option>
                                                 

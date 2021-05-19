@@ -52,7 +52,7 @@
                     <div class="_indx_r8_card_pgrs">
                         <div class="_indx_r8_card_pgrs_top _dis_flex">
                             <div class="_indx_r8_card_pgrs_sngl">
-                                <p class="_clr_fnd">Process: $4,567</p>
+                                <p class="_clr_fnd">Processing: $4,567</p>
                             </div>
                             <div class="_indx_r8_card_pgrs_sngl">
                                 <p>Scrap Goal: $6,787</p>
@@ -96,7 +96,7 @@
                     <div class="_indx_r8_card_pgrs">
                         <div class="_indx_r8_card_pgrs_top _dis_flex">
                             <div class="_indx_r8_card_pgrs_sngl">
-                                <p class="_clr_fnd">Process: $4,567</p>
+                                <p class="_clr_fnd">Processing: $4,567</p>
                             </div>
                             <div class="_indx_r8_card_pgrs_sngl">
                                 <p>Scrap Goal: $6,787</p>

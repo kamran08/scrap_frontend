@@ -229,9 +229,12 @@
 
                         <template v-if="isloaded">
                             <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30">
-                                <ul class="_single_right_dead _mar_b18"><li>Deadline:01 April, 2021</li> <li>Child Education</li></ul>
+                                <!-- <ul class="_single_right_dead _mar_b18"><li>Deadline:01 April, 2021</li> <li>Child Education</li></ul>
                                 <div class="_indx_post_pgrs_qnty _mar_b15"><p>Bill Scrapped : $123</p></div>
-                                <div class="_indx_post_pgrs_qnty _mar_b15"><p>Fund Goal : $400</p></div>
+                                <div class="_indx_post_pgrs_qnty _mar_b15"><p>Fund Goal : $400</p></div> -->
+                                <ul class="_single_right_dead _mar_b18"><li>Due Date:01 April, 2021</li> <li>Child Education</li></ul>
+                                <div class="_indx_post_pgrs_qnty _mar_b15"><p>Processing : $123</p></div>
+                                <div class="_indx_post_pgrs_qnty _mar_b15"><p>Scrap Goal : $400</p></div>
                                 <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar _green" style="width: 70%; height: 14px;"><span class="sr-only">70% Complete</span></div>
                                 <div class="_mar_t20">
                                     <button class="_btn1 _btn_long" type="button">Follow this bill</button>

@@ -9,6 +9,7 @@
             <div class="_menu_logo">
               <nuxtLink to="/">
                 <img src="/img/logo.png" alt="image">
+                <!-- <img src="/img/finallogo.svg" alt="image"> -->
               </nuxtLink>
             </div>
             <!-- LOGO -->

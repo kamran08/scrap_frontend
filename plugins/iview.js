@@ -28,7 +28,12 @@ Vue.mixin({
             let months=["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                     ]
-               var dateObj = new Date(value);
+                var dateObj = new Date(value);
+                if (!isNaN(dateObj) == false) 
+                { 
+
+                    return ""
+                } 
                 var month = dateObj.getUTCMonth(); //months from 1-12
                 var day = dateObj.getUTCDate();
                 var year = dateObj.getUTCFullYear();
