@@ -189,11 +189,11 @@
                                                                 <i @click="crateFeedLike(feed,index)" class="far fa-heart" v-else></i>
                                                             </template>
                                                             
-                                                        </span>{{feed.__meta__.likes_count}}  Like
+                                                        </span>  {{(feed.meta)?feed.meta.likes_count:0}}  Like
                                                         <!-- Bill Followers -->
                                                     </li>
                                                     <li @click="showComment(feed, index)">
-                                                        <span><i class="far fa-comment"></i></span>{{feed.__meta__.comment_count}} Comments
+                                                        <span><i class="far fa-comment"></i></span>{{feed.meta.comment_count}} Comments
                                                     </li>
                                                 </ul>
                                             </div>
@@ -585,11 +585,11 @@ export default {
         if(res.status==200){
             if(res.data.hasUserLike){
                 feed.hasUserLike = false
-                feed.__meta__.likes_count--
+                feed.meta.likes_count--
             }
             else{
                 feed.hasUserLike =this.authUser
-                feed.__meta__.likes_count++
+                feed.meta.likes_count++
             }
             console.log(res.data)
         }
@@ -630,7 +630,7 @@ export default {
           
         this.s('Feed Deleted Successfully !!')
         this.getFeed.splice(i, 1);
-        // this.feed.__meta__.comment_count--
+        // this.feed.meta.comment_count--
         
       }else{
         this.swr()
@@ -668,12 +668,13 @@ export default {
       try {
         //   console.log(query)
         var user = []
-        var feedUser = []
+        var feedUser = {}
         let id = 0
         if(query.id) {
             id = query.id
         }
           let {data} = await app.$axios.get(`/feed/getFeed?user_id=${id}`)
+          console.log(data , 'feed')
           if(data && data.feedData)
           store.commit('setFeed',data.feedData)
            if(data && data.feedUser)

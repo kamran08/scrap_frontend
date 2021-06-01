@@ -10,16 +10,13 @@
                 </div>
 
                 <div class="_blog2_card_details">
-                    <nuxtLink :to="'/blogSingle/'+item.id" class="_blog2_card_name">
-                     {{item.title}}
-                        
-                    </nuxtLink>
+                   <router-link :to="'/blogSingle/'+item.id" class="_blog2_card_name">{{item.title}}</router-link>
 
                     <div class="_blog2_card_pro" v-if="item.user">
                         <div class="_blog2_card_pro_pic">
                             <img class="_blog2_card_pro_img" :src="item.user.profilePic?item.user.profilePic:'/img/avater.png'" alt="" title="">
                         </div>
-                        <p class="_blog2_card_pro_name">{{item.user.firstName}} {{item.user.lastName}} </p>
+                        <p class="_blog2_card_pro_name">{{item.user.firstName}} {{item.user.lastName}}</p>
                     </div>
                 </div>
             </div>

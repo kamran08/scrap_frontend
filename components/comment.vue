@@ -78,9 +78,9 @@
                 <template v-else>
                  <i v-if="comment.hasUserLike" class="fas fa-thumbs-up"></i> 
                  <i v-else class="far fa-thumbs-up"></i>
-                </template>{{comment.__meta__.likes_count}}
+                </template>{{comment.meta.likes_count}}
                 Like</li>
-              <li @click="showReply(comment,i)"><i style="top:2px; position:relative" class="far fa-comment-alt"></i> Reply</li>
+              <li @click="showReply(comment,i)"><i style="top:2px; position:relative" class="far fa-comment-alt"></i> Reply({{comment.meta.replys_count}})</li>
             </ul>
           </div>
           <div class="_comment_reply_time">
@@ -144,11 +144,11 @@ export default {
         if(res.status==200){
             if(res.data.hasUserLike){
                 comment.hasUserLike = false
-                comment.__meta__.likes_count--
+                comment.meta.likes_count--
             }
             else{
                 comment.hasUserLike =this.authUser
-                comment.__meta__.likes_count++
+                comment.meta.likes_count++
             }
         }
         else if(res.status==404 || res.status==401){
@@ -168,8 +168,8 @@ export default {
            obj.comment_id =comment.id
           //  console.log(res.data)
           comment.replies = obj
-            // this.$store.commit("setReply", obj);
-            this.$set(comment, 'isOpen', !comment.isOpen)
+          // this.$store.commit("setReply", obj);
+          this.$set(comment, 'isOpen', !comment.isOpen)
             
         }
         else{
@@ -182,12 +182,12 @@ export default {
       }
       const res = await this.callApi('post', 'comment/createComment', {feed_id: id, commentTxt: this.comments.commentTxt})
         //   this.$store.commit("settodos", res.data);
-      if(res.status == 201){
+      if(res.status == 201 || res.status == 200){
           // console.log(res.data)
         this.s('Comment Created Successfully !!')
         this.comments.commentTxt =''
         this.feed.comments.unshift(res.data)
-        feed.__meta__.comment_count ++
+        feed.meta.comment_count ++
         
       }else{
         this.swr()
@@ -205,7 +205,7 @@ export default {
           // console.log(res.data)
         this.s('Comment Deleted Successfully !!')
         this.feed.comments.splice(i, 1);
-        this.feed.__meta__.comment_count--
+        this.feed.meta.comment_count--
         
       }else{
         this.swr()

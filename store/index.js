@@ -112,7 +112,7 @@ export const actions = {
     //console.log('session is ', request.session)
     try {
       // get the initial data
-      let { data } = await $axios.get('myuser')
+      let { data } = await $axios.get('auth/myuser')
       commit('loginUser', data)
       //console.log(data)
 

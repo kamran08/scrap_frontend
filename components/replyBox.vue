@@ -45,7 +45,7 @@
                 <template v-else>
                  <i v-if="reply.hasUserLike" class="fas fa-thumbs-up"></i> 
                  <i v-else class="far fa-thumbs-up"></i>
-                </template> {{reply.__meta__.likes_count}} 
+                </template> {{reply.meta.likes_count}} 
                 <span class="_comment_reply_like _mar_l4"> Like</span>
               </li>
             </ul>
@@ -120,11 +120,11 @@ export default {
         if(res.status==200){
             if(res.data.hasUserLike){
                 reply.hasUserLike = false
-                reply.__meta__.likes_count--
+                reply.meta.likes_count--
             }
             else{
                 reply.hasUserLike =this.authUser
-                reply.__meta__.likes_count++
+                reply.meta.likes_count++
             }
         }
         else if(res.status==404 || res.status==401){
