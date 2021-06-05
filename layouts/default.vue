@@ -50,12 +50,13 @@
                   </li>
                     
                     <!-- Notification -->
-                  <li class="_menu_list_items _menu_list_noti">
+                  <li class="_menu_list_items _menu_list_noti" @mouseleave="tab = false">
                       <!-- <div @click="clickMenuDrop ('notiDrop')" class="_menu_noti"> -->
-                      <div @click="tab=!tab" class="_menu_noti">
+                        <!-- @click="tab=!tab" -->
+                      <div  class="_menu_noti" @mouseover="openNotificationDropDown" >
                         
-                        <span class="_noti_icon"><i class="far fa-bell"></i></span>
-                        <span class="_noti_num">2</span>
+                        <span class="_noti_icon" ><i class="far fa-bell"></i></span>
+                        <span class="_noti_num" v-if="notiCount">{{notiCount}}</span>
                     </div>
 
                     <!-- Dropdown -->
@@ -148,18 +149,18 @@
                               <li class="_active" v-for="(item, index) in allNotification" :key="index">
                                 <div class="_noti_items " :class="(item.seen)?'':'noti_active'">
                                   <div class="_noti_main" >
-                                    <div class="_noti_pic">
+                                    <div class="_noti_pic" @click="gotToUrl(item,index)">
                                       <img class="_noti_img" src="/img/pic.jpg" alt="" title=""/>
                                     </div>
 
                                     <div class="_noti_details">
-                                      <p class="_noti_details_title">
-                                        <strong class="_noti_details_title_name" >{{item.message}}</strong>
                                       <!-- comment in your post. -->
+                                      <p class="_noti_details_title" @click="gotToUrl(item,index)">
+                                        <strong class="_noti_details_title_name" >{{item.message}}</strong>
                                       </p>
 
                                       <p class="_noti_details_time">
-                                        <timeago :datetime="item.created_at" :auto-update="60"></timeago>
+                                        <timeago :datetime="item.created_at" ></timeago>
                                         </p>
                                     </div>
                                   </div>
@@ -170,8 +171,9 @@
                                         <i class="fas fa-ellipsis-h"></i>
                                       </a>
                                       <DropdownMenu slot="list">
-                                        <DropdownItem><span>Mark as read</span></DropdownItem>
-                                        <DropdownItem><span>Delete</span></DropdownItem>
+                                        <DropdownItem v-if="item.seen" ><span @click="mark_as_read_unread(item,0)">Mark as un read</span></DropdownItem>
+                                        <DropdownItem v-else ><span @click="mark_as_read_unread(item,1)">Mark as read</span></DropdownItem>
+                                        <DropdownItem ><span @click="delete_notification(item,index)">Delete</span></DropdownItem>
                                       </DropdownMenu>
                                     </Dropdown>
                                   </div>
@@ -484,11 +486,20 @@
       </div>
       <!-- FOOTER -->
     </div>
+     <FlyingNotificaiton
+        :notificData="flyingNoti"
+      />
+        <!-- v-if="getShowFlyingNotification" -->
   </div>
 </template>
 
 <script>
+import FlyingNotificaiton from "~/pages/flyingNotification.vue";
 export default {
+   components: {
+    FlyingNotificaiton,
+  },
+
   data(){
     return{
       moreDrop : false,
@@ -507,7 +518,7 @@ export default {
       isMinimize: false,
       isMobileSearch: false,
       isProDrop: false,
-      allNotification:[]
+      // allNotification:[]
     }
   },
  async asyncData({app , store}) {
@@ -524,9 +535,37 @@ export default {
       // }
   },
   methods:{
+    async gotToUrl(item,i){
+        this.mark_as_read_unread(item,1)
+        this.$router.push(item.url)
+    },
+    async openNotificationDropDown() {
+      this.tab = true
+      this.$store.commit('setNotificationCount', 0)
+    },
+    async playSound() {
+            let sound = "/pull-out.mp3";
+            let audio = new Audio(sound);
+            await audio.play();
+        },
+    async mark_as_read_unread(item,value) {
+          const res = await this.callApi('post', 'notification/seenNotification', {id:item.id,seen:value})
+          if(res.status==200){
+            this.$set(item,'seen',value)
+          }
+      },
+    async delete_notification(item,index) {
+      this.i("s")
+          const res = await this.callApi('post', 'notification/deleteNotification', {id:item.id})
+          if(res.status==200){
+            let d = this.allNotification
+             d.splice(index,1)
+             this.$store.commit('setNotification', d)
+          }
+      },
     async logout(){
       const res = await this.callApi('get','auth/logout')
-      if(res.status==204){
+      if(res.status==200){
         window.location = '/login';
       }
       else{
@@ -551,14 +590,75 @@ export default {
       
       
       return (this.tab = tab);
+    },
+    method1() {
+      /* Emit events */
+      this.socket.emit('news', {
+        hello: 'world' 
+      }, (resp) => {
+        console.log(resp);
+        /* Handle response, if any */
+      })
     }
   },
+  mounted() {
+      // this.socket = this.$nuxtSocket({
+      //   channel: '/index'
+      // })
+      // /* Listen for events: */
+      // this.socket
+      // .on('news', (msg, cb) => {
+      //   console.log(msg)
+      // })
+        const socket = io("http://localhost:3333", {
+          withCredentials: true,
+          transports: ['websocket']
+          
+        });
+
+
+        console.log("running1")
+      //  const socket = io('http://localhost:3333')
+      //  console.log(`news_${this.authUser.id}`)
+      socket.on(`news_${this.authUser.id}`, (data) => {
+        console.log("running")
+        let a = this.allNotification
+        a.push(data)
+        this.$store.commit('setNotification', a)
+        this.$store.commit('setflyingNoti', data)
+        // console.log(data, 'mynotification')
+        this.$store.commit('setNotificationCountIncriment', 1)
+        this.playSound()
+        
+        // socket.emit('my other event', { my: 'data' })
+      })
+      // socket.on(`news`, (data) => {
+      //   console.log(data)
+      //   // socket.emit('my other event', { my: 'data' })
+      // })
+    },
+
+
+
+  // mounted(){
+  //    const socket = io()
+  //     socket.on('news', (data) => {
+  //       console.log(data)
+  //       socket.emit('my other event', { my: 'data' })
+  //     })
+      
+  // },
   
   async created() {
+    if(this.authUser){
     const res =await this.callApi('get','notification/getNotification')
     if(res.status==200){
-      console.log(res)
-      this.allNotification = res.data
+
+      this.$store.commit('setNotification', res.data.notification)
+      this.$store.commit('setNotificationCount', res.data.notiCount)
+      // console.log(res)
+      // this.allNotification = res.data
+    }
     }
 
     var self3 = this;

@@ -459,7 +459,7 @@ export default {
     },
     async crateFeedLike(feed, index){
         this.likeLoad = index
-        const res = await this.callApi('post','like/createLike',{feed_id:feed.id})
+        const res = await this.callApi('post','like/createLike',{feed_id:feed.id,user_id:feed.user_id})
         this.likeLoad = -1
         if(res.status==200){
             if(res.data.hasUserLike){

@@ -139,7 +139,7 @@ export default {
     },
     async createCommentLike(comment, i){
       this.likeLoad = i
-        const res = await this.callApi('post','like/createCommentLike',{comment_id:comment.id})
+        const res = await this.callApi('post','like/createCommentLike',{comment_id:comment.id, user_id:comment.user_id,feed_id:comment.feed_id})
         this.likeLoad = -1
         if(res.status==200){
             if(res.data.hasUserLike){

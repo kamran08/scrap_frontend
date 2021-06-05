@@ -49,7 +49,9 @@ Vue.mixin({
             getSideBar1:'getSideBar1',
             getSideBar2:'getSideBar2',
             getFeed:'getFeed',
-            // getComment:'getComment',
+            allNotification:'getAllNotification',
+            notiCount:'getNotificationCount',
+            flyingNoti:'getflyingNoti',
             
         }),
     },

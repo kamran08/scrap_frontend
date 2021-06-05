@@ -37,6 +37,7 @@ export default {
       { src: "/js/jquery-1.12.4.min.js" },
       { src: "/js/main.js" },
       { src: "/js/owl.carousel.min.js" },
+      { src: "https://cdn.socket.io/4.0.1/socket.io.min.js" },
     ]
   },
   /*
@@ -68,7 +69,16 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    // 'nuxt-socket-io',
   ],
+  // io: {
+  //   // module options
+  //   sockets: [{
+  //     name: 'main',
+  //     url: 'http://localhost:3333',
+  //     // url: 'https://nuxt-socket-io.herokuapp.com'
+  //   }]
+  // },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

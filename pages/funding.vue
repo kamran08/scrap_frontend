@@ -20,7 +20,7 @@
                     <div class="_transtn_hstry _dis_flex _dis_flex_cntr1">
                         <div class="_transtn_hstry_lft">
                             <h4>Transaction History</h4>
-                            <p>View your support transation history. Say Hello to your Bill Supporters</p>
+                            <p>View your support transaction history. Say Hello to your Bill Supporters</p>
                         </div>
                         <div class="_transtn_hstry_r8 _dis_flex">
                             <div class="">

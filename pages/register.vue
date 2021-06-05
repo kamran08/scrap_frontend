@@ -189,8 +189,8 @@ export default {
         if(flag==0) return
         this.isLoading = true;
         const res = await this.callApi('post','auth/register', this.form)
-        if(res.status==204){
-            this.s("Registration Successful")
+        if(res.status==200 || res.status==201){
+            this.s("Your email verification code has been sent.")
             this.clearData2()
                window.location = "/confirm_email";
         } 

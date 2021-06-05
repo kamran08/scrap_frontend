@@ -107,7 +107,6 @@ export default {
         comment_id:'',
         replyTxt:''
       }
-      
     }
   },
 
@@ -115,7 +114,7 @@ export default {
     
     async createReplyLike(reply,i){
         this.likeLoad = i
-        const res = await this.callApi('post','like/createReplyLike',{reply_id:reply.id})
+        const res = await this.callApi('post','like/createReplyLike',{reply_id:reply.id,feed_id:reply.feed_id})
         this.likeLoad = -1
         if(res.status==200){
             if(res.data.hasUserLike){
@@ -133,9 +132,11 @@ export default {
         else this.swr()
     },
     async createReply(comment){
+      console.log(comment)
       let obj = this.replies
        obj.user_id = this.authUser.id
        obj.comment_id =comment.id
+       obj.feed_id =comment.feed_id
       //  console.log(obj.replyTxt)
       if(obj.replyTxt == ""){
           return

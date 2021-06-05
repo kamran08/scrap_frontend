@@ -10,6 +10,9 @@ export const state = () => ({
     comments:[],
     BASE_URL: process.env.BASE_URL,
     U_Id: process.env.U_Id,
+    allNotification:[],
+    notificationCount:0,
+    flyingNoti:[]
 })
 // common getters
 export const getters ={
@@ -18,6 +21,15 @@ export const getters ={
   },
    getBaseUrl (state) {
     return state.BASE_URL;
+  },
+  getAllNotification (state) {
+    return state.allNotification
+  },
+  getNotificationCount (state) {
+    return state.notificationCount
+  },
+  getflyingNoti (state) {
+    return state.flyingNoti
   },
   getAuthUser (state) {
     return state.authUser
@@ -40,6 +52,10 @@ export const getters ={
 }
 //mutations for changing data from action
 export const mutations = {
+  setflyingNoti (state,data) {
+    state.flyingNoti = data
+    // return state.flyingNoti
+  },
   loginUser(state, data) {
     state.authUser = data
   },
@@ -48,6 +64,24 @@ export const mutations = {
   },
   setSideBar2(state, data) {
       state.sideBar2 = data
+  },
+  setNotification(state, data) {
+    state.allNotification = data
+    
+  },
+  setNotificationCount(state, data) {
+    state.notificationCount = data
+    
+  },
+  setNotificationCountIncriment(state, data) {
+    state.notificationCount += data
+    
+  },
+  UpdateNotification(state, data) {
+    console.log(state.allNotification[data.index], data, "hello")
+    
+    state.allNotification[data.index].seen = data.seen
+    
   },
   setFeed(state, data) {
     state.feed = data
@@ -117,7 +151,7 @@ export const actions = {
       //console.log(data)
 
     } catch (e) {
-        console.log('nuxt server error ', e.response)
+        // console.log('nuxt server error ', e.response)
     }
   },
 }

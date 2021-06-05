@@ -101,9 +101,6 @@
                                 <div class="_sign_r8_btn">
                                     <Button @click="resetPassword()" :loading="isLoading3" :disabled="isLoading3">{{ isLoading2 ? 'Please wait . . .' : 'Reset Password'}}</Button>
                                 </div>
-
-                                
-
                             </div>
                         </div>
                     </div>
@@ -175,7 +172,7 @@ export default {
         if(res.status==200){
             this.isHide = true
             this.isHide2 = true
-            this.s("Verification Code Sent Successfully")
+            this.s("Your email verification code has been sent.")
           
         }
         else if(res.status==401){

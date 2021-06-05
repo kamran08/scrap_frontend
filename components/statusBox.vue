@@ -299,14 +299,12 @@ export default {
                     images.push(it.response)
                 }
             }
-            // this.feed.images =JSON.stringify(images)
-    // return
             let obj =  JSON.parse(JSON.stringify(this.feed))
             obj.images = JSON.stringify(images)
             obj.user_id =this.authUser.id
         	// this.loading = true
         	const res = await this.callApi('post',`feed/createFeed`, obj)
-            if(res.status==201){
+            if(res.status==200 || res.status==201 ){
                
                 this.closeStatusbox() 
                 let singleReturnedFeed =res.data

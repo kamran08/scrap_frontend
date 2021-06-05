@@ -3662,6 +3662,17 @@ input:checked + .slider:before {
   -webkit-transition: .2s all ease;
   -o-transition: .2s all ease;
   transition: .2s all ease;
+  margin-bottom:5px
+}
+._noti_more .ivu-select-dropdown .ivu-dropdown-menu{
+  padding:3px 0px;
+  display: block;
+}
+._noti_more .ivu-select-dropdown .ivu-dropdown-menu li{
+  padding:3px 10px !important;
+}
+._noti_more .ivu-select-dropdown .ivu-dropdown-menu li:hover{
+  background:#eeeeee;
 }
 ._noti_items ._noti_main:hover{
   background: transparent;
@@ -7075,3 +7086,51 @@ background: #f5f8fb;
   cursor: pointer;
 }
 /*final landing page end*/
+/*============== 11.Flying Notification ============*/
+
+._flying_noti_all {
+  position: fixed;
+  bottom: 45px;
+  left: 35px;
+  z-index: 9999;
+}
+
+._flying_noti {
+  border: 1px #e5e5e5 solid;
+  box-shadow: 0 8px 38px 3px #ddd;
+  background: #fff;
+  width: 307px;
+  padding: 15px 18px 15px;
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  align-items: center;
+}
+
+._flying_noti_icon {
+  flex: 0 0 auto;
+}
+
+._flying_noti_icon i {
+  font-size: 32px;
+}
+
+._flying_noti_details {
+  flex: 1 1;
+  padding: 0 0 00 12px;
+}
+
+._flying_noti_title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+._flying_noti_time {
+  font-size: 12px;
+  margin: 2px 0 0;
+  color: #adacac;
+}
+
+
+/*============== 11.Flying Notification ============*/
