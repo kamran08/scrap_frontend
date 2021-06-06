@@ -1,7 +1,7 @@
 <template>
   <span>
     <!-- Comment section -->
-    <div class="_1card_comment_box _1card_comment_box_top">
+    <div class="_1card_comment_box _1card_comment_box_top" id="letSee">
       <div class="_1card_comment_box_pic _load_div" v-if="authUser.profilePic">
         <img
           :src="authUser.profilePic" 
@@ -31,8 +31,9 @@
     </div>
     
   <!-- {{feed.comments}} -->
-    <div class="_comment_main" v-for="(comment, i) in feed.comments" :key="i" > 
+    <div class="_comment_main" v-for="(comment, i) in feed.comments" :key="i" :id="comment.feed_id+'_'+comment.id"> 
       <!-- <span> -->
+
       <a href="" class="_comment_pic" v-if="comment.user.profilePic"
         ><img alt="" title="" :src="comment.user.profilePic" class="_comment_img"
       /></a>
@@ -41,7 +42,7 @@
         ><img alt="" title="" src="/img/man.jpg" class="_comment_img"
       /></a>
       
-      <div class="_comment_details">
+      <div class="_comment_details" >
         <div class="_comment_details_top">
           <div class="_comment_name">
             <a href="" class="_comment_name_text"> {{comment.user.firstName}} {{comment.user.lastName}} </a>
@@ -85,7 +86,8 @@
           </div>
           <div class="_comment_reply_time">
             <p class="_comment_reply_time_text">
-              <timeago :datetime="comment.created_at" :auto-update="60"></timeago>
+              {{comment.created_at | timeSince}}
+              <!-- <timeago :datetime="comment.created_at" :auto-update="60"></timeago> -->
             </p>
           </div>
         </div>
@@ -180,7 +182,7 @@ export default {
       if(this.comments.commentTxt == ""){
           return
       }
-      const res = await this.callApi('post', 'comment/createComment', {feed_id: id, commentTxt: this.comments.commentTxt})
+      const res = await this.callApi('post', 'comment/createComment', {feed_id: id, commentTxt: this.comments.commentTxt,user_id:feed.user_id})
         //   this.$store.commit("settodos", res.data);
       if(res.status == 201 || res.status == 200){
           // console.log(res.data)

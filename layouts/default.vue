@@ -50,10 +50,12 @@
                   </li>
                     
                     <!-- Notification -->
-                  <li class="_menu_list_items _menu_list_noti" @mouseleave="tab = false">
+                  <li class="_menu_list_items _menu_list_noti" >
+                  <!-- <li class="_menu_list_items _menu_list_noti" @mouseleave="tab = false"> -->
                       <!-- <div @click="clickMenuDrop ('notiDrop')" class="_menu_noti"> -->
                         <!-- @click="tab=!tab" -->
-                      <div  class="_menu_noti" @mouseover="openNotificationDropDown" >
+                      <!-- <div  class="_menu_noti" @mouseover="openNotificationDropDown" > -->
+                      <div  class="_menu_noti" @click="openNotificationDropDown" >
                         
                         <span class="_noti_icon" ><i class="far fa-bell"></i></span>
                         <span class="_noti_num" v-if="notiCount">{{notiCount}}</span>
@@ -150,7 +152,8 @@
                                 <div class="_noti_items " :class="(item.seen)?'':'noti_active'">
                                   <div class="_noti_main" >
                                     <div class="_noti_pic" @click="gotToUrl(item,index)">
-                                      <img class="_noti_img" src="/img/pic.jpg" alt="" title=""/>
+                                      <img class="_noti_img" v-if="item.image" :src="item.image" alt="" title=""/>
+                                      <img class="_noti_img" v-else src="/img/pic.jpg" alt="" title=""/>
                                     </div>
 
                                     <div class="_noti_details">
@@ -160,7 +163,10 @@
                                       </p>
 
                                       <p class="_noti_details_time">
-                                        <timeago :datetime="item.created_at" ></timeago>
+                                          {{item.created_at | timeSince}}
+
+
+                                        <!-- <timeago :datetime="item.created_at" ></timeago> -->
                                         </p>
                                     </div>
                                   </div>
@@ -536,11 +542,12 @@ export default {
   },
   methods:{
     async gotToUrl(item,i){
-        this.mark_as_read_unread(item,1)
-        this.$router.push(item.url)
+       await this.mark_as_read_unread(item,1)
+        window.location = item.url
+        // this.$router.push(item.url)
     },
     async openNotificationDropDown() {
-      this.tab = true
+      this.tab = !this.tab
       this.$store.commit('setNotificationCount', 0)
     },
     async playSound() {

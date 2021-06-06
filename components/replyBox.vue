@@ -1,7 +1,7 @@
 <template>
   <div keys="rep0" class="_reply">
     
-    <div class="_reply_main"  v-for="(reply, i) in comment.replies" :key="i" >
+    <div class="_reply_main"  v-for="(reply, i) in comment.replies" :key="i" :id="reply.feed_id+'_'+reply.comment_id+'_'+reply.id">
       <a href="" class="_comment_pic" v-if="reply.user.profilePic"
         ><img alt="" title="" :src="reply.user.profilePic" class="_comment_img"
       /></a>
@@ -52,7 +52,8 @@
           </div>
           <div class="_comment_reply_time">
             <p class="_comment_reply_time_text">
-              <timeago :datetime="reply.created_at" :auto-update="60"></timeago>
+              {{reply.created_at | timeSince}}
+              <!-- <timeago :datetime="reply.created_at" :auto-update="60"></timeago> -->
             </p>
           </div>
         </div>
@@ -114,7 +115,7 @@ export default {
     
     async createReplyLike(reply,i){
         this.likeLoad = i
-        const res = await this.callApi('post','like/createReplyLike',{reply_id:reply.id,feed_id:reply.feed_id})
+        const res = await this.callApi('post','like/createReplyLike',{reply_id:reply.id,feed_id:reply.feed_id,comment_id:reply.comment_id})
         this.likeLoad = -1
         if(res.status==200){
             if(res.data.hasUserLike){

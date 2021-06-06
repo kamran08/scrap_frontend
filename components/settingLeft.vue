@@ -52,6 +52,32 @@
                     Add Suspend or Deactivate Account
                 </a>
             </li>
+            <li class="_setting_menu_items">
+                <a onclick="return false" class="_setting_menu_items_link">
+                    <!-- <i class="fas fa-user-cog"></i> -->
+                    Email notification:
+                     <div class="col-12 col-md-12 col-lg-12">
+                            <div class="_1chechGroup">
+                                <div class="_1chechGroup_icon">
+                                    <!-- <i class="fas fa-toggle-on"></i> -->
+                                </div>
+                                <div class="_1chechGroup_details">
+                                    <!-- <p class="_1chechGroup_title">Deactivate</p> -->
+                                </div>
+                                <div class="_1chechGroup_checkbox">
+                                    <i-switch v-if="!isLoading"  v-model="authUser.email_active"  :before-change="deactivatedAlert" @on-change="deactivated">
+                                        <span  slot="1"></span>
+                                        <span slot="0"></span>
+                                    </i-switch>
+                                    <i-switch v-else-if="isLoading" >
+                                        <span slot="1"></span>
+                                        <span slot="0"></span>
+                                    </i-switch>
+                                </div>
+                            </div>
+                        </div>
+                </a>
+            </li>
             <!-- <li :class="$route.path == '/settingNewsfeed'? '_active' : ''" class="_setting_menu_items">
                 <nuxtLink class="_setting_menu_items_link" to="/settingNewsfeed"><i class="fas fa-stream"></i> Newsfeed</nuxtLink>
             </li>
@@ -83,7 +109,13 @@ export default {
   data(){
     return{
       edit_Profile: true,
-      isSecurity: true
+      isSecurity: true,
+      isLoading:false,
+      isLoading2:false,
+      disabled:false,
+      test:true,
+      deactivateStatus:'',
+      suspendStatus:'',
     }
   },
 
@@ -98,6 +130,50 @@ export default {
         console.log(a)
         this.$store.commit('setSideBar2', !a)
     },
+     deactivatedAlert () {
+         if(this.deactivateStatus ==false){
+            return new Promise((resolve) => {
+                this.$Modal.confirm({
+                    title: 'Confirm',
+                    content: 'Are you sure to active email notification?',
+                    onOk: () => {
+                        resolve();
+                    }
+                });
+            });
+        }
+     },
+    
+
+     
+     
+     async deactivated(){
+        this.isLoading =true
+        this.isLoading2 =true
+        
+        let ob ={
+            email_active:this.authUser.email_active?1:0,
+            id:this.authUser.id
+        }
+         const res = await this.callApi('post','profile/activeDeactiveEmailNotification', ob)
+         if(res.status==200){
+            this.disabled = true
+            if(ob.email_active==1)
+             this.s("Email Notification activated successfully!")
+            else 
+             this.s("Email Notification deactived successfully!")
+             
+         }
+         else if(res.status==422){
+            for(let e of res.data.errors  )this.e(e.message);
+         }
+         else{
+             this.swr();
+         }
+         this.isLoading =false;               
+     },
+     
+     
   },
   
   created(){

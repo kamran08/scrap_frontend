@@ -6,55 +6,15 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-md-2 col-lg-3">
-                            <leftSection/>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6">
                             <!-- Status Box -->
-                            <statusBox/>
+                            <!-- <statusBox/> -->
                             <!-- Status Box -->
 
                             <div class="_indx_post_all">
-                                <!-- Shimmer -->
-                                <template v-if="isHide">
-                                    <ul class="ideXMenuShimmer">
-                                        <li class="_shim_animate"></li>
-                                        <li class="_shim_animate"></li>
-                                        <li class="_shim_animate"></li>
-                                        <li class="_shim_animate"></li>
-                                    </ul>
-                                    
-                                    <div v-for="(item, index) in 2" :key="index" class="_card_shimmer_box _box_shdw2 _mar_t30">
-                                        <div class="_card_shimmer">
-                                            <div class="_card_shimmer_profilePic _shim_animate"></div>
-                                            <div class="_card_shimmer_details">
-                                            <div class="_card_shimmer_name _shim_animate"></div>
-                                            <div class="_card_shimmer_text _shim_animate"></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="_card_shimmer_status">
-                                            <div class="_card_shimmer_status_text _shim_animate _shim_w90"></div>
-                                            <div class="_card_shimmer_status_text _shim_animate _shim_w60"></div>
-                                        </div>
-
-                                        <div class="_card_shimmer_bottom">
-                                            <div class="_card_shimmer_like like _shim_animate"></div>
-                                            <div class="_card_shimmer_like comment _shim_animate"></div>
-                                            <div class="_card_shimmer_like share _shim_animate"></div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <!-- Shimmer -->
 
                                 <template v-if="isloaded">
-                                    <div class="_indx_post_lst">
-                                        <ul class="_dis_flex">
-                                            <li class="_active">All</li>
-                                            <li>Status</li>
-                                            <!-- <li>Bill</li>
-                                            <li>Articles</li> -->
-                                        </ul>
-                                    </div>
                                     
                                     <!-- Image card --> 
                                     <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30" v-for="(feed, index) in getFeed" :key="index">
@@ -122,7 +82,7 @@
                                             <!-- Multipule image -->
                                         </div>
 
-                                        <div class="_indx_post_card_btm _dis_flex">
+                                        <div class="_indx_post_card_btm _dis_flex" :id="feed.id">
                                             <div class="_indx_post_btm_lft">
                                                 <ul>
                                                     <li>
@@ -187,7 +147,6 @@
 
                         <!-- Right Section -->
                         <div class="col-12 col-md-4 col-lg-3">
-                            <rightSection/>
                         </div>
                         <!-- Right Section -->
                     </div>
@@ -350,23 +309,45 @@ export default {
       },
     }
   },
-  created(){
-      if(this.feedId && this.replyId && this.commentId){
-
-          this.$router.push(`/feed#${this.feedId}_${this.commentId}_${this.replyId}`)
+  mounted(){
+    //   if(this.feedId){
+    //       var element = document.getElementById("63)
+    //    element.scrollIntoView({behavior: "smooth"});
+    //   }
+      if(this.feedId && this.commentId && this.replyId){
+          var element = document.getElementById(this.feedId+'_'+this.commentId+'_'+this.replyId)
+         element.scrollIntoView({behavior: "smooth"});
       }
       else if(this.feedId && this.commentId){
-
-          this.$router.push(`/feed#${this.feedId}_${this.commentId}`)
+          var element = document.getElementById(this.feedId+'_'+this.commentId)
+         element.scrollIntoView({behavior: "smooth"});
       }
       else if(this.feedId){
-
-          this.$router.push(`/feed#${this.feedId}`)
+          var element = document.getElementById(this.feedId)
+         element.scrollIntoView({behavior: "smooth"});
       }
+       
+  },
+  created(){
+     
+        // const el = document.getElementById(63)
+        // el.scrollIntoView({behavior: "smooth"});
+    //   if(this.feedId && this.replyId && this.commentId){
+
+    //       this.$router.push(`/feed#${this.feedId}_${this.commentId}_${this.replyId}`)
+    //   }
+    //   else if(this.feedId && this.commentId){
+
+    //       this.$router.push(`/feed#${this.feedId}_${this.commentId}`)
+    //   }
+    //   else if(this.feedId){
+
+    //       this.$router.push(`/feed#${this.feedId}`)
+    //   }
     //   console.log(this.$store.state.U_Id)
     //   console.log(process.env)
   },
-  async asyncData({app , store,query}) {
+  async asyncData({app , store,query,redirect}) {
       try {
           let feedId = ''
           let commentId = ''
@@ -380,12 +361,15 @@ export default {
           if(query && query.reply_id){
               replyId = query.reply_id
           }
+    if(feedId){
 
-          let {data} = await app.$axios.get(`/feed/getFeed1?feed_id=${feedId}&comment_id=${commentId}&reply_id=${replyId}`)
-          
-
-          
+        let {data} = await app.$axios.get(`/feed/getFeed1?feed_id=${feedId}&comment_id=${commentId}&reply_id=${replyId}`)
           store.commit('setFeed',data)
+    }
+    else redirect('/')
+          
+
+          
           return {
               feedId:feedId,
               replyId:replyId,
@@ -397,9 +381,7 @@ export default {
           console.log(error)
       }
   },
-    mounted () {
-            // this.edit_data.images = this.$refs.upload.fileList;
-        },
+
   methods:{
     next(){
         let a = this.nextIndex+1

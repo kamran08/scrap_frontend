@@ -147,6 +147,14 @@ export const actions = {
     try {
       // get the initial data
       let { data } = await $axios.get('auth/myuser')
+      if((data && data.email_active==1)){
+        data.email_active = true
+
+      }
+      else if((data && data.email_active==0)){
+
+        data.email_active = false
+      }
       commit('loginUser', data)
       //console.log(data)
 
