@@ -239,6 +239,7 @@
 </template>
 
 <script>
+// const urlMetadata = require('url-metadata')
 export default {
   data(){
     return{
@@ -252,9 +253,13 @@ export default {
       feed:{
           feedTxt:'',
           images:[],
+          meta:{},
           metaData:null,
           type:'feed',
       },
+      isPreviewLoading:false,
+      lastFetchUrlIndex:-1,
+      previewUrls:[]
       
     //   image:''
     }
@@ -265,6 +270,8 @@ export default {
             this.feed.images.splice(i, 1);
         },
         async handleProgressCover(event, file, fileList) {
+            this.feed.images = fileList
+            return
             let a = fileList.length
             let b = this.feed.images.length
             if(a==b) {
@@ -360,10 +367,66 @@ export default {
     },
     closeStatusbox(){
         this.isStatusboxOpen = false
-    }
+    },
+     validateURL(textval) {
+      // var urlregex = new RegExp("^(http|https|ftp)://([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&amp;%$-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0).(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9-]+.)*[a-zA-Z0-9-]+.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(/($|[a-zA-Z0-9.,?'\\+&amp;%$#=~_-]+))*$");
+      var urlregex = new RegExp("(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?");
+      // var urlregex = new RegExp("/(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/igm");
+      return urlregex.test(textval);
+    },
+    onClickDeleteMetaData() {
+      this.feed.meta = {};
+      this.isPreviewLoading = false;
+    },
+     async fetchURLPreview() {
+      if (this.feed.feedTxt.trim() == "") {
+        return;
+      }
+      // console.log('validateURL',this.validateURL(this.feed.feedTxt))
+      if (!this.validateURL(this.feed.feedTxt)) {
+        this.onClickDeleteMetaData();
+        return;
+      }
+
+      
+
+      // if (!this.validate_url.test(this.feed.feedTxt)) {
+      //   this.onClickDeleteMetaData();
+      //   return;
+      // }
+      this.previewUrls = this.getUrlsFromTxt(this.feed.feedTxt);
+      let length  = this.previewUrls.length
+      if(length -1 == this.lastFetchUrlIndex){
+        return
+      }
+      this.lastFetchUrlIndex = length - 1
+
+
+      this.isPreviewLoading = true;
+      const res = await this.callApi("post", "/app/status/get/preview", {
+        url: this.previewUrls[length-1],
+      });
+      if (res.status == 200) {
+        console.log(res.data);
+        this.statusData.meta = res.data;
+      } else {
+        // this.swr();
+        this.onClickDeleteMetaData();
+      }
+      this.isPreviewLoading = false;
+    },
   },
-  
-  created(){
+    watch: {
+    // "feed.feedTxt": function (newVal, oldVal) {
+    //   if (newVal) {
+    //     this.fetchURLPreview();
+    //   }
+    // }
+    },
+  async created(){
+
+//  let metadata =   await urlMetadata('https://www.youtube.com/watch?v=MejbOFk7H6c');
+//  console.log(metadata)
     var self = this;
       var self2 = this;
       setTimeout(function() {

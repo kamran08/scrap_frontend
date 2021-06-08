@@ -5,6 +5,7 @@ import locale from 'iview/dist/locale/en-US' // Change locale, check node_module
 Vue.use(iView, {
   locale
 })
+
  
 import { mapActions, mapGetters } from 'vuex';
 import VueTimeago from 'vue-timeago'

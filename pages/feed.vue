@@ -325,6 +325,7 @@ export default {
 
   data(){
     return{
+        flag:false,
         singleItem:{},
         editIndex:-1,
         editModal: false,
@@ -446,7 +447,16 @@ export default {
       });
     },
       async handleProgressCover(event, file, fileList) {
-          this.edit_data.images.push(file)
+          let a =0
+          for(let it of this.edit_data.images){
+              if(file.url==it.url){
+                  a=1
+              }
+          }
+          if(a==0) this.edit_data.images.push(file)
+          
+
+
           console.log(file, 'files')
         //   console.log(this.edit_data.images)
 
@@ -473,11 +483,12 @@ export default {
                 images.push(it.url)
             }
         }
-        // delete this.edit_data.images 
-        this.edit_data.images = JSON.stringify(images)
-        console.log( this.edit_data)
-        // return 
-        let res = await this.callApi('post', 'feed/updateFeed', this.edit_data)
+        let obj =  JSON.parse(JSON.stringify(this.edit_data))
+        obj.images = JSON.stringify(images)
+        // this.edit_data.images = JSON.stringify(images)
+        // console.log( this.edit_data)
+        // let res = await this.callApi('post', 'feed/updateFeed', this.edit_data)
+        let res = await this.callApi('post', 'feed/updateFeed', obj)
         if(res.status==200){
             this.edit_data = res.data
             this.edit_data.editIndex = this.editIndex

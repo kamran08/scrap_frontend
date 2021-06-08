@@ -432,6 +432,7 @@
           <div class="container">
               <div class="_footer_inner _dis_flex">
                   <div class="_footer_lft">
+                    <!-- {{flyingNoti}} -->
                       <ul class="_dis_flex">
                           <li :class="$route.path=='/company'?'_active':''">
                               <nuxtLink to="/company">Company </nuxtLink>
@@ -492,9 +493,12 @@
       </div>
       <!-- FOOTER -->
     </div>
+    <div >
+
      <FlyingNotificaiton
-        :notificData="flyingNoti"
+        :notificData="flyingNoti"  v-if="check"
       />
+    </div>
         <!-- v-if="getShowFlyingNotification" -->
   </div>
 </template>
@@ -504,6 +508,12 @@ import FlyingNotificaiton from "~/pages/flyingNotification.vue";
 export default {
    components: {
     FlyingNotificaiton,
+  },
+  computed: {
+    check(){
+      let a = this.flyingNoti
+      return a.length
+    }
   },
 
   data(){
