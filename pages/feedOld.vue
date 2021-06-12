@@ -79,8 +79,8 @@
                                                             <i class="fas fa-angle-down"></i>
                                                         </a>
                                                         <DropdownMenu slot="list">
-                                                            <DropdownItem @click.native="onClickEditFeed(feed, index)">Edit</DropdownItem>
-                                                            <DropdownItem @click.native="deleteFeed(feed, index)">Delete</DropdownItem>
+                                                            <DropdownItem><span style="cursor:pointer;" @click="onClickEditFeed(feed, index)">Edit</span></DropdownItem>
+                                                            <DropdownItem><span style="cursor:pointer;" @click="deleteFeed(feed, index)">Delete</span></DropdownItem>
                                                         </DropdownMenu>
                                                     </Dropdown>
                                                 </div>
@@ -305,23 +305,15 @@
           <template>
 
             <div class="demo-upload-list" v-for="(item,i) in edit_data.images" :key="i">
+                <template v-if="item.status === 'finished'">
                     <img :src="item.url">
                     <div class="demo-upload-list-cover">
                         <!-- <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon> -->
                         <Icon type="ios-trash-outline" @click.native="handleRemove(item,i)"></Icon>
                     </div>
-            </div>
-            
-            <div class="demo-upload-list" v-for="(item2, index2) in uploadList" :key="index2">
-                <template v-if="item2.status === 'finished'">
-                    <img :src="item2.response">
-                    <div class="demo-upload-list-cover">
-                        <!-- <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon> -->
-                        <Icon type="ios-trash-outline" @click.native="handleRemove2(index2)"></Icon>
-                    </div>
                 </template>
                 <template v-else>
-                    <Progress v-if="item2.showProgress" :percent="item2.percentage" hide-info></Progress>
+                    <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
                 </template>
             </div>
           
@@ -384,7 +376,6 @@ export default {
         singleImage: '',
         nextIndex: -1,
         likeLoad:-1,
-       uploadList:[],
         followLoading:-1,
     //   isDropdown: false,
     //   isCreateComment: false,
@@ -458,7 +449,7 @@ export default {
   methods:{
     next(){
         let a = this.nextIndex+1
-        // console.log(this.nextIndex, 'first ')
+        console.log(this.nextIndex, 'first ')
         if(a>=this.singleItemImages.length){
             this.nextIndex = 0
             return
@@ -466,7 +457,7 @@ export default {
         else {
             this.nextIndex+=1
         }
-        // console.log(this.nextIndex ,'last')
+        console.log(this.nextIndex ,'last')
     },
     previous(){
         let a = this.nextIndex-1
@@ -501,18 +492,17 @@ export default {
       });
     },
       async handleProgressCover(event, file, fileList) {
-          this.uploadList=fileList
-        //   let a =0
-        //   for(let it of this.edit_data.images){
-        //       if(file.url==it.url){
-        //           a=1
-        //       }
-        //   }
-        //   if(a==0) this.edit_data.images.push(file)
+          let a =0
+          for(let it of this.edit_data.images){
+              if(file.url==it.url){
+                  a=1
+              }
+          }
+          if(a==0) this.edit_data.images.push(file)
           
 
 
-        //   console.log(file, 'files')
+          console.log(file, 'files')
         //   console.log(this.edit_data.images)
 
             //   this.cover = file;
@@ -520,9 +510,6 @@ export default {
       handleRemove(item,i){
           this.edit_data.images.splice(i, 1);
       },
-    handleRemove2(i){
-        this.uploadList.splice(i, 1);
-    },
     handleSuccess (res, file) {
         let a =  this.edit_data.images.length
         this.edit_data.images[a-1].url = res
@@ -541,11 +528,6 @@ export default {
                 images.push(it.url)
             }
         }
-       if(this.uploadList.length){
-            for(let it2 of this.uploadList){
-                images.push(it2.response)
-            }
-        }
         let obj =  JSON.parse(JSON.stringify(this.edit_data))
         obj.images = JSON.stringify(images)
         // this.edit_data.images = JSON.stringify(images)
@@ -553,17 +535,12 @@ export default {
         // let res = await this.callApi('post', 'feed/updateFeed', this.edit_data)
         let res = await this.callApi('post', 'feed/updateFeed', obj)
         if(res.status==200){
-            this.getFeed[this.editIndex].feedTxt = res.data.feedTxt
-            this.getFeed[this.editIndex].images = res.data.images
-            this.uploadList.length =0;
+            this.edit_data = res.data
+            this.edit_data.editIndex = this.editIndex
+            this.$store.commit('setUpdateFeed',this.edit_data)
+            console.log(res.data)
             this.editIndex = -1
             this.editModal = false
-            // this.edit_data = res.data
-            // this.edit_data.editIndex = this.editIndex
-            // this.$store.commit('setUpdateFeed',this.edit_data)
-            // console.log(res.data)
-            // this.editIndex = -1
-            // this.editModal = false
         }
         else if(res.status==401){
             this.e(res.data.message)
@@ -653,7 +630,6 @@ export default {
     },
     
    onClickEditFeed(feed,i) {
-       this.uploadList.length = 0
        let feed1 = JSON.parse(JSON.stringify(feed))
        this.singleItem = JSON.parse(JSON.stringify(feed))
        this.singleItem.editIndex=i

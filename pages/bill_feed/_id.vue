@@ -126,6 +126,27 @@
                                 </div>
                             </div>
 
+                            <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30" v-if="feed.bill.doc.split('.').pop()=='pdf' || feed.bill.doc.split('.').pop()=='doc'">
+                                <p class="_follow_title">Download the docs</p>
+
+                                <div class="_follow_card_all">
+                                    <!-- Item -->
+                                    <div class="_follow_card">
+                                        <a  :href="feed.bill.doc" download class="_follow_card_pic" style="border-radius:0 !important;">
+                                            <!-- <img class="_follow_card_img" src="" alt="" title=""> -->
+                                            <i class="far fa-file-pdf" style="font-size:25px;color:red;"></i>
+                                        </a>
+
+                                        <div class="_follow_card_details">
+                                            <a class="_follow_card_name" :href="feed.bill.doc" download>Download</a>
+                                        </div>
+                                    </div>
+                                    <!-- Item -->
+                                    
+                                  
+                                </div>
+                            </div>
+
                             <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30">
                                 <p class="_follow_title">People are following</p>
 
@@ -275,6 +296,7 @@ export default {
         // if(data[0].type!='bill') redirect('/')
         // store.commit('setFeed',data)
          feed = data
+         console.log(data)
     }
     // else redirect('/')
     
