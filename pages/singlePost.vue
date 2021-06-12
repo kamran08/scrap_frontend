@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12 col-md-7 col-lg-8">
                         <!-- Shimmer -->
-                        <template v-if="isHide">
+                        <!-- <template v-if="isHide">
                             <div class="_card_shimmer_box _box_shdw2 _mar_b30">
                                 <div class="_card_shimmer">
                                     <div class="_card_shimmer_profilePic _shim_animate"></div>
@@ -26,7 +26,7 @@
                                     <div class="_card_shimmer_like share _shim_animate"></div>
                                 </div>
                             </div>
-                        </template>
+                        </template> -->
                         <!-- Shimmer -->
 
                         <template v-if="isloaded">

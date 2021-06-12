@@ -150,6 +150,7 @@ export default {
         this.s('Reply Created Successfully !!')
         
         this.comment.replies.push(res.data)
+        this.comment.meta.replys_count++
         
       }else{
         this.swr()
@@ -169,6 +170,7 @@ export default {
           // console.log(res.data)
         this.s('Reply Deleted Successfully !!')
         this.comment.replies.splice(i, 1);
+        this.comment.meta.replys_count--
         
       }else{
         this.swr()

@@ -37,14 +37,16 @@
                   <li :class="$route.path=='/transection'?'_menu_page _active_page':'_menu_page'">
                     <div class="_menu_blnc">
                       <nuxtLink class="_menu_page_item" to="/transection">
-                        <p class="_menu_page_span"><i class="fas fa-wallet"></i> Cash Balance <span>$14.5k</span></p>
+                        <p class="_menu_page_span"><i class="fas fa-wallet"></i> Cash Balance <span>${{totalBalance | formateValue}}</span></p>
                       </nuxtLink>
                     </div>
                   </li>
                   <li :class="$route.path=='/funding'?'_menu_page _active_page':'_menu_page'">
                     <div class="_menu_blnc">
                       <nuxtLink class="_menu_page_item" to="/funding">
-                        <p class="_menu_page_span"><i class="far fa-arrow-alt-circle-down"></i> Support Balance <span>$14.5k</span></p>
+                        <p class="_menu_page_span"><i class="far fa-arrow-alt-circle-down"></i> Support Balance 
+                        <!-- <span>$14.5k</span> -->
+                        </p>
                       </nuxtLink>
                     </div>
                   </li>
@@ -212,10 +214,10 @@
                   </li>
                   <!-- Notification -->
 
-                  <li :class="$route.path=='/profile'?'_menu_page _active_page _menu_user_li':'_menu_page _menu_user_li'">
+                  <li :class="$route.path=='/profile'?'_menu_page _active_page _menu_user_li':'_menu_page _menu_user_li'" v-if="authUser">
                     <a class="_menu_page_item _menu_user_items" href="/profile">
                       <div class="_menu_user_items_pic">
-                        <img v-if="authUser.profilePic" :src="authUser.profilePic" alt="image">
+                        <img v-if="authUser && authUser.profilePic" :src="authUser.profilePic" alt="image">
                         <img v-else src="/img/man.jpg" alt="image">
                       </div>
                       <p class="_menu_user_items_name" v-if="authUser">{{authUser.firstName}} {{authUser.lastName}}</p>
@@ -223,7 +225,7 @@
                     </a>
                   </li>
 
-                  <li class="_menu_more" @mouseover="isProDrop = true" @mouseleave="isProDrop = false">
+                  <li class="_menu_more" @mouseover="isProDrop = true" @mouseleave="isProDrop = false" v-if="authUser">
                       <a class="_menu_page_item"  ><i class="fas fa-sort-down"></i></a>
                       <div v-if="isProDrop" class="_1dropdown _proDrop">
                           <div class="_1dropdown_body">
@@ -353,7 +355,7 @@
                 <span class="_noti_num">2</span>
               </a>
             </li>
-            <li>
+            <li v-if="authUser">
               <div class="_menu_user" @mouseover="isProDrop = true" @mouseleave="isProDrop = false">
                 <img src="/img/man.jpg" alt="image">
                <!--   <a class="_menu_page_item"  ><i class="fas fa-sort-down"></i></a> -->
@@ -504,15 +506,32 @@
 </template>
 
 <script>
+ 
+import {  mapGetters } from 'vuex';
 import FlyingNotificaiton from "~/pages/flyingNotification.vue";
 export default {
    components: {
     FlyingNotificaiton,
   },
+     computed: {
+        ...mapGetters({
+            allNotification:'getAllNotification',
+            notiCount:'getNotificationCount',
+            flyingNoti:'getflyingNoti',
+             totalBalance:'getTotalBalance',
+            
+        }),
+    },
   computed: {
     check(){
-      let a = this.flyingNoti
-      return a.length
+      // return 0
+      let a =0
+      if(this.flyingNoti){
+        let b = this.flyingNoti
+        a= b.length
+      }
+      
+      return a
     }
   },
 
@@ -551,6 +570,15 @@ export default {
       // }
   },
   methods:{
+    async getTotalBalance(){
+       const res = await this.callApi('get','/bill/get_balance')
+            console.log(res)
+        if(res.status ==200){
+            let a  = parseFloat(res.data.total).toFixed(2)
+            // this.totalBalance = 
+            this.$store.commit('storeTotalBalance', a)
+        }
+    },
     async gotToUrl(item,i){
        await this.mark_as_read_unread(item,1)
         window.location = item.url
@@ -619,6 +647,8 @@ export default {
     }
   },
   mounted() {
+
+    
       // this.socket = this.$nuxtSocket({
       //   channel: '/index'
       // })
@@ -635,8 +665,7 @@ export default {
 
 
         console.log("running1")
-      //  const socket = io('http://localhost:3333')
-      //  console.log(`news_${this.authUser.id}`)
+      
       socket.on(`news_${this.authUser.id}`, (data) => {
         console.log("running")
         let a = this.allNotification
@@ -667,6 +696,7 @@ export default {
   // },
   
   async created() {
+    
     if(this.authUser){
     const res =await this.callApi('get','notification/getNotification')
     if(res.status==200){
@@ -676,6 +706,7 @@ export default {
       // console.log(res)
       // this.allNotification = res.data
     }
+    this.getTotalBalance()
     }
 
     var self3 = this;

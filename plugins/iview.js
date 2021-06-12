@@ -1,10 +1,23 @@
 import Vue from 'vue'
 import iView from 'iview'
 import locale from 'iview/dist/locale/en-US' // Change locale, check node_modules/iview/dist/locale
-
+import VueLuxon from "vue-luxon";
+Vue.use(VueLuxon);
 Vue.use(iView, {
   locale
 })
+// stipe
+// import { StripePlugin } from '@vue-stripe/vue-stripe';
+
+// const options = {
+//   pk: process.env.STRIPE_PUBLISHABLE_KEY,
+//   stripeAccount: process.env.STRIPE_ACCOUNT,
+//   apiVersion: process.env.API_VERSION,
+//   locale: process.env.LOCALE,
+// };
+
+// Vue.use(StripePlugin, options);
+// stipe
 
  
 import { mapActions, mapGetters } from 'vuex';
@@ -24,6 +37,17 @@ Vue.use(VueTimeago, {
 
 Vue.mixin({
     filters: {
+        makePercent: function (value1) {
+            if(value1.total_amount_scrapped){
+                let a = parseFloat(value1.total_amount_scrapped) * 100
+                return  Math.ceil(a/parseFloat(value1.amount))
+            }
+            else{
+                return 0
+            }
+
+            
+        },
         formateDate: function (value) {
             if(!value) return ""
             let months=["January", "February", "March", "April", "May", "June",
@@ -74,6 +98,7 @@ Vue.mixin({
      
     computed: {
         ...mapGetters({
+            totalBalance:'getTotalBalance',
             BASE_URL:'getBaseUrl',
             authUser:'getAuthUser',
             isLoggedIn:'isLoggedIn',

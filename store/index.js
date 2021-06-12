@@ -12,10 +12,14 @@ export const state = () => ({
     U_Id: process.env.U_Id,
     allNotification:[],
     notificationCount:0,
+    totalBalance:0,
     flyingNoti:[]
 })
 // common getters
 export const getters ={
+  getTotalBalance (state) {
+    return state.totalBalance
+  },
   isLoggedIn (state) {
     return !!state.authUser
   },
@@ -55,6 +59,10 @@ export const mutations = {
   setflyingNoti (state,data) {
     state.flyingNoti = data
     // return state.flyingNoti
+  },
+  storeTotalBalance (state,data) {
+    state.totalBalance = parseFloat(state.totalBalance)+ parseFloat(data)
+    state.totalBalance =parseFloat(state.totalBalance).toFixed(2)
   },
   loginUser(state, data) {
     state.authUser = data

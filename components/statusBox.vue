@@ -46,11 +46,11 @@
                             <p>Post a Story</p>
                             <span><i class="fas fa-arrow-right"></i></span>
                         </li>
-                        <!-- <li @click="clickBill"> 
+                        <li @click="clickBill"> 
                             <p>Post Bill</p>
                             <span><i class="fas fa-arrow-right"></i></span>
                         </li>
-                        <li @click="clickArticle">
+                        <!-- <li @click="clickArticle">
                             <p>Write an Article</p>
                             <span><i class="fas fa-arrow-right"></i></span>
                         </li> -->
@@ -123,25 +123,21 @@
                         <div v-if="isBill" class="_mar_t30">
                             <div class="row">
                                 <div class="col-12 col-md-6 col-lg-6 _mar_b20">
-                                    <Input placeholder="Bill Title*"/>
+                                    <Input v-model="billData.title" placeholder="Bill Title*"/>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6 _mar_b20">
-                                    <Select placeholder="Bill Category*" style="width:100%">
-                                        <Option>Accident</Option>
-                                        <Option>Accessories</Option>
+                                    <Select v-model="billData.category_id" placeholder="Bill Category*" style="width:100%">
+                                        <Option v-if="item && item.id" :value="item.id" v-for="(item,index) in allcategories" :key="index">{{item.name}}</Option>
                                     </Select>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6 _mar_b20">
-                                    <Select placeholder="Bill Type*" style="width:100%">
-                                        <Option>Balance</Option>
-                                        <Option>Bill</Option>
-                                        <Option>Cost</Option>
-                                        <Option>Debt</Option>
-                                        <Option>Expenses</Option>
+                                    <Select v-model="billData.type_id" placeholder="Bill Type*" style="width:100%">
+                                        <Option v-if="item && item.id" :value="item.id" v-for="(item,index) in alltypes" :key="index">{{item.name}}</Option>
                                     </Select>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6 _mar_b20">
                                      <InputNumber
+                                     v-model="billData.amount"
                                     :max="10000"
                                     style="width:100%"
                                      placeholder="Ammount*"
@@ -149,13 +145,52 @@
                                     :parser="value => value.replace(/\$\s?|(,*)/g, '')"></InputNumber>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6 _mar_b20">
-                                    <DatePicker type="date" placeholder="Due Date" style="width: 100%"></DatePicker>
+                                    <DatePicker @on-change="changeDate" v-model="billData.date" type="date" placeholder="Due Date" style="width: 100%"></DatePicker>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6">
-                                    <Input class="_mar_b20" placeholder="Bill Issuer’s Name*"/>
+                                    <Input v-model="billData.billUserName" class="_mar_b20" placeholder="Bill Issuer’s Name*"/>
                                 </div>
-                                <div class="col-12 col-md-6 col-lg-6 _mar_b20">
-                                    <Upload
+        <div class="col-12 col-md-6 col-lg-6 _mar_b20">
+
+                <template>
+
+            <div class="demo-upload-list" v-if="image">
+                <template v-if="image.status === 'finished'">
+                    <img :src="image.response">
+                    <div class="demo-upload-list-cover">
+                        <Icon type="ios-trash-outline" @click.native="handleRemove1()"></Icon>
+                    </div>
+                </template>
+                <template v-else>
+                    <Progress v-if="image.showProgress" :percent="image.percentage" hide-info></Progress>
+                </template>
+            </div>
+          
+           <Upload
+                multiple 
+                ref="uploads"
+                type="drag"
+                :on-progress="handleProgressCover1"
+                :format="['jpg','jpeg','png']"
+                :max-size="20480"
+                :on-format-error="handleFormatErrorCover1"
+                :on-exceeded-size="handleMaxSizeCover1"
+                :show-upload-list="false"
+                
+                action="https://api.scrapabill.com/feed/uploadImages"
+                
+            >
+            
+                    <div style="width: 70px;height:58px;line-height: 58px;">
+                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                            <p>Doc</p>
+                            <!-- <Icon type="ios-camera" size="20"></Icon> -->
+                        </div>
+                </Upload>
+            </template>
+
+                                    
+                                    <!-- <Upload
                                         multiple
                                         type="drag"
                                         action="//jsonplaceholder.typicode.com/posts/">
@@ -163,14 +198,15 @@
                                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                                             <p>Doc</p>
                                         </div>
-                                    </Upload>
+                                    </Upload> -->
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-6 _mar_b20">
-                                    <Input type="textarea" :rows="7" placeholder="Bill Description*"/>
+                                    <Input type="textarea" v-model="billData.descriptions"  :rows="7" placeholder="Bill Description*"/>
                                 </div>
 
                                 <div class="col-12 col-md-12 col-lg-12">
-                                    <Checkbox>I Agree With Terms & Conditions.</Checkbox>
+                                    {{billData.agree}}
+                                    <Checkbox v-model="billData.agree">I Agree With Terms & Conditions.</Checkbox>
                                 </div>
                             </div>
                         </div>
@@ -190,9 +226,14 @@
                         <!-- Article -->
                         
 
-                        <div class="_statusBox_main_bottom">
+                        <div class="_statusBox_main_bottom" v-if="isStatusbox">
                             <button type="button" class="_btn1 _btn_long" @click="createFeed()">
                                 <span class="_btn1_text">Post Story <i class="fas fa-long-arrow-alt-right"></i></span>
+                            </button>
+                        </div>
+                        <div class="_statusBox_main_bottom" v-else>
+                            <button type="button" class="_btn1 _btn_long" @click="createBill()">
+                                <span class="_btn1_text">Post A bill <i class="fas fa-long-arrow-alt-right"></i></span>
                             </button>
                         </div>
                     </div>
@@ -241,8 +282,12 @@
 <script>
 // const urlMetadata = require('url-metadata')
 export default {
+     
   data(){
     return{
+        image:'',
+        allcategories:[],
+        alltypes:[],
       isArticle : false,
       isStatusbox : false,
       isloaded: false,
@@ -259,13 +304,95 @@ export default {
       },
       isPreviewLoading:false,
       lastFetchUrlIndex:-1,
-      previewUrls:[]
+      previewUrls:[],
+      billData:{
+          title:'',
+          category_id:'',
+          type:'',
+          amount:'',
+          date:'',
+          billUserName:'',
+          doc:'',
+          descriptions:'',
+          agree:false
+      }
+
       
     //   image:''
     }
   },
 
   methods:{
+      handleRemove1(){
+          this.image = ''
+      },
+     async handleProgressCover1(event, file, fileList) {
+         this.image =file
+         console.log(this.image)
+      },
+     async handleFormatErrorCover1(event, file, fileList) {
+          this.$Notice.warning({
+        title: "The file format is incorrect",
+        desc:
+          "File format of " +
+          file.name +
+          " is incorrect, please select jpg or png or gif.",
+      });
+      },
+     async handleMaxSizeCover1(event, file, fileList) {
+         this.$Notice.warning({
+                title: "Exceeding file size limit",
+                desc: "File  " + file.name + " is too large, no more than 20M.",
+            });
+      },
+      changeDate(e){
+          this.billData.date =e
+      },
+      clearBillData(e){
+          this.billData={
+          title:'',
+          category_id:'',
+          type_id:'',
+          amount:'',
+          date:'',
+          billUserName:'',
+          doc:'',
+          descriptions:'',
+          agree:false
+      }
+      },
+        checkError(){
+            if(!this.billData.title || this.billData.title.trim()==''){
+                return "Bill title can not be empty."
+            }
+            if(!this.billData.category_id || this.billData.category_id==''){
+                return "Select Bill category"
+            }
+            if(!this.billData.type_id || this.billData.type_id==''){
+                return "Select Bill type"
+            }
+            if(!this.billData.amount || this.billData.amount==''){
+                return "Input Bill amount $"
+            }
+            if(!this.billData.date || this.billData.date==''){
+                return "Select Bill date"
+            }
+            if(!this.billData.billUserName || this.billData.billUserName.trim()==''){
+                return "Write you bill issuer name"
+            }
+            
+            if(!this.billData.doc || this.billData.doc==''){
+                return "Upload the file"
+            }
+            if(!this.billData.descriptions || this.billData.descriptions.trim()==''){
+                return "Write your bill descriptions"
+            }
+            if(!this.billData.agree){
+                return "Select check box to Agreed With our Terms & Conditions."
+            }
+            return false
+        },
+
         async handleRemove(item, i) {
             this.feed.images.splice(i, 1);
         },
@@ -332,6 +459,43 @@ export default {
             }
         //   this.loading = false
     },
+    async createBill(){
+        console.log(this.billData)
+        if(this.image && this.image.response)
+        this.billData.doc = this.image.response
+        if(this.checkError()){
+            return  this.i(this.checkError())
+        }
+
+        	const res = await this.callApi('post',`feed/createBill`, this.billData)
+            if(res.status==200 || res.status==201 ){
+               
+                this.closeStatusbox() 
+                let singleReturnedFeed =res.data
+                // singleReturnedFeed.user ={}
+                // if(this.$store.state.authUser)
+                // singleReturnedFeed.user = this.$store.state.authUser
+                let user = this.authUser
+                user.active_bill = this.billData
+                this.$store.commit('loginUser',user)
+                this.$store.commit("setNewSingleFeed", singleReturnedFeed);
+                this.s('Bill created Successfully !')
+                this.clearBillData()
+                
+            }
+            else if(res.status===401){
+                for (let i of res.data) {
+                    this.w(i.message);
+                }   
+            }
+            else if(res.status===403){
+                this.e(res.data.message)
+            }
+            else{
+                alert('error')
+            }
+        //   this.loading = false
+    },
     
     // async getFeedInfo2(){
     //     const res = await this.callApi('get',`feed/getFeed`)
@@ -348,6 +512,16 @@ export default {
         this.feed.images =[]
     },
     clickBill(){
+        if(this.authUser  && this.authUser.active_bill){
+            return this.i("You cannot have active bill running !")
+        }
+        if(this.authUser  && !this.authUser.is_following){
+            return this.i("You must follow a bill !")
+        }
+        if(this.totalBalance<20){
+            this.$router.push('/transection')
+            return this.i("You must have a minimum of $20 !")
+        }
         this.isStatusbox = false
         this.isArticle = false
         this.isStatusboxOpen = true
@@ -425,6 +599,17 @@ export default {
     },
   async created(){
 
+    const res1 = await this.callApi('get','feed/get_bill_category')
+    if(res1.status==200){
+        this.allcategories = res1.data
+    }
+    const res2 = await this.callApi('get','feed/get_bill_type')
+    if(res2.status==200){
+        this.alltypes = res2.data
+    }
+    //   console.log('categories', this.allcategories)
+    //   console.log('types', this.alltypes)
+
 //  let metadata =   await urlMetadata('https://www.youtube.com/watch?v=MejbOFk7H6c');
 //  console.log(metadata)
     var self = this;
@@ -437,7 +622,9 @@ export default {
           self2.isHide = false;
         })
     }, 1000);
-  }
+  },
+
+ 
 }
 </script>
 <style>

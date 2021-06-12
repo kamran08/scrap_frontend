@@ -57,17 +57,17 @@
                                     </div>
                                     
                                     <!-- Image card --> 
-                                    <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30" v-for="(feed, index) in getFeed" :key="index">
-                                        <div class="_indx_post_card_inner">
+                                    <div  class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30" v-for="(feed, index) in getFeed" :key="index" >
+                                        <div class="_indx_post_card_inner" v-if="feed.type=='feed'">
                                             <div class="_indx_post_card_top _dis_flex">
                                                 <div class="_indx_post_card_top_lft">
-                                                    <div class="_card1_top_img _mar_r10" v-if="feed.user.profilePic">
+                                                    <div class="_card1_top_img _mar_r10" v-if="feed.user && feed.user.profilePic">
                                                         <img :src="feed.user.profilePic" alt="image">
                                                     </div>
                                                     <div class="_card1_top_img _mar_r10" v-else>
                                                         <img src="/img/man.jpg" alt="image">
                                                     </div>
-                                                    <div class="_indx_post_card_top_titl">
+                                                    <div class="_indx_post_card_top_titl" v-if="feed.user && feed.user.firstName">
                                                         <nuxtLink :to="'/profile?id='+feed.user.id"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
                                                         <p>{{feed.created_at | formateDate}} </p>
                                                     </div>
@@ -89,18 +89,7 @@
                                                 <!-- <nuxtLink to="/singlePost"><h4 class="_clr_blck">Donate money for shelter less child education</h4></nuxtLink> -->
                                                 <p v-if="!feed.isEdit">{{feed.feedTxt}}</p>
                                                 
-                                                <!-- <div class="_1card_comment_box_input_icon" v-if="feed.isEdit">
-                                                    <div class="_1card_comment_box_input">
-                                                        <input
-                                                        type="text" v-model="editFeedInput.feedTxt" @keyup.enter="editFeed(feed)"
-                                                        />
-                                                </div>
-                                                        <i style="margin-top:12px;cursor:pointer;" class="fas fa-times" @click="cancelFeedEditinput(feed)"></i>
-                                                    </div> -->
-                                                <!-- <div class="_indx_post_red_mre _mar_t15 _dis_flex">
-                                                    <a href="" class="_clr1">Read More</a>
-                                                    <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
-                                                </div> -->
+                                               
                                             </div>
                                             
                                             <!-- Single image -->
@@ -121,6 +110,61 @@
                                             </div>
                                             <!-- Multipule image -->
                                         </div>
+                                          <div class="_indx_post_card_inner" v-else>
+                                            <div class="_indx_post_card_top _dis_flex">
+                                                <div class="_indx_post_card_top_lft">
+                                                    <div class="_card1_top_img _mar_r10" v-if="feed.user && feed.user.profilePic">
+                                                        <img :src="feed.user.profilePic" alt="image">
+                                                    </div>
+                                                    <div class="_indx_post_card_top_titl">
+                                                         <nuxtLink :to="'/profile?id='+feed.user.id"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
+                                                        <p>{{feed.created_at | formateDate}} </p>
+                                                        <!-- <p>22 March 2021</p> -->
+                                                    </div>
+                                                </div>
+                                               
+
+
+                                                <div class="_indx_post_card_top_r8" v-if="feed.bill">
+                                                    <ul>
+                                                        <li>Due Date: <p>{{feed.bill.date | formateDate}} </p></li>
+                                                        <li v-if="feed.bill.categories">{{feed.bill.categories.name}}</li>
+                                                    </ul>
+                                                </div>
+                                                  <!-- <div v-if="feed.user.id == authUser.id" class="_card_top_more">
+                                                    <Dropdown trigger="click" placement="bottom-end">
+                                                        <a class="_more" href="javascript:void(0)">
+                                                            <i class="fas fa-angle-down"></i>
+                                                        </a>
+                                                        <DropdownMenu slot="list">
+                                                            <DropdownItem><span style="cursor:pointer;" @click="onClickEditFeed(feed, index)">Edit</span></DropdownItem>
+                                                            <DropdownItem><span style="cursor:pointer;" @click="deleteFeed(feed, index)">Delete</span></DropdownItem>
+                                                        </DropdownMenu>
+                                                    </Dropdown>
+                                                </div> -->
+                                            </div>
+
+                                            <div class="_indx_post_card_txt" v-if="feed.bill">
+                                                <router-link :to="`/bill_feed/${feed.id}`"><h4 class="_clr1">{{feed.bill.title}}</h4></router-link>
+                                                <p>{{feed.bill.descriptions}}</p>
+
+                                                <div class="_indx_post_pgrs _mar_t15">
+                                                    <div class="_indx_post_pgrs_top _dis_flex">
+                                                        <div class="_indx_post_pgrs_qnty">
+                                                        <p v-if="feed.bill.total_amount_scrapped">Processing:${{feed.bill.total_amount_scrapped }}</p>
+                                                        <p v-else>Processing:$0</p>
+                                                        </div>
+                                                        <div class="_indx_post_pgrs_qnty">
+                                                            <p>Scap Goal:${{feed.bill.amount}}</p>
+                                                        </div>
+                                                    </div>
+                                                     <Progress :percent="feed.bill | makePercent" :stroke-width="20" :status="(feed.bill | makePercent==100)?'success':'active'" text-inside />
+                                                    <!-- <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:100%;height: 14px;"> -->
+                                                    <!-- <span class="sr-only">70% Complete</span>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="_indx_post_card_btm _dis_flex">
                                             <div class="_indx_post_btm_lft">
@@ -136,39 +180,30 @@
                                                         </span>{{feed.meta.likes_count}} Like
                                                         <!-- Bill Followers -->
                                                     </li>
+                                                    <li v-if="feed.type=='bill'">
+                                                         <span>
+                                                        <template v-if="followLoading==index"><i class="fas fa-spinner"></i> </template>
+                                                            <template v-else> 
+                                                                <i  class="fas fa-heart" v-if="feed.hasUserfollow"></i>
+                                                                <i @click="crateFeedFollow(feed,index)" class="far fa-heart" v-else></i>
+                                                            </template>
+                                                        </span>{{feed.meta.follow_count}} Follow
+                                                    </li>
                                                     <li @click="showComment(feed, index)">
                                                         <span><i class="far fa-comment"></i></span>{{feed.meta.comment_count}} Comments
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="_indx_post_btm_r8">
-                                                <ul>
+                                                <!-- <ul>
                                                     <li>
                                                         <span><i class="fas fa-share"></i></span>Reply
                                                     </li>
                                                     <li>
                                                         <span><i class="fas fa-share-alt"></i></span>Share
                                                     </li>
-                                                    <!-- <li class="_clr_blck">
-                                                        <span @click="isDropdown = !isDropdown"><i class="fas fa-ellipsis-h"></i></span>
-
-                                                        
-                                                        <div v-if="isDropdown" class="_indx_post_drpwn1 _box_shdw2">
-                                                            <ul>
-                                                                <li>
-                                                                    Iteam 1
-                                                                </li>
-                                                                <li>
-                                                                    Iteam 2
-                                                                </li>
-                                                                <li>
-                                                                    Iteam 3
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        
-                                                    </li> -->
-                                                </ul>
+                                               
+                                                </ul> -->
                                             </div>
                                         </div>
                                         <!-- <span v-if="feed"> -->
@@ -233,14 +268,14 @@
               <div class="_card_pic">
                 <img
                   class="_card_img"
-                  v-lazy="authUser.profilePic"
+                  v-lazy="authUser &&  authUser.profilePic"
                   alt=""
                   title=""
                 />
               </div>
 
               <div class="_card_details">
-                <p class="_card_name">
+                <p class="_card_name" v-if="authUser">
                   {{ authUser.firstName }}
                 </p>
               </div>
@@ -332,6 +367,7 @@ export default {
         singleImage: '',
         nextIndex: -1,
         likeLoad:-1,
+        followLoading:-1,
     //   isDropdown: false,
     //   isCreateComment: false,
       isloaded: true,
@@ -367,7 +403,7 @@ export default {
     //   console.log(this.$store.state.U_Id)
     //   console.log(process.env)
   },
-  async asyncData({app , store,query}) {
+ async asyncData({app , store,query}) {
       try {
           let feedId = ''
           let commentId = ''
@@ -397,7 +433,7 @@ export default {
       } catch (error) {
           console.log(error)
       }
-  },
+  }, 
     mounted () {
             // this.edit_data.images = this.$refs.upload.fileList;
         },
@@ -518,6 +554,29 @@ export default {
             console.log(res.data)
         }
         else if(res.status==404 || res.status==401){
+            this.e(res.data.message)
+        }
+        else this.swr()
+    },
+    async crateFeedFollow(feed, index){
+        this.followLoading = index
+        const res = await this.callApi('post','like/crateFeedFollow',{feed_id:feed.id,user_id:feed.user_id,bill_id:feed.bill.id})
+        this.followLoading = -1
+        if(res.status==200){
+            if(res.data.hasUserfollow){
+                feed.hasUserfollow = false
+                feed.meta.follow_count--
+            }
+            else{
+                feed.hasUserfollow =this.authUser
+                feed.meta.follow_count++
+            }
+            console.log(res.data)
+        }
+        else if(res.status==404 || res.status==401){
+            this.e(res.data.message)
+        }
+        else if(res.status==403 ){
             this.e(res.data.message)
         }
         else this.swr()
