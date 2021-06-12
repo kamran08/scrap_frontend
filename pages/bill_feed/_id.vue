@@ -127,11 +127,12 @@
                             </div>
 
                             <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30" v-if="feed.bill.doc.split('.').pop()=='pdf' || feed.bill.doc.split('.').pop()=='doc'">
-                                <p class="_follow_title">Download the docs</p>
+                                <p class="_follow_title" v-if="feed.bill.doc.split('.').pop()=='pdf'">Download the Pdf</p>
+                                <p class="_follow_title" v-if="feed.bill.doc.split('.').pop()=='doc'">Download the Doc</p>
 
                                 <div class="_follow_card_all">
                                     <!-- Item -->
-                                    <div class="_follow_card">
+                                    <div class="_follow_card" v-if="feed.bill.doc.split('.').pop()=='pdf'">
                                         <a  :href="feed.bill.doc" download class="_follow_card_pic" style="border-radius:0 !important;">
                                             <!-- <img class="_follow_card_img" src="" alt="" title=""> -->
                                             <i class="far fa-file-pdf" style="font-size:25px;color:red;"></i>
@@ -140,6 +141,23 @@
                                         <div class="_follow_card_details">
                                             <a class="_follow_card_name" :href="feed.bill.doc" download>Download</a>
                                         </div>
+                                    </div>
+                                    <!-- Item -->
+                                    <!-- Item -->
+                                    <div class="_follow_card" v-else-if="feed.bill.doc.split('.').pop()=='doc'">
+                                        <a  :href="feed.bill.doc" download class="_follow_card_pic" style="border-radius:0 !important;">
+                                            <!-- <img class="_follow_card_img" src="" alt="" title=""> -->
+                                            <i class="far fa-file-alt" style="font-size:25px;color:black;"></i>
+                                        </a>
+
+                                        <div class="_follow_card_details">
+                                            <a class="_follow_card_name" :href="feed.bill.doc" download>Download</a>
+                                        </div>
+                                    </div>
+                                    <!-- Item -->
+                                    <!-- Item -->
+                                    <div class="_follow_card" v-else>
+                                        <img class="_follow_card_img" :src="feed.bill.doc" alt="" title="">
                                     </div>
                                     <!-- Item -->
                                     
