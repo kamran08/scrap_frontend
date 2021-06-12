@@ -126,7 +126,7 @@
                                 </div>
                             </div>
 
-                            <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30" v-if="feed.bill.doc.split('.').pop()=='pdf' || feed.bill.doc.split('.').pop()=='doc'">
+                            <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30" v-if="feed.bill.doc && feed.bill.doc.split('.').pop()=='pdf' || feed.bill.doc.split('.').pop()=='doc'">
                                 <p class="_follow_title" v-if="feed.bill.doc.split('.').pop()=='pdf'">Download the Pdf</p>
                                 <p class="_follow_title" v-if="feed.bill.doc.split('.').pop()=='doc'">Download the Doc</p>
 
@@ -155,9 +155,15 @@
                                         </div>
                                     </div>
                                     <!-- Item -->
+                                </div>
+                            </div>
+                            
+                            <div class="_single_right  _box_shdw2  _mar_b20 _mar_b30" v-if="feed.bill.doc && feed.bill.doc.split('.').pop()=='jpg' || feed.bill.doc.split('.').pop()=='jpeg'  || feed.bill.doc.split('.').pop()=='png'  || feed.bill.doc.split('.').pop()=='webp' ">
+
+                                <div class="_follow_card_all">
                                     <!-- Item -->
-                                    <div class="_follow_card" v-else>
-                                        <img class="_follow_card_img" :src="feed.bill.doc" alt="" title="">
+                                    <div class="_follow_card">
+                                        <img class="_follow_card_img" :src="feed.bill.doc" width="200" height="200" alt="" title="">
                                     </div>
                                     <!-- Item -->
                                     
