@@ -92,8 +92,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: process.env.BASE_URL,
-    baseURL: "http://localhost:3333",
+    baseURL: process.env.BASE_URL,
+    // baseURL: "http://localhost:3333",
     // baseURL: "https://api.scrapabill.com/",
     credentials: true
     
