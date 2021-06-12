@@ -101,12 +101,21 @@
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all" v-else>
-                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                            <div class="_cardMulti_pic_all" v-if="feed.images && JSON.parse(feed.images).length > 1">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind"
+                                                    v-if="JSON.parse(feed.images) <= 5? ind < 5: ind < 4"
+                                                >
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
                                                 </div>
+                                                <div class="_cardMulti_pic_main"  v-if="feed.images && JSON.parse(feed.images).length > 5" >
+                                                    <div @click="imageModalOpen(feed.images,5)" class="_cardMulti_pic">
+                                                        <p class="_cardMulti_more_text">+{{ JSON.parse(feed.images).length - 5 }}</p>
+                                                        <img class="_cardMulti_img" :src="JSON.parse(feed.images)[5]" alt="" title="">
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                             <!-- Multipule image -->
                                         </div>
@@ -689,7 +698,22 @@ export default {
     
 }
 </script>
-<style>
+<style scoped>
+    ._cardMulti_more_text {
+        position: absolute;
+        background: #0400009c;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+        font-size: 35px;
+        transition: .2s all ease;
+    }
     .demo-upload-list{
         display: inline-block;
         width: 60px;
