@@ -17,7 +17,7 @@
                                 <template v-if="isloaded">
                                     
                                     <!-- Image card --> 
-                                    <div class="_indx_post_card _box_shdw2  _mar_b20 _mar_t30" v-for="(feed, index) in getFeed" :key="index">
+                                    <div class="_indx_post_card _box_shdw2  _mar_b20" v-for="(feed, index) in getFeed" :key="index">
                                         <div class="_indx_post_card_inner">
                                             <div class="_indx_post_card_top _dis_flex">
                                                 <div class="_indx_post_card_top_lft">
