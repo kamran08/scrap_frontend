@@ -37,6 +37,9 @@ Vue.use(VueTimeago, {
 
 Vue.mixin({
     filters: {
+        formateValue(value){
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
         makePercent: function (value1) {
             if(value1.total_amount_scrapped){
                 let a = parseFloat(value1.total_amount_scrapped) * 100

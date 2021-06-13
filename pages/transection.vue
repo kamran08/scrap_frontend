@@ -205,6 +205,7 @@
 </template>
 <script>
 export default {
+     middleware:"auth",
     data(){
         return{
             isModal:false,
@@ -301,9 +302,7 @@ export default {
        
     },
     filters: {
-        formateValue(value){
-            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        
     },
     async asyncData({app , store,query}) {
       try {

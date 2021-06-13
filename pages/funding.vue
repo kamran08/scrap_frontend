@@ -7,7 +7,7 @@
                         <div class="_transtn_top_lft _dis_flex _dis_flex_cntr1">
                             <span class="_clr1"><i class="far fa-arrow-alt-circle-down"></i></span>
                             <p class="_transtn_top_txt1">Support Balance </p>
-                            <p class="_transtn_top_txt2">${{ total }}</p>
+                            <p class="_transtn_top_txt2">${{ total.toFixed(2) | formateValue}}</p>
                         </div>
                         <div class="_transtn_top_r8">
                             <a class="_bg_clr1" href="">
@@ -26,7 +26,7 @@
                             <div class="">
                                 <Input placeholder="Search" style="width: 200px; margin-right:10px;" />
                                 <Select v-model="billId" placeholder="Select Bill" style="width:200px" filterable @on-change="getGainById(billId)">
-                                    <Option v-for="(bill,index) in allBills" :key="index" :value="bill.id">{{bill.title}}</Option>
+                                    <Option v-for="(bill,index) in allBills" :key="index" :value="index">{{bill.title}}</Option>
                                     <!-- <Option>Bill Two</Option> -->
                                 </Select>
                                 <!-- <p>Select Bill</p>
@@ -78,23 +78,23 @@
                         <!-- TABLE BODY -->
 
                         <!-- ROW -->
-                        <div v-for="(bill,i) in allBillsBy" :key="i" class="_transtn_tbl_bdy_row _amnt_top _dis_flex_cntr1 _dis_flex">
+                        <div v-for="(bill,i) in allBillsBy.gain" :key="i" class="_transtn_tbl_bdy_row _amnt_top _dis_flex_cntr1 _dis_flex">
                             <ul>
                                 <li>
                                     <span class="_down"><i class="fas fa-arrow-down"></i></span>
                                     <p>{{ bill.bill_id }}</p>
                                 </li>
                                 <li>
-                                    <!-- <p>{{ singleBill.title }}</p> -->
+                                    <p>{{ allBillsBy.title }}</p>
                                 </li>
                                 <li>
                                     <div class="_table_pro">
                                         
-                                        <div class="_table_pro_pic">
-                                            <img class="_table_pro_img" src="/static/img/man.jpg" alt="" title="">
+                                        <div class="_table_pro_pic" v-if="bill.supporters && bill.supporters.profilePic">
+                                            <img class="_table_pro_img" :src="bill.supporters.profilePic" alt="" title="">
                                         </div>
 
-                                        <p class="_table_pro_name">{{ bill.supporters.firstName }}</p>
+                                        <p class="_table_pro_name">{{ bill.supporters.firstName }} {{ bill.supporters.lastName }}</p>
                                     </div>
                                 </li>
                                 <li>
@@ -118,11 +118,12 @@
 
 <script>
 export default {
+     middleware:"auth",
     data(){
         return{
             billId:'',
             allBillsBy:[],
-            total:''
+            total:0.00
             
         }
     },
@@ -135,8 +136,14 @@ export default {
     },
     async asyncData({app , store}) {
         try {
+            var allBillsBy = []
             let {data} = await app.$axios.get('bill/get_all_support_bill')
-            return { allBills: data }
+            if(data.length){
+                allBillsBy = data[0]
+            }
+            return { allBills: data,
+                     allBillsBy:allBillsBy
+                 }
         //    console.log("from async data",data)
 
         } catch (error) {
@@ -144,18 +151,24 @@ export default {
         }
     },
     methods:{
-        async getGainById(id){
-        const res = await this.callApi('get','/bill/get_single_support_bill_byId/'+id)
-            if(res.status == 200){
-                this.allBillsBy = res.data
-                
-                const total = res.data.reduce((sum, equity) => {
-                return sum + equity.amount;
-                }, 0)
-                this.total =total;
-                
+        async get_total_balance(){
+            const res = await this.callApi('get','/bill/get_all_support_bill_total_balance')
+            if(res.status ==200){
+                this.total = res.data.total
             }
+        },
+        async getGainById(index){
+            console.log(index)
+            if(this.allBills && this.allBills[index])
+            this.allBillsBy = this.allBills[index]
+        // const res = await this.callApi('get','/bill/get_single_support_bill_byId/'+id)
+        //     if(res.status == 200){
+        //         this.allBillsBy = res.data
+        //     }
         }
+    },
+    created(){
+        this.get_total_balance()
     }
     
 }
