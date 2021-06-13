@@ -93,26 +93,26 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all" v-if="JSON.parse(feed.images).length==1">
-                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                            <div class="_card_status_pic_all" v-if="feed.images && feed.images.length==1">
+                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
                                                     <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
                                             </div>
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all" v-if="feed.images && JSON.parse(feed.images).length > 1">
-                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind"
-                                                    v-if="JSON.parse(feed.images) <= 5? ind < 5: ind < 4"
+                                            <div class="_cardMulti_pic_all" v-if="feed.images && feed.images.length > 1">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind"
+                                                    v-if="feed.images <= 5? ind < 5: ind < 4"
                                                 >
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
                                                 </div>
-                                                <div class="_cardMulti_pic_main"  v-if="feed.images && JSON.parse(feed.images).length > 5" >
+                                                <div class="_cardMulti_pic_main"  v-if="feed.images && feed.images.length > 5" >
                                                     <div @click="imageModalOpen(feed.images,5)" class="_cardMulti_pic">
-                                                        <p class="_cardMulti_more_text">+{{ JSON.parse(feed.images).length - 5 }}</p>
-                                                        <img class="_cardMulti_img" :src="JSON.parse(feed.images)[5]" alt="" title="">
+                                                        <p class="_cardMulti_more_text">+{{ feed.images.length - 5 }}</p>
+                                                        <img class="_cardMulti_img" :src="feed.images[5]" alt="" title="">
                                                     </div>
                                                 </div>
                                                 
@@ -438,7 +438,15 @@ export default {
 
           let {data} = await app.$axios.get(`/feed/getFeed1?feed_id=${feedId}&comment_id=${commentId}&reply_id=${replyId}`)
           
-
+        // for(let item of data){
+        //     //  console.log(data)
+        //     //  console.log("data")
+        //     //  console.log("data")
+        //     // if(item.images){
+               
+        //     //    item.images=  JSON.parse(item.images)
+        //     // }
+        // }
           
           store.commit('setFeed',data)
           return {
@@ -481,7 +489,8 @@ export default {
 
     },
       imageModalOpen(feed,i){
-          this.singleItemImages = JSON.parse(feed)
+          this.singleItemImages = feed
+        //   JSON.parse(feed)
           this.nextIndex = i
           this.isImage = true
       },

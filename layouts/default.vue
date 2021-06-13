@@ -215,14 +215,14 @@
                   <!-- Notification -->
 
                   <li :class="$route.path=='/profile'?'_menu_page _active_page _menu_user_li':'_menu_page _menu_user_li'" v-if="authUser">
-                    <a class="_menu_page_item _menu_user_items" href="/profile">
+                    <nuxt-link class="_menu_page_item _menu_user_items" to="/profile">
                       <div class="_menu_user_items_pic">
                         <img v-if="authUser && authUser.profilePic" :src="authUser.profilePic" alt="image">
                         <img v-else src="/img/man.jpg" alt="image">
                       </div>
                       <p class="_menu_user_items_name" v-if="authUser">{{authUser.firstName}} {{authUser.lastName}}</p>
                       <p class="_menu_user_items_name" v-else></p>
-                    </a>
+                    </nuxt-link>
                   </li>
 
                   <li class="_menu_more" @mouseover="isProDrop = true" @mouseleave="isProDrop = false" v-if="authUser">
@@ -519,6 +519,7 @@ export default {
             notiCount:'getNotificationCount',
             flyingNoti:'getflyingNoti',
              totalBalance:'getTotalBalance',
+             authUser:'getAuthUser',
             
         }),
     },

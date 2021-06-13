@@ -19,7 +19,7 @@
                                     <!-- Image card --> 
                                     <div class="_indx_post_card _box_shdw2  _mar_b20" v-for="(feed, index) in getFeed" :key="index">
                                         <div class="_indx_post_card_inner">
-                                            <div class="_indx_post_card_top _dis_flex">
+                                            <div class="_indx_post_card_top _dis_flex" v-if="feed.user">
                                                 <div class="_indx_post_card_top_lft">
                                                     <div class="_card1_top_img _mar_r10" v-if="feed.user.profilePic">
                                                         <img :src="feed.user.profilePic" alt="image">
@@ -188,7 +188,7 @@
           <div>
         <div class="_modal_content">
           <div class="_statusEdit_top _mar_b15">
-            <div class="_card_top">
+            <div class="_card_top" v-if="authUser">
               <div class="_card_pic">
                 <img
                   class="_card_img"
