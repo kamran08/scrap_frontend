@@ -87,7 +87,7 @@
                                             </div>
                                             <div class="_indx_post_card_txt">
                                                 <!-- <nuxtLink to="/singlePost"><h4 class="_clr_blck">Donate money for shelter less child education</h4></nuxtLink> -->
-                                                <p v-if="!feed.isEdit">{{feed.feedTxt}}</p>
+                                                <p >{{feed.feedTxt}}</p>
                                                 
                                                
                                             </div>
