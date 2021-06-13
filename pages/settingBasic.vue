@@ -33,8 +33,9 @@
                                     :on-success="handleSuccess"
                                     :format="['jpg','jpeg','png']"
                                     :max-size="10048"
-                                     action="https://api.scrapabill.com/feed/uploadImages"
+                                     action="http://127.0.0.1:3333/profile/uploadImages"
                                     >
+                                    <!-- action="https://api.scrapabill.com/feed/uploadImages" -->
                                     <!-- action="http://127.0.0.1:3333/profile/uploadImages" -->
                                     <span><i class="ivu-icon ivu-icon-ios-camera"></i></span>
                                 </Upload>
@@ -203,7 +204,7 @@ export default {
   },
   
   created(){
-      this.userData = JSON.parse(JSON.stringify(this.authUser))
+    this.userData = JSON.parse(JSON.stringify(this.authUser))
     this.getCountry()
     // this.userData =this.authUser
     // this.getUserInfo()
