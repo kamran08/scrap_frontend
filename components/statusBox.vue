@@ -151,7 +151,7 @@
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <Input v-model="billData.billUserName" class="_mar_b20" placeholder="Bill Issuer’s Name*"/>
                                 </div>
-                                <div class="col-12 col-md-6 col-lg-6 _mar_b20">
+                                <div class="col-12 col-md-12 col-lg-12 _mar_b20">
 
                 <template>
 
@@ -201,7 +201,7 @@
                                         </div>
                                     </Upload> -->
                                 </div>
-                                <div class="col-12 col-md-6 col-lg-6 _mar_b20">
+                                <div class="col-12 col-md-12 col-lg-12 _mar_b20">
                                     <Input type="textarea" v-model="billData.descriptions"  :rows="7" placeholder="Bill Description*"/>
                                 </div>
 
