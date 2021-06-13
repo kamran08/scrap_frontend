@@ -105,11 +105,12 @@
                                 :on-progress="handleProgressCover"
                                 :on-success="handleSuccess"
                                 :show-upload-list="false"
-                                :format="['jpg','jpeg','png']"
+                                :format="['jpg','jpeg','png','webp']"
                                 :max-size="10048"
-                                action="https://api.scrapabill.com/feed/uploadImages"
+                                :action="'http://localhost:3333/feed/uploadImages'"
                                 >
-                                <!-- :action="'http://localhost:3333/'+'feed/uploadImages'" -->
+                                <!-- action="https://api.scrapabill.com/feed/uploadImages" -->
+                                <!--  -->
                                 <!-- :action="BASE_URL+'feed/uploadImages'" -->
                                  <div style="width: 70px;height:58px;line-height: 58px;">
                                     <Icon type="ios-camera" size="20"></Icon>
@@ -150,7 +151,7 @@
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <Input v-model="billData.billUserName" class="_mar_b20" placeholder="Bill Issuer’s Name*"/>
                                 </div>
-        <div class="col-12 col-md-6 col-lg-6 _mar_b20">
+                                <div class="col-12 col-md-6 col-lg-6 _mar_b20">
 
                 <template>
 
@@ -328,7 +329,7 @@ export default {
       },
      async handleProgressCover1(event, file, fileList) {
          this.image =file
-         console.log(this.image)
+        //  console.log(this.image)
       },
      async handleFormatErrorCover1(event, file, fileList) {
           this.$Notice.warning({
@@ -398,15 +399,15 @@ export default {
         },
         async handleProgressCover(event, file, fileList) {
             this.feed.images = fileList
-            return
-            let a = fileList.length
-            let b = this.feed.images.length
-            if(a==b) {
-                this.$set(this.feed.images,a-1, fileList[a-1])
-            }
-            else{
-                this.feed.images.push(fileList[a-1])
-            }
+            // return
+            // let a = fileList.length
+            // let b = this.feed.images.length
+            // if(a==b) {
+            //     this.$set(this.feed.images,a-1, fileList[a-1])
+            // }
+            // else{
+            //     this.feed.images.push(fileList[a-1])
+            // }
             // this.$set(this.feed,'images', JSON.parse(JSON.stringify(fileList)))
         //   this.feed.images = JSON.parse(JSON.stringify(fileList));
         //   console.log(fileList, 'files')
@@ -446,6 +447,7 @@ export default {
                 
                 this.$store.commit("setNewSingleFeed", singleReturnedFeed);
                 this.s('Feed created Successfully !')
+                this.feed.images.length =0;
                 this.clearData()
                 
             }

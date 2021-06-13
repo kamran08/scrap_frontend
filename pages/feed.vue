@@ -337,7 +337,7 @@
                 :on-exceeded-size="handleMaxSizeCover"
                 :show-upload-list="false"
                 
-                action="https://api.scrapabill.com/feed/uploadImages"
+                :action="'http://localhost:3333/feed/uploadImages'"
                 
             >
                 <!-- :action="BASE_URL+'feed/uploadImages'" -->
@@ -524,8 +524,8 @@ export default {
         this.uploadList.splice(i, 1);
     },
     handleSuccess (res, file) {
-        let a =  this.edit_data.images.length
-        this.edit_data.images[a-1].url = res
+        // let a =  this.edit_data.images.length
+        // this.edit_data.images[a-1].url = res
     },
     closeModal(){
         this.$store.commit('setUpdateFeed',this.singleItem)

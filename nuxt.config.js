@@ -93,8 +93,8 @@ export default {
   */
   axios: {
     // baseURL: process.env.BASE_URL,
-    // baseURL: "http://localhost:3333",
-    baseURL: "https://api.scrapabill.com/",
+    baseURL: "http://localhost:3333",
+    // baseURL: "https://api.scrapabill.com/",
     credentials: true
     
 
