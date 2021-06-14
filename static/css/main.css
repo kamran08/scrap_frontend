@@ -7186,8 +7186,19 @@ background: #f5f8fb;
     font-weight: 600;
     margin: 0 0 9px;
 }
-.{}
-.{}
+._notiPage_card_left {
+    display: flex;
+    align-items: center;
+    flex: 1 1;
+}
+._notiPage_card_drop{}
+._notiPage_card_drop_text{
+    color: #333;
+    font-size: 16px;
+}
+._notiPage_card_drop_text:hover {
+    color: #da1f26;
+}
 .{}
 .{}
 /*============== 12.Notification page ============*/
