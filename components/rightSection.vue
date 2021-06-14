@@ -32,6 +32,7 @@
 
             <template v-if="isloaded">
                 <!-- CARD -->
+              
                 <div class="_indx_r8_card _box_shdw2 _mar_b20" v-for="(item,index) in billData" :key="index">
                     <div class="_indx_r8_card_top _dis_flex" v-if="item.user">
                         <div class="_indx_r8_card_pic" v-if="item.user.profilePic">
@@ -43,20 +44,23 @@
                         </div>
                     </div>
 
-                    <h4 class="_indx_r8_card_title">I need help to pay my house rent</h4>
+                    <h4 class="_indx_r8_card_title" v-if="item.bill">{{item.bill.title}}</h4>
 
-                    <div class="_indx_r8_card_pgrs">
+                    <div class="_indx_r8_card_pgrs" v-if="item.bill">
                         <div class="_indx_r8_card_pgrs_top _dis_flex">
                             <div class="_indx_r8_card_pgrs_sngl">
-                                <p class="_clr_fnd">Processing: $4,567</p>
+                                 <p class="_clr_fnd" v-if="item.bill.total_amount_scrapped">Processing:${{item.bill.total_amount_scrapped }}</p>
+                                <p class="_clr_fnd" v-else>Processing:$0</p>
+                                <!-- <p class="_clr_fnd">Processing: $4,567</p> -->
                             </div>
                             <div class="_indx_r8_card_pgrs_sngl">
-                                <p>Scrap Goal: $6,787</p>
+                                <p>Scrap Goal: ${{item.bill.amount}}</p>
                             </div>
                         </div>
-                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;height: 14px;">
+                        <Progress :percent="item.bill | makePercent" :stroke-width="20" :status="(item.bill | makePercent==100)?'success':'active'" text-inside />
+                        <!-- <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;height: 14px;">
                             <span class="sr-only">70% Complete</span>
-                            </div>
+                            </div> -->
                     </div>
 
                     <div class="_indx_r8_card_btm _dis_flex">
@@ -65,7 +69,13 @@
                             <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
                         </div>
                         <div class="_indx_r8_card_btm_r8">
-                            <span class="_clr1"><i class="far fa-heart"></i></span>
+                              <template v-if="followLoading==index"><i class="fas fa-spinner"></i> </template>
+                                <template v-else> 
+                                    <i class="fas fa-heart" v-if="item.hasUserfollow"></i>
+                                    <i @click="crateFeedFollow(item,index)" class="far fa-heart" v-else></i>
+                                </template>
+
+                            <!-- <span class="_clr1"><i class="far fa-heart"></i></span> -->
                         </div>
                     </div>
                 </div>
@@ -81,6 +91,7 @@
 export default {
   data(){
     return{
+      followLoading: -1,
       isloaded: false,
       isHide: true,
       billData:[]
@@ -88,7 +99,29 @@ export default {
   },
 
   methods:{
-      
+          async crateFeedFollow(feed, index){
+            this.followLoading = index
+            const res = await this.callApi('post','like/crateFeedFollow',{feed_id:feed.id,user_id:feed.user_id,bill_id:feed.bill.id})
+            this.followLoading = -1
+            if(res.status==200){
+                if(res.data.hasUserfollow){
+                    feed.hasUserfollow = false
+                    feed.meta.follow_count--
+                }
+                else{
+                    feed.hasUserfollow =this.authUser
+                    feed.meta.follow_count++
+                }
+                console.log(res.data)
+            }
+            else if(res.status==404 || res.status==401){
+                this.e(res.data.message)
+            }
+            else if(res.status==403 ){
+                this.e(res.data.message)
+            }
+            else this.swr()
+    },
   },
   
   async created() {
@@ -98,6 +131,7 @@ export default {
         if(res.status == 200){
             this.isHide=false
             this.billData = res.data
+            this.isloaded =true
         }
   }
 }

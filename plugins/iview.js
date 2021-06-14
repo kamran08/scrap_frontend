@@ -107,7 +107,6 @@ Vue.mixin({
             isLoggedIn:'isLoggedIn',
             getSideBar1:'getSideBar1',
             getSideBar2:'getSideBar2',
-            getFeed:'getFeed',
             allNotification:'getAllNotification',
             notiCount:'getNotificationCount',
             flyingNoti:'getflyingNoti',

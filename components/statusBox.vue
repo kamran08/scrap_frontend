@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Shimmer -->
-        <template v-if="isHide">
+        <!-- <template v-if="isHide">
             <div class="_card1 _box_shdw2 _mar_b30">
                 <div class="_statusBox_shimmer">
                     <div class="_statusBox_shimmer_pic _shim_animate"></div>
@@ -17,23 +17,23 @@
                     </ul>
                 </div>
             </div>
-        </template>
+        </template> -->
         <!-- Shimmer -->
 
-        <template v-if="isloaded">
+        <template v-if="$store.state.authUser">
             <div :class="isStatusboxOpen ? '_statusBox_open _statusBox _mar_b20' : '_statusBox'" class="_card1 _box_shdw2 _mar_b30">
-                <div class="_card1_top _dis_flex _dis_flex_cntr1" v-if="authUser.profilePic">
+                <div class="_card1_top _dis_flex _dis_flex_cntr1" v-if="$store.state.authUser.profilePic">
                     <router-link to="/profile" class="_card1_top_img _mar_r10">
-                        <img :src="authUser.profilePic" alt="image">
+                        <img :src="$store.state.authUser.profilePic" alt="image">
                     </router-link>
-                    <router-link to="/profile" class="_titl1">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                    <router-link to="/profile" class="_titl1">{{$store.state.authUser.firstName}} {{$store.state.authUser.lastName}}</router-link>
                 </div>
                 
                 <div class="_card1_top _dis_flex _dis_flex_cntr1" v-else>
                     <router-link to="/profile" class="_card1_top_img _mar_r10">
                         <img src="/img/man.jpg" alt="image">
                     </router-link>
-                    <router-link to="/profile" class="_titl1">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                    <router-link to="/profile" class="_titl1">{{$store.state.authUser.firstName}} {{$store.state.authUser.lastName}}</router-link>
                 </div>
 
                 <div class="_card1_inpt" @click="clickStatusbox">
@@ -61,9 +61,9 @@
                     <div class="_statusBox_main _padd">
                         <p class="_statusBox_close" @click="closeStatusbox"><Icon type="md-close" /></p>
                         <div class="_statusBox_main_top">
-                            <div class="_statusBox_main_pic"><img :src="authUser.profilePic" alt="" title="" class="_statusBox_main_img _1border_color" /></div>
+                            <div class="_statusBox_main_pic"><img :src="$store.state.authUser.profilePic" alt="" title="" class="_statusBox_main_img _1border_color" /></div>
                             <div class="_statusBox_main_details">
-                                <p class="_statusBox_main_name"><a href="" class="_3link">{{authUser.firstName}} {{authUser.lastName}}</a></p>
+                                <p class="_statusBox_main_name"><a href="" class="_3link">{{$store.state.authUser.firstName}} {{$store.state.authUser.lastName}}</a></p>
                                 <div class="_statusBox_main_drop">
                                     <p class="_status_public" @click="isStatusType = true">Public</p>
                                     <!-- <Dropdown trigger="click" placement="bottom-start">

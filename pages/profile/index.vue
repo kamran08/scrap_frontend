@@ -160,8 +160,8 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all" v-if="JSON.parse(feed.images).length==1">
-                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                            <div class="_card_status_pic_all" v-if="feed.images.length==1">
+                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
                                                     <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
                                             </div>
@@ -169,7 +169,7 @@
 
                                             <!-- Multipule image -->
                                             <div class="_cardMulti_pic_all" v-else>
-                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind">
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
@@ -526,10 +526,16 @@
 
 <script>
 import commentBox from '~/components/comment.vue'
+import {  mapGetters } from 'vuex';
 export default {
     middleware:"auth",
       components: {
         commentBox,
+    },
+       computed: {
+        ...mapGetters({
+            getFeed:'getFeed'
+        }),
     },
     data(){
         return {

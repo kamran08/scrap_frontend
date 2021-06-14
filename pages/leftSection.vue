@@ -5,8 +5,9 @@
         <div class="_blog2_card">
             <!-- Item -->
             <div class="_blog2_card_items" v-for="(item, index) in allnews" :key="index">
-                <div class="_blog2_card_pic">
-                    <img class="_blog2_card_img" :src="item.image" alt="" title="">
+                <div class="_blog2_card_pic" v-if="item.thumbnail">
+                    <img class="_blog2_card_img" src="https://api.scrapabill.com/uploads/1622460073318.jpeg" alt="" title="">
+                    <!-- <img class="_blog2_card_img" :src="item.thumbnail" alt="" title=""> -->
                 </div>
 
                 <div class="_blog2_card_details">

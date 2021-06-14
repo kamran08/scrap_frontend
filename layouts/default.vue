@@ -518,8 +518,8 @@ export default {
             allNotification:'getAllNotification',
             notiCount:'getNotificationCount',
             flyingNoti:'getflyingNoti',
-             totalBalance:'getTotalBalance',
-             authUser:'getAuthUser',
+            totalBalance:'getTotalBalance',
+            authUser:'getAuthUser',
             
         }),
     },

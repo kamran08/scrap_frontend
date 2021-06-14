@@ -272,7 +272,7 @@ import statusBox from '~/components/statusBox.vue'
 import commentBox from '~/components/comment.vue'
 import rightSection from '~/components/rightSection.vue'
 import leftSection from '~/components/leftSection.vue'
-
+import {  mapGetters } from 'vuex';
 export default {
     middleware:"auth",
   components: {
@@ -314,6 +314,7 @@ export default {
     //       var element = document.getElementById("63)
     //    element.scrollIntoView({behavior: "smooth"});
     //   }
+    if(this.getFeed){
       if(this.feedId && this.commentId && this.replyId){
           var element = document.getElementById(this.feedId+'_'+this.commentId+'_'+this.replyId)
          element.scrollIntoView({behavior: "smooth"});
@@ -326,7 +327,7 @@ export default {
           var element = document.getElementById(this.feedId)
          element.scrollIntoView({behavior: "smooth"});
       }
-       
+       }
   },
   created(){
      

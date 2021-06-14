@@ -58,7 +58,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-     { src: '@/plugins/iview', ssr: false },
+     { src: '@/plugins/iview', ssr: true },
      { src: '@/plugins/stripe', ssr: false },
   ],
   /*

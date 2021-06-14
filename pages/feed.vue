@@ -15,7 +15,7 @@
 
                             <div class="_indx_post_all">
                                 <!-- Shimmer -->
-                                <template v-if="isHide">
+                                <!-- <template v-if="isHide">
                                     <ul class="ideXMenuShimmer">
                                         <li class="_shim_animate"></li>
                                         <li class="_shim_animate"></li>
@@ -43,10 +43,10 @@
                                             <div class="_card_shimmer_like share _shim_animate"></div>
                                         </div>
                                     </div>
-                                </template>
+                                </template> -->
                                 <!-- Shimmer -->
 
-                                <template v-if="isloaded">
+                                <template >
                                     <div class="_indx_post_lst">
                                         <ul class="_dis_flex">
                                             <li class="_active">All</li>
@@ -73,7 +73,7 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <div v-if="feed.user.id == authUser.id" class="_card_top_more">
+                                                <div v-if="feed.user.id == $store.state.authUser.id" class="_card_top_more">
                                                     <Dropdown trigger="click" placement="bottom-end">
                                                         <a class="_more" href="javascript:void(0)">
                                                             <i class="fas fa-angle-down"></i>
@@ -93,7 +93,7 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all" v-if="JSON.parse(feed.images).length==1">
+                                            <div class="_card_status_pic_all" v-if="feed && feed.images && JSON.parse(feed.images).length==1">
                                                 <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
                                                     <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
@@ -101,7 +101,7 @@
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all" v-else-if="feed.images && JSON.parse(feed.images).length > 1">
+                                            <div class="_cardMulti_pic_all" v-else-if="feed && feed.images && JSON.parse(feed.images).length > 1">
                                                 <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind"
                                                     v-if="JSON.parse(feed.images) <= 5? ind < 5: ind < 4"
                                                 >
@@ -109,13 +109,13 @@
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
                                                 </div>
-                                                <div class="_cardMulti_pic_main"  v-if="feed.images && JSON.parse(feed.images).length > 5" >
+                                                <div class="_cardMulti_pic_main"  v-if="feed && feed.images && JSON.parse(feed.images).length > 5" >
                                                     <div @click="imageModalOpen(feed.images,5)" class="_cardMulti_pic">
                                                         <p class="_cardMulti_more_text">+{{ JSON.parse(feed.images).length - 5 }}</p>
                                                         <img class="_cardMulti_img" :src="JSON.parse(feed.images)[5]" alt="" title="">
                                                     </div>
                                                 </div>
-                                                
+                                
                                             </div>
                                             <!-- Multipule image -->
                                         </div>
@@ -365,17 +365,22 @@ import statusBox from '~/components/statusBox.vue'
 import commentBox from '~/components/comment.vue'
 import rightSection from '~/components/rightSection.vue'
 import leftSection from '~/components/leftSection.vue'
-
+import {  mapGetters } from 'vuex';
 export default {
     middleware:"auth",
-  components: {
-    statusBox,
-    commentBox,
-    rightSection,
-    leftSection
-  },
-
+    components: {
+        statusBox,
+        commentBox,
+        rightSection,
+        leftSection
+    },
+    computed: {
+        ...mapGetters({
+            getFeed:'getFeed'
+        }),
+    },
   data(){
+
     return{
         flag:false,
         singleItem:{},
@@ -406,18 +411,18 @@ export default {
     }
   },
   created(){
-      if(this.feedId && this.replyId && this.commentId){
+    //   if(this.feedId && this.replyId && this.commentId){
 
-          this.$router.push(`/feed#${this.feedId}_${this.commentId}_${this.replyId}`)
-      }
-      else if(this.feedId && this.commentId){
+    //       this.$router.push(`/feed#${this.feedId}_${this.commentId}_${this.replyId}`)
+    //   }
+    //   else if(this.feedId && this.commentId){
 
-          this.$router.push(`/feed#${this.feedId}_${this.commentId}`)
-      }
-      else if(this.feedId){
+    //       this.$router.push(`/feed#${this.feedId}_${this.commentId}`)
+    //   }
+    //   else if(this.feedId){
 
-          this.$router.push(`/feed#${this.feedId}`)
-      }
+    //       this.$router.push(`/feed#${this.feedId}`)
+    //   }
     //   console.log(this.$store.state.U_Id)
     //   console.log(process.env)
   },
@@ -437,9 +442,6 @@ export default {
           }
 
           let {data} = await app.$axios.get(`/feed/getFeed1?feed_id=${feedId}&comment_id=${commentId}&reply_id=${replyId}`)
-          
-
-          
           store.commit('setFeed',data)
           return {
               feedId:feedId,
