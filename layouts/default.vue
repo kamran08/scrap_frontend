@@ -15,25 +15,25 @@
             <!-- LOGO -->
 
             <!-- MIDDLE -->
-            <div class="_menu_mdl">
+            <div class="_menu_mdl" >
               <!-- Ipad search -->
               <div class="_menu_input_ipad">
                 <i class="fas fa-search"></i>
               </div>
               <!-- Ipad search -->
-              <div class="_menu_input">
-                <span><i class="fas fa-search"></i></span>
-                <input type="text" placeholder="Search Scrapabill">
+              <div class="_menu_input" >
+                <span><i class="fas fa-search" v-if="authUser"></i></span>
+                <input v-if="authUser"  type="text" placeholder="Search Scrapabill">
               </div>
 
               <div class="_menu_home">
-                <ul>
+                <ul >
                   <li :class="$route.path=='/feed'?'_menu_page _active_page':'_menu_page'">
-                    <nuxtLink class="_menu_page_item" to="/feed"><span><i class="fas fa-home"></i></span></nuxtLink>
+                    <nuxtLink class="_menu_page_item" to="/"><span><i class="fas fa-home"></i></span></nuxtLink>
                   </li>
-                  <li :class="$route.path=='/bill'?'_menu_page _active_page':'_menu_page'">
-                    <nuxtLink class="_menu_page_item" to="/bill"><span><i class="far fa-file-alt"></i></span></nuxtLink>
-                  </li>
+                <template v-if="authUser">
+                  <!-- <
+                     -->
                   <li :class="$route.path=='/transection'?'_menu_page _active_page':'_menu_page'">
                     <div class="_menu_blnc">
                       <nuxtLink class="_menu_page_item" to="/transection">
@@ -50,9 +50,13 @@
                       </nuxtLink>
                     </div>
                   </li>
-                    
+                </template>
+                <!-- <template v-if="!authUser">
+
+                  
+                </template> -->
                     <!-- Notification -->
-                  <li class="_menu_list_items _menu_list_noti" >
+                  <li class="_menu_list_items _menu_list_noti" v-if="authUser">
                   <!-- <li class="_menu_list_items _menu_list_noti" @mouseleave="tab = false"> -->
                       <!-- <div @click="clickMenuDrop ('notiDrop')" class="_menu_noti"> -->
                         <!-- @click="tab=!tab" -->
@@ -64,7 +68,7 @@
                     </div>
 
                     <!-- Dropdown -->
-                    <div v-if="tab" class="_1dropdown _noti_all">
+                    <div v-if="tab" class="_1dropdown _noti_all" >
                       <div class="_1dropdown_title">
                         <p class="_1dropdown_title_text _3title">Notifications</p>
 
@@ -242,7 +246,7 @@
                                     </div>
                                 </nuxtLink>
                               </div>
-                              <ul class="_1dropdown_body_list _2dropdown_body_list _pro_drop_icon">
+                              <ul class="_1dropdown_body_list _2dropdown_body_list _pro_drop_icon" >
                                   <li>
                                     <nuxtLink to="/transection" class=""><i class="fas fa-wallet"></i> Cash Balance</nuxtLink>
                                   </li>
@@ -291,7 +295,7 @@
             <!-- MIDDLE -->
 
             <!-- RIGHT -->
-            <div class="_menu_r8">
+            <div class="_menu_r8" v-if="authUser">
               <ul class="_dis_flex">
                 <li>
                   <a href="">
@@ -317,7 +321,7 @@
             <input type="text" placeholder="Search Scrapabill" class="_mbl_menu_search_input">
               <span><i class="fas fa-search"></i></span>
           </div>
-          <div class="_mbl_menu_top_r8 _dis_flex_cntr1">
+          <div class="_mbl_menu_top_r8 _dis_flex_cntr1" v-if="authUser">
             <a href="">
               Enter bill
               <span class="_icon_crcle2">
@@ -349,7 +353,7 @@
                 <span><i class="fas fa-briefcase"></i></span>
               </a>
             </li>
-            <li class="_mbl_notfcn">
+            <li class="_mbl_notfcn" v-if="authUser">
               <a href="">
                 <span><i class="far fa-bell"></i></span>
                 <span class="_noti_num">2</span>
@@ -387,12 +391,12 @@
                                 <li>
                                   <nuxtLink to="/bill" class=""><i class="far fa-file-alt"></i> Enter Bill </nuxtLink>
                                 </li>
-                                <li>
+                                <!-- <li>
                                   <nuxtLink to="/profile" class=""><i class="fas fa-newspaper"></i> My Articles</nuxtLink>
                                 </li>
                                 <li>
                                   <nuxtLink to="" class=""><i class="fas fa-plus"></i> Add Article</nuxtLink>
-                                </li>
+                                </li> -->
                                 <li>
                                   <nuxtLink to="/settingBasic" class=""><i class="fas fa-cog"></i> Settings</nuxtLink>
                                 </li>
@@ -449,7 +453,7 @@
                               <nuxtLink to="/legal">Legal </nuxtLink>
                           </li>
                           <li :class="$route.path=='/help'?'_active':''">
-                              <nuxtLink to="/help">Help</nuxtLink>
+                              <nuxtLink to="/faq">Faq</nuxtLink>
                           </li>
                       </ul>
                   </div>

@@ -2,8 +2,8 @@
     <span>
          <ul class="_faq_left">
              <!-- v-for="(item, index) in faqCategory" :key="index" -->
-               <li class="_active"  v-for="(item, index) in faqCategory" :key="index">
-                    <nuxtLink :to="'/faq/'+item.id" style="color: white;" v-if="item">
+               <li :class="(tab==index)?'_active':''"  v-for="(item, index) in faqCategory" :key="index" @click="tab=index">
+                    <nuxtLink :to="'/faq/'+item.id" :style="(tab==index)?'color: white;':''" v-if="item">
                             {{item.name}}
                     </nuxtLink>
                 </li>
@@ -27,6 +27,7 @@
 export default {
     data(){
         return{
+            tab:0,
             faqCategory:[]
         }
     },
