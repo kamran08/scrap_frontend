@@ -356,8 +356,8 @@
               </a>
             </li>
             <li v-if="authUser">
-              <div class="_menu_user" @mouseover="isProDrop = true" @mouseleave="isProDrop = false">
-                <img src="/img/man.jpg" alt="image">
+              <div class="_menu_user" @click="isProDrop = !isProDrop" >
+                <img :src="authUser.profilePic" alt="image">
                <!--   <a class="_menu_page_item"  ><i class="fas fa-sort-down"></i></a> -->
                     <div v-if="isProDrop" class="_1dropdown _proDrop">
                         <div class="_1dropdown_body">

@@ -24,12 +24,12 @@
                                     <companyTitle />
                                 </div>
 
-                                   <div class="col-12 col-md col-lg" v-if="companyData">
+                                <div class="col-12 col-md col-lg" v-if="companyData">
                                     <div class="_faq_right">
-                                          <h1 class="_faq_right_title">{{companyData.name}}</h1>
+                                        <h1 class="_faq_right_title">{{companyData.name}}</h1>
 
                                         <Collapse v-model="value1">
-                                            <Panel  :name="`${index}`" v-for="(item, index) in companyData.faqs"  :key="index">
+                                            <Panel :name="index" v-for="(item, index) in companyData.faqs"  :key="index">
                                                 <i class="fas fa-plus _plus"></i>
                                                 <i class="fas fa-minus _minus"></i>
                                                 {{item.question}}
@@ -50,7 +50,7 @@
 </template>
 
 
- <script>
+<script>
  import companyTitle from "~/components/faqInfo.vue"
 export default {
     components:{
@@ -58,16 +58,32 @@ export default {
     },
     data(){
         return{
-            alldata:[],
-            value1:''
+            value1:0
+            // companyInfo:[]
         }
     },
-    async asyncData({app , store, params}) {
+
+
+    async created(){
+       
+            // this.getSingleData()
+            // const res = await this.callApi('get','/company/getCompanyInfo')
+            // if(res.status == 200){
+            //     this.companyInfo = res.data
+                
+            // }
+        
+    },
+    methods:{
+    
+    },
+
+        async asyncData({app , store, params}) {
 		// if(this.getFeed.length){
 		// 	return
 		// }
       try {
-          let {data} = await app.$axios.get(`/faq/get_all_single_faq`)
+          let {data} = await app.$axios.get(`/faq/getSinglefeqData/${params.id}`)
         return { companyData: data }
         //   store.commit('setSingleFeed',data)
 		  console.log(data)
@@ -75,28 +91,6 @@ export default {
           console.log(error)
       }
   	},
+
 }
 </script>
-<style >
-.plus::after {
-    color: #E51D29;
-    content: '+';
-    position: absolute;
-    right: 0;
-    top: 10px;
-    font-weight: bold;
-    font-size: 20px;
-}
-.panel-title {
-    margin: 0px !important;
-}
-.minus::after {
-    color: #E51D29;
-    content: '-';
-    position: absolute;
-    right: 0;
-    top: 10px;
-    font-weight: bold;
-    font-size: 20px;
-}
-</style>

@@ -1,10 +1,25 @@
 <template>
     <span>
-        <li class="_active" v-for="(data, index) in companyInfo" :key="index">
-            <nuxtLink :to="'/legal/'+data.slug">
-               {{data.title}}
-            </nuxtLink>
-        </li>
+         <ul class="_faq_left">
+             <!-- v-for="(item, index) in faqCategory" :key="index" -->
+               <li class="_active"  v-for="(item, index) in faqCategory" :key="index">
+                    <nuxtLink :to="'/faq/'+item.id" style="color: white;" v-if="item">
+                            {{item.name}}
+                    </nuxtLink>
+                </li>
+                <!-- <li class="_active">Activation and Deactivation</li>
+                <li>Chat and messaging</li>
+                <li>Company Info and Policies</li>
+                <li>Friends and Followers</li>
+                <li>Intellectual Property</li>
+                <li>Membership Plans </li>
+                <li>Notifications and Marketing Tools</li>
+                <li>Password and Login</li>
+                <li>Profile and Account Settings</li> -->
+            </ul>
+
+
+      
     </span>
 </template>
 
@@ -12,7 +27,7 @@
 export default {
     data(){
         return{
-            faqInfo:[]
+            faqCategory:[]
         }
     },
     // async asyncData({app , store}) {
@@ -26,9 +41,9 @@ export default {
     //     }
     // },
     async created(){
-        const res = await this.callApi('get','/faq/getFaqInfo')
+        const res = await this.callApi('get','/faq/get_all_faq_cateogories')
             if(res.status == 200){
-                this.faqInfo = res.data
+                this.faqCategory = res.data
             }
     }
 }
