@@ -163,7 +163,25 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all" v-if="feed.images.length==1">
+                                            <!-- <div class="_card_status_pic_all" v-if="feed.images.length==1">
+                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
+                                                    <img class="_card_status_img" :src="image" alt="" title="">
+                                                </div>
+                                            </div> -->
+                                            <!-- Single image -->
+
+                                            <!-- Multipule image -->
+                                            <!-- <div class="_cardMulti_pic_all" v-else>
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind">
+                                                    <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
+                                                        <img class="_cardMulti_img" :src="image" alt="" title="">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- Multipule image -->
+
+                             <!-- Single image -->
+                                            <div class="_card_status_pic_all" v-if="feed && feed.images && feed.images.length==1">
                                                 <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
                                                     <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
@@ -171,14 +189,23 @@
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all" v-else>
-                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind">
+                                            <div class="_cardMulti_pic_all" v-else-if="feed && feed.images && feed.images.length > 1">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind"
+                                                    v-if="feed.images <= 5? ind < 5: ind < 4"
+                                                >
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
                                                 </div>
+                                                <div class="_cardMulti_pic_main"  v-if="feed && feed.images && feed.images.length > 5" >
+                                                    <div @click="imageModalOpen(feed.images,5)" class="_cardMulti_pic">
+                                                        <p class="_cardMulti_more_text">+{{ feed.images.length - 5 }}</p>
+                                                        <img class="_cardMulti_img" :src="feed.images[5]" alt="" title="">
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!-- Multipule image -->
+
                                         </div>
                                         <div class="_indx_post_card_inner" v-else>
                                             <div class="_indx_post_card_top _dis_flex" v-if="feed">
@@ -311,106 +338,11 @@
                                    
                                 </div>
                             </div>
+                            <div class="col-12 col-md-4 col-lg-4">
+                              <rightSection/>
+                           </div>
 
-                            <div class="col-12 col-lg-4 col-md-4">
-                                <div class="_prfl_cntnt_r8_all">
-                                    <div class="_indx_r8_card_top1 _mar_b10">
-                                        <h3>Most Recent Bills</h3>
-                                    </div>
-
-                                    <!-- CARD -->
-                                    <div class="_indx_r8_card _box_shdw2 _mar_b20">
-                                        <div class="_indx_r8_card_top _dis_flex">
-                                            <!-- <div class="_indx_r8_card_top_lft">
-                                                <h4>22</h4>
-                                                <p>Mar</p>
-                                            </div> -->
-                                            <div class="_indx_r8_card_pic">
-                                                <img class="_indx_r8_card_img" src="/img/man.jpg" alt="" title="">
-                                            </div>
-                                            <div class="_indx_r8_card_top_r8">
-                                                <nuxtLink class="_indx_r8_card_name" to="/profile">Jacqueline J. Hill</nuxtLink>
-                                                <p>25 march 2021<span>21 Bill Followers</span></p>
-                                            </div>
-                                        </div>
-
-                                        <h4 class="_indx_r8_card_title">I need help to pay my house rent</h4>
-
-                                        <div class="_indx_r8_card_pgrs">
-                                            <div class="_indx_r8_card_pgrs_top _dis_flex">
-                                                <div class="_indx_r8_card_pgrs_sngl">
-                                                    <p class="_clr_fnd">Processing: $4567</p>
-                                                </div>
-                                                <div class="_indx_r8_card_pgrs_sngl">
-                                                    <p>Scrap Goal: $6,787 or $400</p>
-                                                </div>
-                                            </div>
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;height: 14px;">
-                                                <span class="sr-only">70% Complete</span>
-                                                </div>
-                                        </div>
-
-                                        <div class="_indx_r8_card_btm _dis_flex">
-                                            <div class="_indx_r8_card_btm_lft">
-                                                <a href="">Follow Bill Now</a>
-                                                <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
-                                            </div>
-                                            <div class="_indx_r8_card_btm_r8">
-                                                <span class="_clr1"><i class="far fa-heart"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- CARD -->
-
-                                    <div class="_indx_r8_card_top1 _mar_b10">
-                                        <h3>Currently Following</h3>
-                                    </div>
-
-                                    <!-- CARD -->
-                                    <div class="_indx_r8_card _box_shdw2 _mar_b20">
-                                        <div class="_indx_r8_card_top _dis_flex">
-                                            <!-- <div class="_indx_r8_card_top_lft">
-                                                <h4>22</h4>
-                                                <p>Mar</p>
-                                            </div> -->
-                                            <div class="_indx_r8_card_pic">
-                                                <img class="_indx_r8_card_img" src="/img/man.jpg" alt="" title="">
-                                            </div>
-                                            <div class="_indx_r8_card_top_r8">
-                                                <nuxtLink class="_indx_r8_card_name" to="/profile">Jacqueline J. Hill</nuxtLink>
-                                                <p>25 march 2021<span>21 Bill Followers</span></p>
-                                            </div>
-                                        </div>
-
-                                        <h4 class="_indx_r8_card_title">I need help to pay my house rent</h4>
-
-                                        <div class="_indx_r8_card_pgrs">
-                                            <div class="_indx_r8_card_pgrs_top _dis_flex">
-                                                <div class="_indx_r8_card_pgrs_sngl">
-                                                    <p class="_clr_fnd">Processing: $4567</p>
-                                                </div>
-                                                <div class="_indx_r8_card_pgrs_sngl">
-                                                    <p>Scrap Goal: $6,787 or $400</p>
-                                                </div>
-                                            </div>
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;height: 14px;">
-                                                <span class="sr-only">70% Complete</span>
-                                                </div>
-                                        </div>
-
-                                        <div class="_indx_r8_card_btm _dis_flex">
-                                            <div class="_indx_r8_card_btm_lft">
-                                                <a href="">Follow Bill Now</a>
-                                                <span class="_icon_crcle"><i class="fas fa-arrow-right"></i></span>
-                                            </div>
-                                            <div class="_indx_r8_card_btm_r8">
-                                                <span class="_clr1"><i class="far fa-heart"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- CARD -->
-                                </div>
-                            </div>
+                          
 
                         </div>
                     </div>
@@ -529,11 +461,13 @@
 
 <script>
 import commentBox from '~/components/comment.vue'
+import rightSection from '~/components/rightSection.vue'
 import {  mapGetters } from 'vuex';
 export default {
     middleware:"auth",
       components: {
         commentBox,
+        rightSection
     },
        computed: {
         ...mapGetters({
@@ -545,9 +479,12 @@ export default {
             // isActive:2,
             alldata:{},
             singleItem:{},
+            singleItemImages:[],
+            editIndex:-1,
             editIndex:-1,
             editModal: false,
             likeLoad:-1,
+            nextIndex:-1,
             isloaded: false,
             isHide: true,
             isModal: false,
@@ -830,6 +767,22 @@ export default {
 }
 </script>
 <style>
+      ._cardMulti_more_text {
+        position: absolute;
+        background: #0400009c;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+        font-size: 35px;
+        transition: .2s all ease;
+    }
+
     .demo-upload-list{
         display: inline-block;
         width: 60px;
