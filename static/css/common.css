@@ -20,6 +20,7 @@ body {
 }
 a:hover{
     text-decoration: none ;
+    color: #c3171c;
 }
 pre, p{
     margin:0px;

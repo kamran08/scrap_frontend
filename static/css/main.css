@@ -361,6 +361,10 @@
     padding-top: 80px;
     min-height: calc(100vh - 117px);
     }
+    ._2content {
+    padding-top: 55px;
+    min-height: calc(100vh - 117px);
+    }
     ._landng_page{
     background: #fff;
     }
@@ -1092,19 +1096,23 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    margin-top: -3px;
+    margin-bottom: -3px;
     }
-    ._indx_post_card_top_r8 ul li{
-    padding: 6px 15px;
-    border-radius: 5px;
-    font-size: 13px;
-    color: #000;
-    margin-right: 10px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
+    ._indx_post_card_top_r8 ul li {
+        padding: 6px 15px;
+        border-radius: 5px;
+        font-size: 13px;
+        color: #000;
+        margin-right: 6px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center;
+        align-items: center;
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
     ._indx_post_card_top_r8 ul li:first-child{
     border: 1px solid #dad9d9;
@@ -1378,6 +1386,9 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    }
+    ._indx_r8_card_btm_lft a:hover{
+        color: #c3171c;
     }
     ._indx_r8_card_btm_lft a{
     color: #da1f26;
@@ -5918,6 +5929,9 @@
     font-weight: 500;
     font-size: 16px;
     }
+    ._card_top_more{
+        flex: 0 0 auto;
+    }
     ._follow_card:first-child{
         margin-top: 0px;
     }
@@ -7234,3 +7248,168 @@
     transition: .2s all ease;
 }
     /*============== 12.Notification page ============*/
+
+/*============== 13.Faq ============*/
+._2content{}
+._faq_banner{
+    position: relative;
+}
+._faq_banner_pic{
+    position: relative;
+}
+._faq_banner_pic::before{
+    position: absolute;
+    content: '';
+    background: #00000075;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+._faq_banner_img{
+    width: 100%;
+    height: auto;
+}
+._faq_banner_main{
+    position: absolute;
+    bottom: 109px;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 0 20px;
+}
+._faq_banner_title{
+    color: #fff;
+    font-size: 50px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    margin-bottom: 18px;
+}
+._faq_banner_search{
+    max-width: 642px;
+    margin: 0 auto 0;
+    position: relative;
+}
+._faq_banner_search input{
+    width: 100%;
+    display: block;
+    height: 52px;
+    border: none;
+    border-radius: 35px;
+    padding: 00 51px 0 25px;
+}
+._faq_banner_search i{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #da1f26;
+    font-size: 19px;
+    right: 12px;
+    cursor: pointer;
+    padding: 10px;
+}
+._faq_con{
+    padding: 50px 0 50px;
+}
+._faq_title{
+    color: #e50027;
+    font-size: 36px;
+    text-transform: capitalize;
+    font-weight: 600;
+    position: relative;
+    letter-spacing: 1px;
+    margin-bottom: 45px;
+    text-align: center;
+}
+._faq_left{}
+._faq_left li:last-child{
+    border-bottom: 1px solid #ddd;
+}
+._faq_left li{
+    display: block;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    padding: 17px 18px;
+    background: #fff;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: .2s all ease;
+}
+._faq_left li._active:hover{
+    color: #fff;
+}
+._faq_left li._active{
+    background: #da1f26;
+    color: #fff;
+    border-color: red !important;
+}
+._faq_left li:hover{
+    color: #da1f26;
+}
+._faq_right{}
+._faq_right_title{
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.ivu-collapse>.ivu-collapse-item>.ivu-collapse-header {
+    height: auto !important;
+    line-height: 24px !important;
+    padding: 8px 15px 8px 15px !important;
+    color: #333 !important;
+}
+.ivu-collapse {
+    background-color: transparent !important;
+    border-radius: 0px !important;
+    border: 0px solid #dcdee2 !important;
+}
+.ivu-collapse>.ivu-collapse-item.ivu-collapse-item-active>.ivu-collapse-header {
+    border-bottom: 0px solid #dcdee2 !important;
+}
+.ivu-collapse-content>.ivu-collapse-content-box {
+    padding-top: 7px !important;
+    padding-bottom: 16px;
+}
+.ivu-collapse-header i {
+    display: none;
+    transform: rotate( 
+0deg
+ ) translateY(-50%) !important;
+}
+.ivu-collapse>.ivu-collapse-item {
+    border-top: 0px solid #dcdee2 !important;
+    border-bottom: 1px solid #dcdee2 !important;
+}
+.ivu-collapse-header{
+    position: relative;
+}
+.ivu-collapse-header ._plus{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    margin: 0;
+    display: block;
+}
+.ivu-collapse-header ._minus{
+    position: absolute;
+    top: 50%;
+    display: none;
+    transform: translateY(-50%);
+    right: 0;
+    margin: 0;
+}
+.ivu-collapse-item.ivu-collapse-item-active ._minus{
+    display: block;
+}
+.ivu-collapse-item.ivu-collapse-item-active ._plus{
+    display: none;
+}
+.{}
+/*============== 13.Faq ============*/
