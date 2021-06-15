@@ -49,10 +49,10 @@
                                 <template >
                                     <div class="_indx_post_lst">
                                         <ul class="_dis_flex">
-                                            <li class="_active">All</li>
-                                            <li>Status</li>
-                                            <!-- <li>Bill</li>
-                                            <li>Articles</li> -->
+                                            <li :class="(activeTab==1)?'_active':''" @click="get_feed_by_type(1)">All</li>
+                                            <li :class="(activeTab==2)?'_active':''" @click="get_feed_by_type(2)">Status</li>
+                                            <li :class="(activeTab==3)?'_active':''" @click="get_feed_by_type(3)">Bill</li>
+                                            <!-- <li>Articles</li> -->
                                         </ul>
                                     </div>
                                     
@@ -93,26 +93,26 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all" v-if="feed && feed.images && JSON.parse(feed.images).length==1">
-                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind">
+                                            <div class="_card_status_pic_all" v-if="feed && feed.images && feed.images.length==1">
+                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
                                                     <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
                                             </div>
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all" v-else-if="feed && feed.images && JSON.parse(feed.images).length > 1">
-                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in JSON.parse(feed.images)" :key="ind"
-                                                    v-if="JSON.parse(feed.images) <= 5? ind < 5: ind < 4"
+                                            <div class="_cardMulti_pic_all" v-else-if="feed && feed.images && feed.images.length > 1">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind"
+                                                    v-if="feed.images <= 5? ind < 5: ind < 4"
                                                 >
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
                                                 </div>
-                                                <div class="_cardMulti_pic_main"  v-if="feed && feed.images && JSON.parse(feed.images).length > 5" >
+                                                <div class="_cardMulti_pic_main"  v-if="feed && feed.images && feed.images.length > 5" >
                                                     <div @click="imageModalOpen(feed.images,5)" class="_cardMulti_pic">
-                                                        <p class="_cardMulti_more_text">+{{ JSON.parse(feed.images).length - 5 }}</p>
-                                                        <img class="_cardMulti_img" :src="JSON.parse(feed.images)[5]" alt="" title="">
+                                                        <p class="_cardMulti_more_text">+{{ feed.images.length - 5 }}</p>
+                                                        <img class="_cardMulti_img" :src="feed.images[5]" alt="" title="">
                                                     </div>
                                                 </div>
                                 
@@ -389,7 +389,7 @@ export default {
         singleImage: '',
         nextIndex: -1,
         likeLoad:-1,
-       uploadList:[],
+        uploadList:[],
         followLoading:-1,
     //   isDropdown: false,
     //   isCreateComment: false,
@@ -431,6 +431,8 @@ export default {
           let feedId = ''
           let commentId = ''
           let replyId = ''
+          let type = ''
+          let activeTab = 1
           if(query && query.feed_id){
               feedId = query.feed_id
           }
@@ -440,13 +442,22 @@ export default {
           if(query && query.reply_id){
               replyId = query.reply_id
           }
+          if(query && query.type){
+              type = query.type
+              if(type=='feed') activeTab = 2
+              if(type=='bill') activeTab = 3
+              else activeTab = 1
 
-          let {data} = await app.$axios.get(`/feed/getFeed1?feed_id=${feedId}&comment_id=${commentId}&reply_id=${replyId}`)
+          }
+
+          let {data} = await app.$axios.get(`/feed/getFeed1?feed_id=${feedId}&comment_id=${commentId}&reply_id=${replyId}&type=${type}`)
           store.commit('setFeed',data)
           return {
               feedId:feedId,
               replyId:replyId,
-              commentId:commentId
+              type:type,
+              commentId:commentId,
+              activeTab:activeTab
 
           }
 
@@ -458,6 +469,21 @@ export default {
             // this.edit_data.images = this.$refs.upload.fileList;
         },
   methods:{
+    async get_feed_by_type(flag){
+        this.activeTab=flag
+        if(flag==2){
+            this.type='feed'
+        }
+        else if(flag==3){
+            this.type='bill'
+        }
+        else this.type='all'
+        const res  = await this.callApi('get',`/feed/getFeed1?type=${this.type}`)
+        if(res.status==200){
+             this.$store.commit('setFeed',res.data)
+        }
+              
+    },
     next(){
         let a = this.nextIndex+1
         // console.log(this.nextIndex, 'first ')
@@ -483,7 +509,7 @@ export default {
 
     },
       imageModalOpen(feed,i){
-          this.singleItemImages = JSON.parse(feed)
+          this.singleItemImages = feed
           this.nextIndex = i
           this.isImage = true
       },
@@ -549,7 +575,7 @@ export default {
             }
         }
         let obj =  JSON.parse(JSON.stringify(this.edit_data))
-        obj.images = JSON.stringify(images)
+        obj.images = images
         // this.edit_data.images = JSON.stringify(images)
         // console.log( this.edit_data)
         // let res = await this.callApi('post', 'feed/updateFeed', this.edit_data)
@@ -604,6 +630,9 @@ export default {
             else{
                 feed.hasUserfollow =this.authUser
                 feed.meta.follow_count++
+                let ob = this.authUser
+                ob.is_following = res.data
+                this.$store.commit('loginUser', ob)
             }
             console.log(res.data)
         }
@@ -666,7 +695,8 @@ export default {
            this.edit_data.id=feed1.id
             this.edit_data.user_id=feed1.user_id
             this.edit_data.feedTxt=feed1.feedTxt
-            let a=JSON.parse(feed1.images)
+            // let a=JSON.parse(feed1.images)
+            let a=feed1.images
             for(let it of a){
                 let ob = {
                     status:'finished',
@@ -682,45 +712,10 @@ export default {
       feed.isEdit =false
     },
     
-    // async editFeed(feed){
-    //   // console.log(this.editInput.commentTxt)
-    //   if(this.editFeedInput.feedTxt == ""){
-    //       return
-    //   }
-    //   const res = await this.callApi('post', 'feed/editFeed', this.editFeedInput)
-    //     //   this.$store.commit("settodos", res.data);
-    //   if(res.status == 200){
-    //       // console.log(res.data)
-    //       feed.feedTxt = this.editFeedInput.feedTxt
-    //     this.s('Feed updated Successfully !!')
-    //     feed.isEdit =false
-        
-        
-    //   }else{
-    //     this.swr()
-    //   }
-    // }
-    
-    
-    
     
 
   },
   
-//   created() {
-//     //   this.getFeedData();
-      
-//     // var self = this;
-//     //   var self2 = this;
-//     //   setTimeout(function() {
-//     //     self.$nextTick(function() {
-//     //       self.isloaded = true;
-//     //     })
-//     //     self2.$nextTick(function() {
-//     //       self2.isHide = false;
-//     //     })
-//     // }, 1000);
-//     // }
     
 }
 </script>

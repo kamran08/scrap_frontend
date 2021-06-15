@@ -111,6 +111,9 @@ export default {
                 else{
                     feed.hasUserfollow =this.authUser
                     feed.meta.follow_count++
+                    let ob = this.authUser
+                    ob.is_following = res.data
+                    this.$store.commit('loginUser', ob)
                 }
                 console.log(res.data)
             }

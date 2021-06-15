@@ -5,8 +5,8 @@
             <div class="_index_page">
                 <div class="container">
                     <div class="_prfl_card1 _bg_wht _b_radious5 _box_shdw2">
-                        <div class="_prfl_card1_lft _dis_flex">
-                            <div class="_prfl_card1_img">
+                        <div class="_prfl_card1_lft _dis_flex" v-if="feedUser">
+                            <div class="_prfl_card1_img" >
                                 <img v-if="feedUser.profilePic" :src="feedUser.profilePic" alt="image">
                                 <img v-else src="/static/img/man.jpg" alt="image">
                                 <div class="_prfl_card1_img_btm _dis_flex_all">
@@ -90,13 +90,20 @@
 
                     <div class="_indx_post_lst _mar_b20">
                         <ul class="_dis_flex">
-                            <li ><router-link to="/profile">All</router-link></li>
+                            <!-- <li ><nuxt-link to="/profile">All</router-link></li>
                             <li v-if="id" ><router-link :to="'/profile?id='+id">Status</router-link></li>
                             <li v-else><router-link to="/profile">Status</router-link></li>
                             <li><router-link to="">Bill</router-link></li>
-                            <li><router-link to="">Articles</router-link></li>
-                            <li v-if="id" class="_active"><router-link :to="'/profilePhotos?id='+id">Photos</router-link></li>
-                            <li v-else class="_active"><router-link to="/profilePhotos">Photos</router-link></li>
+                            <li><router-link to="">Articles</router-link></li> -->
+                             <li  v-if="id" ><nuxt-link :to="'/profile?isActive=1&type=all&id='+id">All</nuxt-link></li>
+                            <li  v-else  > <nuxt-link to="/profile?isActive=1&type=all">All</nuxt-link></li>
+                            <li  v-if="id"  ><nuxt-link :to="'/profile?isActive=2&type=feed&id='+id">Status</nuxt-link></li>
+                            <li  v-else  @> <nuxt-link to="/profile?isActive=2&type=feed">Status</nuxt-link></li>
+                            <li  v-if="id"  ><nuxt-link :to="'/profile?isActive=3&type=bill&id='+id">Bill</nuxt-link></li>
+                            <li v-else><nuxt-link to="/profile?isActive=3&type=bill">Bill</nuxt-link></li>
+                            
+                            <li v-if="id" class="_active"><nuxt-link :to="'/profilePhotos?id='+id">Photos</nuxt-link></li>
+                            <li v-else class="_active"><nuxt-link to="/profilePhotos">Photos</nuxt-link></li>
                         </ul>
                     </div>
 

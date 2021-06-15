@@ -6,7 +6,7 @@
                 <div class="container" v-if="feedUser">
                     <div class="_prfl_card1 _bg_wht _b_radious5 _box_shdw2">
                         <div class="_prfl_card1_lft _dis_flex">
-                            <div class="_prfl_card1_img" v-if="feedUser">
+                            <div class="_prfl_card1_img" >
                                 <img v-if="feedUser && feedUser.profilePic" :src="feedUser.profilePic" alt="image">
                                 <img v-else src="/img/man.jpg" alt="image">
                                 <div class="_prfl_card1_img_btm _dis_flex_all">
@@ -94,14 +94,17 @@
 
                     <div class="_indx_post_lst _mar_b20">
                         <ul class="_dis_flex">
-                            <li :class="(isActive==1)?'_active':''" @click="isActive=1"><nuxtLink to="">All</nuxtLink></li>
-                            <li class="_active" v-if="id" ><router-link :to="'/profile?id='+id">Status</router-link></li>
-                            <li class="_active" v-else> <router-link to="/profile">Status</router-link></li>
-                            <li :class="(isActive==3)?'_active':''" @click="isActive=3"><nuxtLink to="">Bill</nuxtLink></li>
+                            <!-- <li :class="(isActive==1)?'_active':''" @click="isActive=1"><nuxtLink to="">All</nuxtLink></li> -->
+                            <li :class="(isActive==1)?'_active':''" v-if="id" @click="get_feed_by_type(1)" ><router-link :to="'/profile?isActive=1&type=all&id='+id">All</router-link></li>
+                            <li :class="(isActive==1)?'_active':''" v-else  @click="get_feed_by_type(1)"> <router-link to="/profile?isActive=1&type=all">All</router-link></li>
+                            <li :class="(isActive==2)?'_active':''" v-if="id"  @click="get_feed_by_type(2)"><router-link :to="'/profile?isActive=2&type=feed&id='+id">Status</router-link></li>
+                            <li :class="(isActive==2)?'_active':''" v-else  @click="get_feed_by_type(2)"> <router-link to="/profile?isActive=2&type=feed">Status</router-link></li>
+                            <li :class="(isActive==3)?'_active':''" v-if="id" @click="get_feed_by_type(3)" ><router-link :to="'/profile?isActive=3&type=bill&id='+id">Bill</router-link></li>
+                            <li :class="(isActive==3)?'_active':''" @click="get_feed_by_type(3)" v-else><nuxtLink to="/profile?isActive=3&type=bill">Bill</nuxtLink></li>
 
-                            <li :class="(isActive==4)?'_active':''" @click="isActive=4"><nuxtLink to="">Articles</nuxtLink></li>
+                            <!-- <li :class="(isActive==4)?'_active':''" @click="isActive=4"><nuxtLink to="">Articles</nuxtLink></li> -->
                              <li v-if="id"><router-link :to="'/profilePhotos?id='+id">Photos</router-link></li>
-                            <li v-else  @click="isActive=5"><nuxtLink to="/profilePhotos">Photos</nuxtLink></li>
+                            <li v-else  ><nuxtLink to="/profilePhotos">Photos</nuxtLink></li>
                         </ul>
                     </div>
 
@@ -113,7 +116,7 @@
                                     <!-- Card status -->
                                     
                                     <!-- Image card --> 
-                                    <div class="_indx_post_card _box_shdw2  _mar_b20" v-for="(feed, index) in getFeed" :key="index">
+                                    <div v-if="feed" class="_indx_post_card _box_shdw2  _mar_b20" v-for="(feed, index) in getFeed" :key="index">
                                         <div class="_indx_post_card_inner" v-if="feed.type=='feed'">
                                             <div class="_indx_post_card_top _dis_flex">
                                                 <div class="_indx_post_card_top_lft">
@@ -129,7 +132,7 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <div v-if="feed.user.id == authUser.id" class="_card_top_more">
+                                                <div v-if="feed.user.id == $store.state.authUser.id" class="_card_top_more">
                                                     <Dropdown trigger="click" placement="bottom-end">
                                                         <a class="_more" href="javascript:void(0)">
                                                             <i class="fas fa-angle-down"></i>
@@ -178,12 +181,12 @@
                                             <!-- Multipule image -->
                                         </div>
                                         <div class="_indx_post_card_inner" v-else>
-                                            <div class="_indx_post_card_top _dis_flex">
+                                            <div class="_indx_post_card_top _dis_flex" v-if="feed">
                                                 <div class="_indx_post_card_top_lft">
                                                     <div class="_card1_top_img _mar_r10" v-if="feed.user && feed.user.profilePic">
                                                         <img :src="feed.user.profilePic" alt="image">
                                                     </div>
-                                                    <div class="_indx_post_card_top_titl">
+                                                    <div class="_indx_post_card_top_titl" v-if="feed.user">
                                                          <nuxtLink :to="'/profile?id='+feed.user.id"><h4>{{feed.user.firstName}} {{feed.user.lastName}}</h4></nuxtLink>
                                                         <p>{{feed.created_at | formateDate}} </p>
                                                         <!-- <p>22 March 2021</p> -->
@@ -211,7 +214,7 @@
                                                 </div> -->
                                             </div>
 
-                                            <div class="_indx_post_card_txt" v-if="feed.bill">
+                                            <div class="_indx_post_card_txt" v-if="feed && feed.bill">
                                                 <router-link to="/singlePost"><h4 class="_clr1">{{feed.bill.title}}</h4></router-link>
                                                 <p>{{feed.bill.descriptions}}</p>
 
@@ -249,7 +252,7 @@
                                                         <!-- Bill Followers -->
                                                     </li>
                                                       <li v-if="feed.type=='bill'">
-                                                         <span>
+                                                         <span feed.meta>
                                                         <template v-if="followLoading==index"><i class="fas fa-spinner"></i> </template>
                                                             <template v-else> 
                                                                 <i class="fas fa-heart" v-if="feed.hasUserfollow"></i>
@@ -259,7 +262,7 @@
                                                         </span>{{feed.meta.follow_count}} Follow
                                                     </li>
 
-                                                    <li @click="showComment(feed, index)">
+                                                    <li @click="showComment(feed, index)" v-if="feed.meta">
                                                         <span><i class="far fa-comment"></i></span>{{feed.meta.comment_count}} Comments
                                                     </li>
                                                 </ul>
@@ -539,7 +542,7 @@ export default {
     },
     data(){
         return {
-            isActive:2,
+            // isActive:2,
             alldata:{},
             singleItem:{},
             editIndex:-1,
@@ -561,6 +564,28 @@ export default {
     }
     },
     methods:{
+        async get_feed_by_type(flag){
+                this.isActive=flag
+                if(flag==2){
+                    this.type='feed'
+                }
+                else if(flag==3){
+                    this.type='bill'
+                }
+                else this.type='all'
+                if(!this.id){
+                    this.id = 0
+                }
+                const res  = await this.callApi('get',`/feed/getFeed?user_id=${this.id}&type=${this.type}`)
+                if(res.status==200){
+                     if(res.data && res.data.feedData){
+                         this.$store.commit('setFeed',[])
+                          this.$store.commit('setFeed',res.data.feedData)
+
+                     }
+                }
+              
+         },
         async crateFeedFollow(feed, index){
         this.followLoading = index
         const res = await this.callApi('post','like/crateFeedFollow',{feed_id:feed.id,user_id:feed.user_id,bill_id:feed.bill.id})
@@ -573,6 +598,9 @@ export default {
             else{
                 feed.hasUserfollow =this.authUser
                 feed.meta.follow_count++
+                let ob = this.authUser
+                ob.is_following = res.data
+                this.$store.commit('loginUser', ob)
             }
             console.log(res.data)
         }
@@ -608,8 +636,8 @@ export default {
         console.log(this.nextIndex, 'last')
 
     },
-      imageModalOpen(feed,i){
-          this.singleItemImages = JSON.parse(feed)
+      imageModalOpen(images,i){
+          this.singleItemImages = images
           this.nextIndex = i
           this.isImage = true
       },
@@ -744,7 +772,8 @@ export default {
            this.edit_data.id=feed1.id
             this.edit_data.user_id=feed1.user_id
             this.edit_data.feedTxt=feed1.feedTxt
-            let a=JSON.parse(feed1.images)
+            // let a= JSON.parse(feed1.images)
+            let a= feed1.images
             for(let it of a){
                 let ob = {
                     status:'finished',
@@ -764,20 +793,32 @@ export default {
       try {
         //   console.log(query)
         var user = []
+        var type =''
         var feedUser = {}
         let id = 0
+        let isActive = 1
         if(query.id) {
             id = query.id
         }
-          let {data} = await app.$axios.get(`/feed/getFeed?user_id=${id}`)
+         if(query && query.type){
+              type = query.type
+              if(type=='feed') isActive = 2
+              if(type=='bill') isActive = 3
+              else isActive = 1
+
+          }
+          let {data} = await app.$axios.get(`/feed/getFeed?user_id=${id}&type=${type}`)
           console.log(data , 'feed')
           if(data && data.feedData)
+           store.commit('setFeed',[])
           store.commit('setFeed',data.feedData)
            if(data && data.feedUser)
            feedUser = data.feedUser
           return {
               feedUser:feedUser,
-              id:query.id
+              id:query.id,
+              type:type,
+              isActive:isActive
           }
       } catch (error) {
           console.log(error)
