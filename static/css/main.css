@@ -7388,6 +7388,8 @@
 }
 .ivu-collapse-header{
     position: relative;
+    font-weight: bold;
+    font-size: 16px;
 }
 .ivu-collapse-header ._plus{
     position: absolute;
