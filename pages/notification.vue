@@ -6,14 +6,14 @@
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="_notiPage">
                             <h1 class="_notiPage2_title">All Notifications</h1>
-                            <div class="_notiPage_card" v-for="(item,index) in allData" :key="index">
+                            <div class="_notiPage_card" :class="(item.seen)?'':'_active'" v-for="(item,index) in allData" :key="index">
                                 <div v-if="item" class="_notiPage_card_left" @click="gotToUrl(item,index)">
                                     <div class="_notiPage_pic" v-if="item.image">
                                         <img class="_notiPage_img" :src="item.image" alt="" title="">
                                     </div>
 
-                                    <div class="_notiPage_details" >
-                                        <h1 class="_notiPage_title" :class="(item.seen)?'':'noti_active'">{{item.message}}.</h1>
+                                    <div class="_notiPage_details">
+                                        <h1 class="_notiPage_title">{{item.message}}.</h1>
                                         <p class="_notiPage_time">{{item.created_at | timeSince}} ago</p>
                                     </div>
                                 </div>
@@ -34,8 +34,11 @@
                                     </Dropdown>
                                 </div>
                             </div>
+
+                            <div class="_notiPage_more">
+                                <p @click="moreData" class="_notiPage_more_text">See more</p>
+                            </div>
                         </div>
-                        <Button @click="moreData">More</Button>
                     </div>
                 </div>
             </div>

@@ -115,7 +115,6 @@
                                                         <img class="_cardMulti_img" :src="feed.images[5]" alt="" title="">
                                                     </div>
                                                 </div>
-                                
                                             </div>
                                             <!-- Multipule image -->
                                         </div>
@@ -132,8 +131,6 @@
                                                     </div>
                                                 </div>
                                                
-
-
                                                 <div class="_indx_post_card_top_r8" v-if="feed.bill">
                                                     <ul>
                                                         <li>Due Date: <p>{{feed.bill.date | formateDate}} </p></li>
@@ -168,7 +165,7 @@
                                                             <p>Scap Goal:${{feed.bill.amount}}</p>
                                                         </div>
                                                     </div>
-                                                     <Progress :percent="feed.bill | makePercent" :stroke-width="20" :status="(feed.bill | makePercent==100)?'success':'active'" text-inside />
+                                                    <Progress :percent="feed.bill | makePercent" :stroke-width="20" :status="(feed.bill | makePercent==100)?'success':'active'" text-inside />
                                                     <!-- <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:100%;height: 14px;"> -->
                                                     <!-- <span class="sr-only">70% Complete</span>
                                                     </div> -->
@@ -186,12 +183,11 @@
                                                                 <i @click="crateFeedLike(feed,index)" class="fas fa-heart" v-if="feed.hasUserLike"></i>
                                                                 <i @click="crateFeedLike(feed,index)" class="far fa-heart" v-else></i>
                                                             </template>
-                                                            
                                                         </span>{{feed.meta.likes_count}} Like
                                                         <!-- Bill Followers -->
                                                     </li>
                                                     <li v-if="feed.type=='bill'">
-                                                         <span>
+                                                        <span>
                                                         <template v-if="followLoading==index"><i class="fas fa-spinner"></i> </template>
                                                             <template v-else> 
                                                                 <i  class="fas fa-heart" v-if="feed.hasUserfollow"></i>
@@ -222,7 +218,6 @@
                                             <commentBox v-if="feed.comments && feed.isOpen" :feed='feed'/>
                                             <!--endcommentSection--> 
                                             <!-- </span> -->
-                                        
                                         <!-- </span> -->
                                     </div>
                                     <!-- Image card -->

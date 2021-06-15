@@ -6,13 +6,12 @@
             <!-- Item -->
             <div class="_blog2_card_items" v-for="(item, index) in allnews" :key="index">
                 <div class="_blog2_card_pic">
-                    <img class="_blog2_card_img" :src="item.image" alt="" title="">
+                    <img class="_blog2_card_img" :src="item.thumbnail" alt="" title="">
                 </div>
 
                 <div class="_blog2_card_details">
                     <nuxtLink :to="'/blogSingle/'+item.id" class="_blog2_card_name">
-                     {{item.title}}
-                        
+                        {{item.title}}
                     </nuxtLink>
 
                     <div class="_blog2_card_pro" v-if="item.user">
