@@ -4,8 +4,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-md-7 col-lg-8">
-                    
-
                         <template v-if="isloaded">
                             <!-- card -->
                             <div class="_indx_post_card _box_shdw2  _mar_b30">
