@@ -137,6 +137,7 @@
                                                 <div class="_indx_post_card_top_r8" v-if="feed.bill">
                                                     <ul>
                                                         <li>Due Date: <p>{{feed.bill.date | formateDate}} </p></li>
+                                                        <li v-if="feed.bill.types">{{feed.bill.types.name}}</li>
                                                         <li v-if="feed.bill.categories">{{feed.bill.categories.name}}</li>
                                                     </ul>
                                                 </div>
