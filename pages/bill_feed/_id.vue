@@ -10,9 +10,9 @@
                             <!-- card -->
                             <div class="_indx_post_card _box_shdw2  _mar_b30">
                                 <div class="_indx_post_card_inner">
-                                    <div class="_indx_post_card_top _dis_flex">
+                                    <div class="_indx_post_card_top _dis_flex"  v-if="feed && feed.user">
                                         <div class="_indx_post_card_top_lft">
-                                            <div class="_card1_top_img _mar_r10" v-if="feed.user">
+                                            <div class="_card1_top_img _mar_r10" v-if="feed && feed.user">
                                                 <img v-if="feed.user.profilePic" :src="feed.user.profilePic" alt="image">
                                             </div>
                                             <div class="_indx_post_card_top_titl">
@@ -22,8 +22,8 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="_indx_post_card_txt _dis_flex_cntr1 _dis_flex">
-                                        <div class="" v-if="feed.bill">
+                                    <div class="_indx_post_card_txt _dis_flex_cntr1 _dis_flex" v-if="feed && feed.bill">
+                                        <div class="" >
                                             <h4  class="_clr1" >{{feed.bill.title}}</h4>
                                             <p>
                                                 {{feed.bill.descriptions}}
@@ -87,7 +87,7 @@
 
                     <div class="col-12 col-md-5 col-lg-4">
                         <!-- Shimmer -->
-                        <template v-if="isHide">
+                        <!-- <template v-if="isHide">
                             <div class="_card_shimmer_box _box_shdw2 _mar_b20">
                                 <div class="_card_shimmer">
                                     <div class="_card_shimmer_profilePic _shim_animate"></div>
@@ -108,7 +108,7 @@
                                     <div class="_card_shimmer_like share _shim_animate"></div>
                                 </div>
                             </div>
-                        </template>
+                        </template> -->
                         <!-- Shimmer -->
 
                         <template v-if="isloaded && feed">
@@ -122,7 +122,7 @@
                                 <Progress :percent="feed.bill | makePercent" :stroke-width="20" :status="(feed.bill | makePercent==100)?'success':'active'" text-inside />
                                 <div class="_mar_t20">
                                     <button class="_btn1 _btn_long follow_active" type="button" v-if="feed.hasUserfollow" >Follow this bill</button>
-                                    <button class="_btn1 _btn_long" type="button" v-else>Follow this bill</button>
+                                    <button class="_btn1 _btn_long" type="button" v-else @click="crateFeedFollow(feed)">Follow this bill</button>
                                 </div>
                             </div>
 
@@ -181,7 +181,7 @@
                                             <img class="_follow_card_img" :src="item.user.profilePic" alt="" title="">
                                         </a>
 
-                                        <div class="_follow_card_details">
+                                        <div class="_follow_card_details" v-if="item.user">
                                             <a class="_follow_card_name" href="">{{item.user.firstName}} {{item.user.lastName}}</a>
                                         </div>
                                     </div>
@@ -219,7 +219,8 @@ export default {
           withCredentials: true,
           transports: ['websocket']
           
-        });      
+        });
+    if(this.feed)      
       socket.on(`bill_feed_${this.feed.id}`, (data) => {
         if(data.type=='new_follow'){
             this.feed.follow.unshift(data)
@@ -227,7 +228,7 @@ export default {
         }
         else if(data.type=='support'){
             console.log(data , 'here is data')
-            let ob = feed.bill
+            let ob = this.feed.bill
             ob.total_amount_scrapped = parseFloat(ob.total_amount_scrapped)+parseFloat(data.amount)
             this.feed.bill = ob
             console.log(this.feed , 'here is feed')
@@ -314,20 +315,26 @@ export default {
           }
           
     var feed = {}
-    if(feedId){
+    if(params.id){
 
-        let {data} = await app.$axios.get(`/feed/getBillFeed/${feedId}`)
+        let {data} = await app.$axios.get(`/feed/getBillFeed/${params.id}`)
         // if(data[0].type!='bill') redirect('/')
         // store.commit('setFeed',data)
          feed = data
          console.log(data)
-    }
-    // else redirect('/')
-    
-        return {
+         return {
             feedId:feedId,
             feed:feed
         }
+        
+    }
+    return {
+            feedId:feedId,
+            feed:{}
+        }
+    // else redirect('/')
+    
+        
 
       } catch (error) {
           console.log(error)

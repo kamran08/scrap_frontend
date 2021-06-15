@@ -192,7 +192,7 @@
                         </div>
                         <!-- See more -->
                         <div class="_drop_see">
-                          <nuxtLink to="/notificationPage"><span class="_drop_see_text">See all Notifications</span></nuxtLink>
+                          <nuxt-link to="/notification"><span class="_drop_see_text">See all Notifications</span></nuxt-link>
                         </div>
                         <!-- See more -->
                       </template>
@@ -601,7 +601,7 @@ export default {
           }
       },
     async delete_notification(item,index) {
-      this.i("s")
+      // this.i("s")
           const res = await this.callApi('post', 'notification/deleteNotification', {id:item.id})
           if(res.status==200){
             let d = this.allNotification
