@@ -242,7 +242,7 @@
                                             </div>
 
                                             <div class="_indx_post_card_txt" v-if="feed && feed.bill">
-                                                <router-link to="/singlePost"><h4 class="_clr1">{{feed.bill.title}}</h4></router-link>
+                                                <router-link :to="`/bill_feed/${feed.id}`"><h4 class="_clr1">{{feed.bill.title}}</h4></router-link>
                                                 <p>{{feed.bill.descriptions}}</p>
 
                                                 <div class="_indx_post_pgrs _mar_t15">
