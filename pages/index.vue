@@ -957,3 +957,20 @@ export default {
     }
 }
 </script>
+<style scoped>
+ ._cardMulti_more_text {
+        position: absolute;
+        background: #0400009c;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+        font-size: 35px;
+        transition: .2s all ease;
+    }
+</style>

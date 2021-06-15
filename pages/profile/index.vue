@@ -163,7 +163,25 @@
                                             </div>
                                             
                                             <!-- Single image -->
-                                            <div class="_card_status_pic_all" v-if="feed.images.length==1">
+                                            <!-- <div class="_card_status_pic_all" v-if="feed.images.length==1">
+                                                <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
+                                                    <img class="_card_status_img" :src="image" alt="" title="">
+                                                </div>
+                                            </div> -->
+                                            <!-- Single image -->
+
+                                            <!-- Multipule image -->
+                                            <!-- <div class="_cardMulti_pic_all" v-else>
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind">
+                                                    <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
+                                                        <img class="_cardMulti_img" :src="image" alt="" title="">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- Multipule image -->
+
+                             <!-- Single image -->
+                                            <div class="_card_status_pic_all" v-if="feed && feed.images && feed.images.length==1">
                                                 <div  @click="imageModalOpen(feed.images,ind)" class="_card_status_pic" v-for="(image,ind) in feed.images" :key="ind">
                                                     <img class="_card_status_img" :src="image" alt="" title="">
                                                 </div>
@@ -171,14 +189,23 @@
                                             <!-- Single image -->
 
                                             <!-- Multipule image -->
-                                            <div class="_cardMulti_pic_all" v-else>
-                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind">
+                                            <div class="_cardMulti_pic_all" v-else-if="feed && feed.images && feed.images.length > 1">
+                                                <div class="_cardMulti_pic_main" v-for="(image,ind) in feed.images" :key="ind"
+                                                    v-if="feed.images <= 5? ind < 5: ind < 4"
+                                                >
                                                     <div @click="imageModalOpen(feed.images,ind)" class="_cardMulti_pic">
                                                         <img class="_cardMulti_img" :src="image" alt="" title="">
                                                     </div>
                                                 </div>
+                                                <div class="_cardMulti_pic_main"  v-if="feed && feed.images && feed.images.length > 5" >
+                                                    <div @click="imageModalOpen(feed.images,5)" class="_cardMulti_pic">
+                                                        <p class="_cardMulti_more_text">+{{ feed.images.length - 5 }}</p>
+                                                        <img class="_cardMulti_img" :src="feed.images[5]" alt="" title="">
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!-- Multipule image -->
+
                                         </div>
                                         <div class="_indx_post_card_inner" v-else>
                                             <div class="_indx_post_card_top _dis_flex" v-if="feed">
@@ -452,9 +479,12 @@ export default {
             // isActive:2,
             alldata:{},
             singleItem:{},
+            singleItemImages:[],
+            editIndex:-1,
             editIndex:-1,
             editModal: false,
             likeLoad:-1,
+            nextIndex:-1,
             isloaded: false,
             isHide: true,
             isModal: false,
@@ -737,6 +767,22 @@ export default {
 }
 </script>
 <style>
+      ._cardMulti_more_text {
+        position: absolute;
+        background: #0400009c;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+        font-size: 35px;
+        transition: .2s all ease;
+    }
+
     .demo-upload-list{
         display: inline-block;
         width: 60px;
