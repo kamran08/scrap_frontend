@@ -9,7 +9,7 @@
                     <h1 class="_faq_banner_title">We're here to help you.</h1>
                     <div class="_faq_banner_search">
                         <input type="" placeholder="Search By Any Keyword">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search"  @click="searchCompnayData"></i>
                     </div>
                 </div>
             </div>
@@ -65,6 +65,7 @@ export default {
 
 
     async created(){
+
        
             // this.getSingleData()
             // const res = await this.callApi('get','/company/getCompanyInfo')
@@ -75,7 +76,11 @@ export default {
         
     },
     methods:{
-    
+        searchCompnayData(){
+            var PATTERN = 'bedroom'
+             this.companyData = this.mainData.filter(function (str) { return str.indexOf(PATTERN) === -1; });
+             console.log(this.companyData);
+        }
     },
 
         async asyncData({app , store, params}) {
@@ -84,7 +89,10 @@ export default {
 		// }
       try {
           let {data} = await app.$axios.get(`/faq/getSinglefeqData/${params.id}`)
-        return { companyData: data }
+        return {
+             companyData: data,
+            mainData:data
+        }
         //   store.commit('setSingleFeed',data)
 		  console.log(data)
       } catch (error) {

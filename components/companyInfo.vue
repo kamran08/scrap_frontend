@@ -1,6 +1,6 @@
 <template>
     <span>
-        <li class="_active" v-for="(data, index) in companyInfo" :key="index">
+        <li  v-for="(data, index) in companyInfo" :key="index" @click="tab=index">
             <nuxtLink :to="'/legal/'+data.slug">
                {{data.title}}
             </nuxtLink>
@@ -12,6 +12,7 @@
 export default {
     data(){
         return{
+            tab:0,
             companyInfo:[]
         }
     },
