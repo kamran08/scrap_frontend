@@ -1,5 +1,8 @@
 
 /*====--- MENU ---====*/
+html {
+    scroll-behavior: smooth;
+  }
 ._menu {
     z-index: 10;
     -webkit-transition: 0.7s ease;
@@ -5926,8 +5929,9 @@
         color: #333;
     }
     ._follow_title {
-    font-weight: 500;
-    font-size: 16px;
+        font-weight: 500;
+        font-size: 16px;
+        margin-bottom: 16px;
     }
     ._card_top_more{
         flex: 0 0 auto;
@@ -5952,6 +5956,7 @@
             flex: 0 0 35px;
     border-radius: 100%;
     overflow: hidden;
+    text-align: center;
     }
     ._follow_card_img{
     height: 100%;
@@ -5965,6 +5970,9 @@
             flex: 1 1;
     overflow: hidden;
     padding: 0 0 0px 12px;
+    }
+    ._follow_card_name:hover {
+        color: #da1f26;
     }
     ._follow_card_name {
     color: #222;
@@ -6430,9 +6438,9 @@
         font-size: 12px !important;
         line-height: 15px;
         color: #FFFFFF;
-        width: 94px;
-        height: 32px;
-        background-color: #F15060  !important;
+        width: 111px;
+        height: 47px;
+        background-color: #f15060  !important;
         border-color: #F15060  !important;
         border-radius: 10px;
     }
@@ -6461,8 +6469,8 @@
     }
     ._lndng2_banner_lft h1{
         font-weight: 500;
-        font-size: 80px;
-        line-height: 94px;
+        font-size: 65px;
+        line-height: 90px;
         color: #19264B;
         margin-bottom: 30px;
     }
@@ -6470,6 +6478,7 @@
     font-size: 18px;
     line-height: 28px;
     color: rgba(25, 38, 74, 0.8);
+    max-width: 650px;
     }
     ._lndng2_banner_lft ul{
     margin-top: 55px;
@@ -6483,18 +6492,19 @@
     ._lndng2_banner_lft ul li:first-child{
     position: relative;
     margin-right: 30px;
+    flex: 1 1;
     }
     ._lndng2_banner_lft ul li:first-child input{
     font-size: 16px;
     line-height: 19px;
-    color: #CBCBCB;
+    color: #000000;
     background: #FFFFFF;
     -webkit-box-shadow: 0px 26px 20px rgba(240, 236, 236, 0.25);
-            box-shadow: 0px 26px 20px rgba(240, 236, 236, 0.25);
+    box-shadow: 0px 26px 20px rgba(240, 236, 236, 0.25);
     border-radius: 10px;
     padding: 10px 170px 10px 20px;
     border: none;
-    width: 424px;
+    width: 100%;
     height: 70px;
     }
     ._lndng2_banner_lft ul li:first-child button{
@@ -6504,11 +6514,11 @@
     cursor: pointer;
     }
     ._lndng2_banner_lft ul li:last-child button{
-    width: 157px;
-    height: 50px;
+    width: 191px;
+    height: 70px;
     background: #FFFFFF;
     -webkit-box-shadow: 0px 4px 16px #FBECF6;
-            box-shadow: 0px 4px 16px #FBECF6;
+    box-shadow: 0px 4px 16px #FBECF6;
     border-radius: 10px;
     font-size: 18px;
     line-height: 22px;
@@ -6520,6 +6530,11 @@
     -webkit-transition: 0.3s ease all;
     -o-transition: 0.3s ease all;
     transition: 0.3s ease all;
+    }
+    ._lndng2_banner_vdo img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
     ._lndng2_banner_vdo{
         width: 260px;
@@ -6555,12 +6570,17 @@
     font-size: 20px;
     padding-left: 5px;
     }
+    ._lndng2_banner_r8 svg {
+        width: 100%;
+        height: auto;
+    }
     ._lndng2_banner_r8 {
         height: 100%;
     }
     ._lndng2_abt{
-        padding-top: 160px;
+        padding-top: 260px;
         padding-bottom: 20px;
+        margin-top: -100px;
     }
     ._lndng2_abt_top{
         margin-bottom: 100px;
@@ -6570,6 +6590,8 @@
     font-size: 45px;
     line-height: 53px;
     color: #19264B;
+    font-weight: bold;
+    margin-bottom: 20px;
     }
     ._lndng2_txt1{
     font-size: 16px;
@@ -6616,7 +6638,8 @@
     ._lndng2_works{
     padding-bottom: 20px;
     background: #fff;
-    padding-top: 80px;
+    padding-top: 180px;
+    margin-top: -100px;
     }
     ._lndng2_wrk_crd{
     margin-bottom: 80px;
@@ -6661,6 +6684,8 @@
     }
     ._lndng2_feature{
     background: rgba(251, 236, 246, 0.5);
+    /* margin-top: -100px; */
+    /* padding-top: 100px; */
     }
     ._lndng2_feature_lft{
         height: 100%;
@@ -6702,7 +6727,7 @@
     padding-left: 0px;
     }
     ._lndng2_bsns_sec_all{
-    padding: 80px 0px;
+    padding: 0px 0px;
     }
     ._lndng2_bsns_sec {
     /* background: url(../img/business_bg.png); */
@@ -6735,7 +6760,7 @@
     width: 54%;
     height: 100%;
     background: -o-linear-gradient(359.56deg, #272727 -20.37%, rgba(196, 196, 196, 0) 108.29%);
-    background: linear-gradient(90.44deg, #272727 -20.37%, rgba(196, 196, 196, 0) 108.29%);
+    background: linear-gradient(90.44deg, #f15060 -20.37%, rgb(241 80 96) 108.29%);
     z-index: -1;
     }
     ._lndng2_bsns h1{
@@ -6756,6 +6781,7 @@
     }
     ._lndng2_mbl_app{
     background: #EBF6FD;
+    padding: 50px 0;
     }
     ._lndng2_mbl_app_inner{
         -webkit-box-align: center;
@@ -7413,5 +7439,12 @@
 .ivu-collapse-item.ivu-collapse-item-active ._plus{
     display: none;
 }
-.{}
+._lndng_cntnr ._lndng2_bsns ._lndng2_btn:hover{
+    background:#fff;
+    border: 1px solid #fff;
+    color: #333;
+}
+._lndng_cntnr ._lndng2_bsns ._lndng2_btn{
+    border: 1px solid #fff;
+}
 /*============== 13.Faq ============*/

@@ -133,7 +133,7 @@
                                     <div class="_follow_card" v-if="feed.bill.doc.split('.').pop()=='pdf'">
                                         <a  :href="feed.bill.doc" download class="_follow_card_pic" style="border-radius:0 !important;">
                                             <!-- <img class="_follow_card_img" src="" alt="" title=""> -->
-                                            <i class="far fa-file-pdf" style="font-size:25px;color:red;"></i>
+                                            <i class="far fa-file-pdf" style="font-size:33px;color:red;"></i>
                                         </a>
 
                                         <div class="_follow_card_details">
@@ -145,7 +145,7 @@
                                     <div class="_follow_card" v-else-if="feed.bill.doc.split('.').pop()=='doc'">
                                         <a  :href="feed.bill.doc" download class="_follow_card_pic" style="border-radius:0 !important;">
                                             <!-- <img class="_follow_card_img" src="" alt="" title=""> -->
-                                            <i class="far fa-file-alt" style="font-size:25px;color:black;"></i>
+                                            <i class="far fa-file-alt" style="font-size:33px;color:black;"></i>
                                         </a>
 
                                         <div class="_follow_card_details">
