@@ -8,7 +8,7 @@
                 <div class="_faq_banner_main">
                     <h1 class="_faq_banner_title">We're here to help you.</h1>
                     <div class="_faq_banner_search">
-                        <input type="" placeholder="Search By Any Keyword">
+                        <input type="" v-model="str" @onkeyup="searchCompnayData" placeholder="Search By Any Keyword">
                         <i class="fas fa-search"  @click="searchCompnayData"></i>
                     </div>
                 </div>
@@ -58,7 +58,8 @@ export default {
     },
     data(){
         return{
-            value1:0
+            value1:0,
+            str:''
             // companyInfo:[]
         }
     },
@@ -77,9 +78,24 @@ export default {
     },
     methods:{
         searchCompnayData(){
-            var PATTERN = 'bedroom'
-             this.companyData = this.mainData.filter(function (str) { return str.indexOf(PATTERN) === -1; });
-             console.log(this.companyData);
+            this.i("slug")
+              let arrays=[]
+                for(let item of this.mainData.faqs){
+                    if(item.name==this.str){
+                        arrays.push(item)
+                    }
+                }
+                console.log(arrays)
+            // this.companyData.faqs = arrays
+            
+            // this.i(e)
+            // let newArray = arr.filter(callback( this.companyDat[, index[, this.mainData]]) {
+            //         // return element for newArray, if true
+            //         }[, thisArg]);
+            // var PATTERN = 'bedroom'
+            //  this.companyData = this.mainData.filter(function (str) { return str.indexOf(PATTERN) === -1; });
+            //  console.log(this.companyData);
+        //    this.companyData= this.mainData.filter(el => el.name == this.str);
         }
     },
 

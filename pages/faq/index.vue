@@ -8,8 +8,8 @@
                 <div class="_faq_banner_main">
                     <h1 class="_faq_banner_title">We're here to help you.</h1>
                     <div class="_faq_banner_search">
-                        <input type="" placeholder="Search By Any Keyword">
-                        <i class="fas fa-search"></i>
+                        <input type="" v-model="str" @onkeyup="searchCompnayData" placeholder="Search By Any Keyword">
+                        <i class="fas fa-search"  @click="searchCompnayData"></i>
                     </div>
                 </div>
             </div>
@@ -55,6 +55,21 @@
 export default {
     components:{
         companyTitle
+    },
+    methods:{
+           searchCompnayData(){
+              
+            let arrays=[]
+            for(let item of this.mainData.faqs){
+               let a = item.question.includes(this.str)
+                if(a){
+                    arrays.push(item)
+                }
+            }
+            console.log(arrays)
+          this.$set( this.companyData, 'faqs', arrays)
+
+        }
     },
     data(){
         return{

@@ -23,7 +23,7 @@
               <!-- Ipad search -->
               <div class="_menu_input" >
                 <span><i class="fas fa-search" v-if="authUser"></i></span>
-                <input v-if="authUser"  type="text" placeholder="Search Scrapabill">
+                <input v-if="authUser"  type="text" v-model="serchTxt" v-on:keyup="searchFeed"  placeholder="Search Scrapabill">
               </div>
 
               <div class="_menu_home">
@@ -259,12 +259,7 @@
                                   <li>
                                     <nuxtLink to="/bill" class=""><i class="far fa-file-alt"></i> Enter Bill </nuxtLink>
                                   </li>
-                                  <li>
-                                    <nuxtLink to="/profile" class=""><i class="fas fa-newspaper"></i> My Articles</nuxtLink>
-                                  </li>
-                                  <li>
-                                    <nuxtLink to="" class=""><i class="fas fa-plus"></i> Add Article</nuxtLink>
-                                  </li>
+                                  
                                   <li>
                                     <nuxtLink to="/settingBasic" class=""><i class="fas fa-cog"></i> Settings</nuxtLink>
                                   </li>
@@ -318,7 +313,7 @@
             <img src="/img/appifylab_logo.png" alt="image">
           </div>
           <div class="_mbl_menu_search">
-            <input type="text" placeholder="Search Scrapabill" class="_mbl_menu_search_input">
+            <input type="text" placeholder="Search Scrapabill" v-model="serchTxt" v-on:keyup="searchFeed" class="_mbl_menu_search_input">
               <span><i class="fas fa-search"></i></span>
           </div>
           <div class="_mbl_menu_top_r8 _dis_flex_cntr1" v-if="authUser">
@@ -391,12 +386,6 @@
                                 <li>
                                   <nuxtLink to="/bill" class=""><i class="far fa-file-alt"></i> Enter Bill </nuxtLink>
                                 </li>
-                                <!-- <li>
-                                  <nuxtLink to="/profile" class=""><i class="fas fa-newspaper"></i> My Articles</nuxtLink>
-                                </li>
-                                <li>
-                                  <nuxtLink to="" class=""><i class="fas fa-plus"></i> Add Article</nuxtLink>
-                                </li> -->
                                 <li>
                                   <nuxtLink to="/settingBasic" class=""><i class="fas fa-cog"></i> Settings</nuxtLink>
                                 </li>
@@ -434,20 +423,20 @@
       </div>
 
       <!-- FOOTER -->
-      <div v-if="$route.path != '/' && $route.path != '/signIn' && $route.path != '/signUp'  && $route.path != '/forgot_password'" class="_footer">
+      <div v-if=" $route.path != '/signIn' && $route.path != '/signUp'  && $route.path != '/forgot_password'" class="_footer">
           <div class="container">
               <div class="_footer_inner _dis_flex">
                   <div class="_footer_lft">
                     <!-- {{flyingNoti}} -->
                       <ul class="_dis_flex">
-                          <li :class="$route.path=='/company'?'_active':''">
-                              <nuxtLink to="/company">Company </nuxtLink>
+                          <!-- <li v-if="" :class="$route.path=='/company'?'_active':''" v-for="(item, index) in allpage" :key="index">
+                              <nuxtLink to="/company">{{item.name}} </nuxtLink>
+                          </li> -->
+                          <li :class="$route.path=='/legal'?'_active':''">
+                              <nuxtLink to="/legal">Community </nuxtLink>
                           </li>
-                          <li :class="$route.path=='/community'?'_active':''">
-                              <nuxtLink to="/community">Community </nuxtLink>
-                          </li>
-                          <li :class="$route.path=='/advertise'?'_active':''">
-                              <nuxtLink to="/advertise">Advertise </nuxtLink>
+                          <li :class="$route.path=='/legal'?'_active':''">
+                              <nuxtLink to="/legal">Advertise </nuxtLink>
                           </li>
                           <li :class="$route.path=='/legal'?'_active':''">
                               <nuxtLink to="/legal">Legal </nuxtLink>
@@ -457,28 +446,7 @@
                           </li>
                       </ul>
                   </div>
-                  <!-- <div class="_footer_r8">
-                      <ul class="_dis_flex">
-                          <li>
-                              <a href="">Terms of Service</a>
-                          </li>
-                          <li>
-                              <a href="">Privacy Policy</a>
-                          </li>
-                          <li>
-                              <a href="">Refund Policy</a>
-                          </li>
-                          <li>
-                              <a href="">AML/KYC Policy</a>
-                          </li>
-                          <li>
-                              <a href="">Cookies Policy</a>
-                          </li>
-                          <li>
-                              <a href="">Code of Coduc</a>
-                          </li>
-                      </ul>
-                  </div> -->
+        
               </div>
 
               <ul class="_footer_social">
@@ -542,6 +510,7 @@ export default {
 
   data(){
     return{
+      serchTxt:'',
       moreDrop : false,
       clickMenu: false,
       isChatBox: false,
@@ -558,6 +527,7 @@ export default {
       isMinimize: false,
       isMobileSearch: false,
       isProDrop: false,
+      allpage:[]
       // allNotification:[]
     }
   },
@@ -575,6 +545,36 @@ export default {
       // }
   },
   methods:{
+    async searchFeed(){
+      // console.log(this.$route , 'call oise')
+
+      if(this.serchTxt){
+          if(this.$route.path=='/feed'){
+            const res = await this.callApi('get',`/feed/getFeed1?serchTxt=${this.serchTxt}`)
+            if(res.status ==200){
+
+              this.$store.commit('setFeed',res.data)
+            }
+          }
+          else  if(this.$route.path=='/profile'){
+            let id = 0
+             if(this.$route.query && this.$route.query.id){
+                id = this.$route.query.id
+             }
+            const res = await this.callApi('get',`/feed/getFeed?user_id=${id}&serchTxt=${this.serchTxt}`)
+            if(res.status ==200){
+              this.$store.commit('setFeed',res.data.feedData)
+            }
+          }
+      }
+        
+    },
+    async getAllpages(){
+      const res = await this.callApi('get', '/faq/allpages')
+      if(res.status == 200){
+        this.allpage = res.data
+      }
+    },
     async getTotalBalance(){
        const res = await this.callApi('get','/bill/get_balance')
             console.log(res)
@@ -701,6 +701,7 @@ export default {
   // },
   
   async created() {
+    this.getAllpages()
     
     if(this.authUser){
     const res =await this.callApi('get','notification/getNotification')

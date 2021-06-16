@@ -8,7 +8,7 @@
                 <div class="_faq_banner_main">
                     <h1 class="_faq_banner_title">We're here to help you.</h1>
                     <div class="_faq_banner_search">
-                        <input type="" placeholder="Search By Any Keyword">
+                        <input type="" v-model="str" @onkeyup="searchCompnayData" placeholder="Search By Any Keyword">
                         <i class="fas fa-search"  @click="searchCompnayData"></i>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                                         <h1 class="_faq_right_title">{{companyData.name}}</h1>
 
                                         <Collapse v-model="value1">
-                                            <Panel :name="index" v-for="(item, index) in companyData.faqs"  :key="index">
+                                            <Panel :name="`${index}`" v-for="(item, index) in companyData.faqs"  :key="index">
                                                 <i class="fas fa-plus _plus"></i>
                                                 <i class="fas fa-minus _minus"></i>
                                                 {{item.question}}
@@ -58,7 +58,8 @@ export default {
     },
     data(){
         return{
-            value1:0
+            value1:0,
+            str:''
             // companyInfo:[]
         }
     },
@@ -77,9 +78,24 @@ export default {
     },
     methods:{
         searchCompnayData(){
-            var PATTERN = 'bedroom'
-             this.companyData = this.mainData.filter(function (str) { return str.indexOf(PATTERN) === -1; });
-             console.log(this.companyData);
+              
+            let arrays=[]
+            for(let item of this.mainData.faqs){
+               let a = item.question.includes(this.str)
+                if(a){
+                    arrays.push(item)
+                }
+            }
+            console.log(arrays)
+          this.$set( this.companyData, 'faqs', arrays)
+            // return
+    //     this.companyData.faqs = this.mainData.faqs.filter((samsung) => {
+    //          return this.str.toLowerCase().split(' ').every(v => samsung.name.toLowerCase().includes(v));
+    //   });
+            
+    //    this.companyData.faqs= this.mainData.faqs.filter(d => this.str.every(v => d.toLowerCase().includes(v.toLowerCase())))
+
+            //  this.mainData.filter(el => el.name == this.str);
         }
     },
 

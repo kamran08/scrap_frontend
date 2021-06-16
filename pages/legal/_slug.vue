@@ -9,34 +9,7 @@
                                 <h3>Legal</h3>
                                 <ul>
                                     <companyTitle/>
-                                    <!-- <li class="_active" v-for="(data, index) in companyInfo" :key="index">
-                                        
-                                        <nuxtLink :to="'/legal/'+data.slug">
-                                        {{data.title}}
-                                            
-                                        </nuxtLink>
-                                    </li> -->
-                                     <!-- <li>
-                                        <a href="">{{ companyInfo }}</a>
-                                    </li> -->
-                                    <!--<li>
-                                        <a href="">Cookie Policy</a>
-                                    </li>    
-                                    <li>
-                                        <a href="">Refund Policy</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Copyright Infringement</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Complaints/Reports</a>
-                                    </li>     
-                                    <li>
-                                        <a href="">Disclaimer</a>
-                                    </li>
-                                    <li>
-                                        <a href="">AML/KYC</a>
-                                    </li>   					     -->
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -113,6 +86,7 @@ export default {
       }
   	},
     async created(){
+        console.log(this.$route.query)
        
     
             // const res = await this.callApi('get','/company/getCompanyInfo')
