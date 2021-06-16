@@ -1,6 +1,6 @@
 <template>
-    <span>
-        <li  v-for="(data, index) in companyInfo" :key="index" @click="tab=index">
+    <span>:
+        <li :class="($route.path=='/legal/'+data.slug || ($route.path=='/legal' && index==0))?'_active':''" v-for="(data, index) in companyInfo" :key="index" @click="tab=index">
             <nuxtLink :to="'/legal/'+data.slug">
                {{data.title}}
             </nuxtLink>
